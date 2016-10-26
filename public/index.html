@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="public/style.css">
+    </head>
+    <body>
+        <div id="main"></div>
+        yo
+        <script id="hello" type="text/handlebars">
+        <form id="upload">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <p>Your Name:</p>
+            <input name="uploader"></input>
+            <p>Photo Title:</p>
+            <input name="title"></input>
+            <p>Photo Description:</p>
+            <input name="description"></input>
+        </form>
+        <form>
+            <input type="file"></input>
+            <button id="submit">Sumbit</button>
+        </form>
+        <div class="picture-container">
+        {{#data}}
+            <div class="picture"><img src='imageuploads/{{filename}}'></img></div>
+        {{/data}}
+        </div>
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <script src="js/underscore-min.js"></script>
+        <script src="js/backbone-min.js"></script>
+        <script src="backbone.js"></script>
+    </body>
+</html>
