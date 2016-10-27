@@ -1,18 +1,10 @@
 
 (function() {
-
-
-
     var templates = document.querySelectorAll('script[type="text/handlebars"]');
-
     Handlebars.templates = Handlebars.templates || {};
-
     Array.prototype.slice.call(templates).forEach(function(script) {
         Handlebars.templates[script.id] = Handlebars.compile(script.innerHTML);
     });
-
-
-
 
     var Router = Backbone.Router.extend({
         routes: {
@@ -20,7 +12,6 @@
             'image': 'image',
             'upload': 'upload'
         },
-
         upload: function() {
 
             new UploadView({
@@ -34,9 +25,6 @@
             });
         }
     });
-
-
-    // document.body.innerHTML = Handlebars.templates.upload({});
 
     var UploadModel = Backbone.Model.extend({
         initialize: function() {

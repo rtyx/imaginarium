@@ -2,16 +2,13 @@
 
 var express = require('express');
 var app = express();
-
 var multer = require('multer');
-
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({
     extended: false
 }));
 
 var fs = require('fs');
-
 var diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, __dirname + '/public/uploads');
@@ -29,13 +26,8 @@ var uploader = multer({
 });
 
 var db=require('./db');
-
-
-
 app.use(express.static('public'));
-
 app.use('/uploads', express.static('./uploads'));
-
 app.get('/images', function(req, res) {
     db.getImages().then(function(result) {
         res.json({
@@ -44,7 +36,6 @@ app.get('/images', function(req, res) {
         })
     });
 });
-
 
 app.post('/upload', uploader.single('file'), function(req, res) {
     if (req.file) {
