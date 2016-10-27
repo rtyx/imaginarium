@@ -1,0 +1,60 @@
+
+
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+<h1>FLICKR</h1>
+
+<div id="images">
+    <script id="showImages" type="text/handlebars">
+    {{#each this}}
+    <div class="image-area">
+    <h3>{{title}}</h3>
+    <a href="/#image"><img class="image" src = '{{url}}'></a>
+    <h3>From: {{user_name}}</h3>
+    <a href="/#image"><h4>Learn more</h4></a>
+    </div>
+    {{/each}}
+    </script>
+</div>
+
+<div id="main">
+<script id="upload" type="text/handlebars">
+<form method="POST">
+Upload an image:
+<br>
+<input type="file" name="pic" accept="image/*">
+<br>
+User Name:
+<br>
+<input id="username" type="text" name="username">
+<br>
+Title:
+<br>
+<input id="title" type="text" name="title">
+<br>
+Description:
+<br>
+<input id="description" type="text" name="description">
+<br>
+<input id='submit' type="button" value="submit">
+</form>
+
+</script>
+</div>
+
+
+
+</body>
+</html>
+
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/underscore-min.js"></script>
+<script src="js/backbone-min.js"></script>
+<script src="js/handlebars.min.js"></script>
+
+<script src="client.js"></script>
