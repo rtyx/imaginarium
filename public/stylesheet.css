@@ -1,4 +1,9 @@
-#images {
+
+#flickr{
+    text-align: center;
+}
+
+#main-images {
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -7,14 +12,54 @@
     align-items: flex-start;
 }
 
-.image-area {
+.main-image-area {
     margin-bottom: 20px;
     height: 450px;
     width: 400px;
 
 }
 
-.image {
+.main-just-image {
     height: 300px;
     width: 300px;
+}
+
+#single-image-area {
+    text-align: center;
+}
+
+.big-single-image {
+    height: 500px;
+    width: 700px;
+}
+
+#upload-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    left:40px;
+
+}
+
+
+#home-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    left:40px;
+
 }

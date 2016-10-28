@@ -24,6 +24,16 @@ exports.getImages = function() {
     });
 };
 
+exports.getImage = function(id) {
+    return getFromDb('SELECT * FROM images WHERE id=$1', [id]).then(function(result) {
+        return result;
+    }).catch(function(err) {
+        console.log(err);
+    });
+};
+
+
+
 function getFromDb(str, params) {
     return new Promise(function(resolve, reject) {
             client.query(str, params || [], function(err, result) {

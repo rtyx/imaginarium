@@ -28,6 +28,7 @@ var uploader = multer({
 var db=require('./db');
 app.use(express.static('public'));
 app.use('/uploads', express.static('./uploads'));
+
 app.get('/images', function(req, res) {
     db.getImages().then(function(result) {
         res.json({
@@ -36,6 +37,16 @@ app.get('/images', function(req, res) {
         })
     });
 });
+
+app.get('/image/:id', function(req,res) {
+    var id = req.params.id;
+    db.getImage(id).then(function(result) {
+        res.json({
+            success:true,
+            file:result.rows[0]
+        })
+    })
+})
 
 app.post('/upload', uploader.single('file'), function(req, res) {
     if (req.file) {
@@ -56,8 +67,10 @@ app.post('/InsertToDb', function(req, res) {
     var username = params.username;
     var title = params.title;
     var description = params.description;
-    db.insertData(url, username, title, description).then(function(result) {
-        console.log(result);
+    db.insertData(url, username, title, description).then(function() {
+        res.json({
+            success:true
+        })
     })
 });
 

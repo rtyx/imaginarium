@@ -7,45 +7,62 @@
     <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
-<h1>FLICKR</h1>
-
-<div id="images">
-    <script id="showImages" type="text/handlebars">
-    {{#each this}}
-    <div class="image-area">
-    <h3>{{title}}</h3>
-    <a href="/#image"><img class="image" src = '{{url}}'></a>
-    <h3>From: {{user_name}}</h3>
-    <a href="/#image"><h4>Learn more</h4></a>
-    </div>
-    {{/each}}
-    </script>
-</div>
+<h1 id="flickr">FLICKR</h1>
 
 <div id="main">
+    <script id="showImages" type="text/handlebars">
+    <button id="upload-button">Upload A Photo</button>
+    <div id="main-images">
+    {{#each this}}
+    <div class="main-image-area">
+    <h3>{{title}}</h3>
+    <a href="/#image/{{id}}"><img class="main-just-image" src ='{{url}}'></a>
+    <h3>From: {{user_name}}</h3>
+    <a href="/#image/{{id}}"><h4>Learn more</h4></a>
+    </div>
+    {{/each}}
+    </div>
+    </script>
+
+    <script id="showImage" type="text/handlebars">
+    <button id="upload-button">Upload A Photo</button>
+    <button id="home-button">Home</button>
+    <div id="single-image-area">
+    {{#file}}
+    <h1>{{title}}</h1>
+    <img class="big-single-image" src ='{{url}}'>
+    <h3>From: {{user_name}}</h3>
+    <h4>{{description}}</h4>
+    {{/file}}
+    </div>
+    </script>
+
+
+
 <script id="upload" type="text/handlebars">
+<button id="home-button">Home</button>
+<div id="upload">
 <form method="POST">
-Upload an image:
+<h3 class="upload-headline">Upload an image:</h3>
 <br>
 <input type="file" name="pic" accept="image/*">
 <br>
-User Name:
+<h3 class="upload-headline">User Name:</h3>
 <br>
-<input id="username" type="text" name="username">
+<input class="field" id="username" type="text" name="username">
 <br>
-Title:
+<h3 class="upload-headline">Title:</h3>
 <br>
-<input id="title" type="text" name="title">
+<input class="field" id="title" type="text" name="title">
 <br>
-Description:
+<h3 class="upload-headline">Description:</h3>
 <br>
-<input id="description" type="text" name="description">
+<input class="field" id="description" type="text" name="description">
 <br>
 <input id='submit' type="button" value="submit">
 </form>
-
-</script>
 </div>
+</script>
 
 
 
