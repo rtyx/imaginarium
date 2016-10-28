@@ -35,6 +35,7 @@ app.use(function logUrl(req, res, next) {
     next();
 });
 
+
 app.get('/photos', function(req, res) {
     dbconnect.query('SELECT * FROM pictures').then(function(results){
         console.log("res " + results);
@@ -48,7 +49,9 @@ app.post('/photos', uploader.single('file'), function(req, res) {
         console.log(values.uploader);
         var query = 'INSERT INTO pictures (uploader, filename, title, description) VALUES ($1, $2, $3, $4)';
         var variables = [values.uploader || null, req.file.filename, values.title || null, values.description || null];
-        dbconnect.query(query, variables);
+        dbconnect.query(query, variables).catch(function(err){
+            console.log(err);
+        });
         res.json({
             success: true,
             file: '/imageuploads/' + req.file.filename

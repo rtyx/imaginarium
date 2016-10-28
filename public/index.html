@@ -4,9 +4,25 @@
         <link rel="stylesheet" href="public/style.css">
     </head>
     <body>
-        <div id="main"></div>
-        yo
+        <div id="page">
+            <a href="/#home"><div id="home">Home</div></a>
+            <div id="main"></div>
+        </div>
+        <div id="pic"></div>
+        <script id="desc" type="text/handlebars">
+        {{#picture}}
+            <div class="description-text" id="{{id}}">
+            <p>{{uploader}}</p>
+            <p>{{title}}</p>
+            <p>{{description}}...</p></div>
+        {{/picture}}
+        </script>
         <script id="hello" type="text/handlebars">
+        <div class="picture-container">
+        {{#data}}
+            <a href="/#home/{{id}}"><div class="picture" id="{{id}}"><img id="{{id}}-pic" src='imageuploads/{{filename}}'</img></div></a>
+        {{/data}}
+        </div>
         <form id="upload">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <p>Your Name:</p>
@@ -20,11 +36,15 @@
             <input type="file"></input>
             <button id="submit">Sumbit</button>
         </form>
-        <div class="picture-container">
-        {{#data}}
-            <div class="picture"><img src='imageuploads/{{filename}}'></img></div>
-        {{/data}}
+        </script>
+        <script id="big-pic-script" type="text/handlebars">
+        {{#pic}}
+        <div class="big-pic-container">
+            <div class="big-pic-div"><img src="imageuploads/{{filename}}"></img></div>
+            <div class="comments"></div>
         </div>
+        {{/pic}}
+        </script>
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>

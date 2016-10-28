@@ -11,26 +11,75 @@
 
     var Router = Backbone.Router.extend({
         routes: {
-            'test': 'test'
+            'home': 'home',
+            'home/:picture': 'home'
         },
-        test: function() {
-            var testModel = new TestModel();
-            console.log("hello");
-            new TestView({
-                el: '#main',
-                model: testModel
-            });
+
+        home: function(picture) {
+            if (picture){
+                var pictureModel = new PictureModel();
+                pictureModel.set({picture: picture});
+                new PictureView({
+                    el: '#pic',
+                    model: pictureModel
+                });
+            }
+            else {
+                var homeModel = new HomeModel();
+                new HomeView({
+                    el: '#main',
+                    model: homeModel
+                });
+            }
         }
     });
 
-    var TestModel = Backbone.Model.extend({
+    var HomeModel = Backbone.Model.extend({
         initialize: function(){
-            console.log(this);
+            this.fetch();
         },
         url: '/photos'
     });
 
-    var TestView = Backbone.View.extend({
+    var PictureModel = Backbone.Model.extend({
+        initialize: function(){
+            console.log("i'm here");
+        },
+        url: '/comments'
+    });
+
+    var PictureView = Backbone.View.extend({
+        initialize: function() {
+            this.render();
+        },
+
+        render: function () {
+            var pictures = localStorage.getItem('pictures');
+            var picArray = JSON.parse(pictures);
+            var id = (this.model.get('picture'));
+            var clickedPic = picArray.filter(function(pic){
+                if (id == pic.id){
+                    return pic;
+                }
+            });
+            this.$el.html(Handlebars.templates['big-pic-script']({pic: clickedPic[0]}));
+            $('#page').css({opacity: 0.2});
+        },
+
+        events: {
+            'click .big-pic-div': 'close'
+        },
+
+        close: function(){
+            $('.big-pic-div').remove();
+            $('.comments').remove();
+            $('#page').css({opacity: 1});
+        }
+
+
+    });
+
+    var HomeView = Backbone.View.extend({
         initialize: function() {
             var view = this;
             view.render();
@@ -41,12 +90,10 @@
         render: function () {
             this.model.fetch();
             var pictureObject = this.model.get('pictures');
-            if(pictureObject){
-                console.log(pictureObject);
-            }
+            localStorage.setItem('pictures', JSON.stringify(pictureObject));
             this.$el.html(Handlebars.templates.hello({data: pictureObject}));
         },
-        clickHandler: function(e){
+        submit: function(e){
             e.preventDefault();
             var file = $('input[type="file"]').get(0).files[0];
             var formData = new FormData();
@@ -71,8 +118,28 @@
                 }
             });
         },
+        info: function(e){
+            var pictureArray = this.model.get('pictures');
+            var hoveredPicture = pictureArray.filter(function(picture){
+                if (picture.id == e.currentTarget.id){
+                    return picture;
+                }
+            });
+            $('#' + hoveredPicture[0].id + "-pic").css({opacity: 0.4});
+            $('#' + hoveredPicture[0].id).css({cursor: 'pointer'});
+            hoveredPicture[0].description = hoveredPicture[0].description.slice(0, 100);
+            $(e.currentTarget).prepend(Handlebars.templates.desc({picture: hoveredPicture[0]}));
+        },
+
+        deleteinfo: function(e) {
+            $('.description-text').remove();
+            $("#" + e.currentTarget.id + "-pic").css({opacity: 1});
+        },
+
         events: {
-            'click button': 'clickHandler'
+            'click button': 'submit',
+            'mouseenter .picture' : 'info',
+            'mouseleave .picture' : 'deleteinfo'
         }
 
     });

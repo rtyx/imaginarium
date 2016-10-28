@@ -1,15 +1,57 @@
 .picture {
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
+    margin: 15px;
+    overflow: hidden;
 }
 
 .picture-container {
     display: inline-flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    max-width: 1000px;
+    background-color: lightgrey;
+}
+
+.description-text {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    text-align: left;
+    font-weight: bold;
+    z-index: 1;
 }
 
 img {
-    width: 100%;
     height: 100%;
+    width: 100%;
+}
+
+#main{
+    text-align: center;
+}
+
+#page {
+    background-color: black;
+}
+
+.comments {
+    height: 500px;
+    width: 500px;
+    position: fixed;
+    top: 5%;
+    right: 5%;
+    z-index: 2;
+    background-color: white;
+}
+
+.big-pic-div {
+    height: 500px;
+    width: 500px;
+    position: fixed;
+    top: 5%;
+    left: 5%;
+    z-index: 2;
 }
