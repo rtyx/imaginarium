@@ -63,6 +63,30 @@ app.post('/photos', uploader.single('file'), function(req, res) {
     }
 });
 
+app.get('/comments', function(req, res) {
+    dbconnect.query('SELECT * FROM comments WHERE picture_id = $1', [req.query.picnum]).then(function(results){
+        if (results){
+            res.json({comments: results});
+        }
+        else {
+            res.json({comments: 'none'});
+        }
+    }).catch(function(err){
+        console.log(err);
+    });
+
+});
+
+app.post('/comments', function (req, res) {
+    var query = 'INSERT INTO comments (picture_id, comment, commenter) VALUES ($1, $2, $3)';
+    console.log([req.body.picture, req.body.new.comment, req.body.new.commenter]);
+    var variables = [req.body.picture, req.body.new.comment, req.body.new.commenter];
+    dbconnect.query(query, variables).then(function(){
+        res.json({success: true});
+    }).catch(function(err){
+        console.log(err);
+    });
+});
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/'));

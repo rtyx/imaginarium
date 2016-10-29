@@ -16,15 +16,15 @@
         },
 
         home: function(picture) {
-            if (picture){
-                var pictureModel = new PictureModel();
-                pictureModel.set({picture: picture});
+            if (picture == "clear"){
+                console.log("CLEAR");
+            } else if (picture) {
+                var pictureModel = new PictureModel({picture: picture});
                 new PictureView({
                     el: '#pic',
                     model: pictureModel
                 });
-            }
-            else {
+            } else {
                 var homeModel = new HomeModel();
                 new HomeView({
                     el: '#main',
@@ -43,14 +43,23 @@
 
     var PictureModel = Backbone.Model.extend({
         initialize: function(){
-            console.log("i'm here");
+            console.log(this.get('picture'));
+            this.fetch({
+                data: {picnum: this.get('picture'),
+                success: function(){
+                    console.log("success");
+                }}
+            });
         },
         url: '/comments'
     });
 
     var PictureView = Backbone.View.extend({
         initialize: function() {
-            this.render();
+            var view = this;
+            this.model.on('change', function() {
+                view.render();
+            });
         },
 
         render: function () {
@@ -63,17 +72,56 @@
                 }
             });
             this.$el.html(Handlebars.templates['big-pic-script']({pic: clickedPic[0]}));
-            $('#page').css({opacity: 0.2});
+            $('#page').removeClass('unclickedbackground');
+            $('#page').addClass('clickedbackground');
+            $('.picture').css({opacity: 0.2});
+            if (this.model.get('comments')){
+                $('.comments').html(Handlebars.templates['comments-script']({comments: this.model.get('comments')}));
+            } else {
+                $('.comments').html(Handlebars.templates['comments-script']({comments: 'no comments'}));
+            }
         },
 
         events: {
-            'click .big-pic-div': 'close'
+            'click .big-pic-div': 'close',
+            'click #submit-comment' : 'submit'
         },
 
         close: function(){
+            $('#page').removeClass('clickedbackground');
+            $('#page').addClass('unclickedbackground');
             $('.big-pic-div').remove();
             $('.comments').remove();
-            $('#page').css({opacity: 1});
+            $('.picture').css({opacity: 1});
+            this.undelegateEvents();
+        },
+
+        submit: function(e) {
+            e.preventDefault();
+            if ($('#commenter').val() && $('#comment-string').val()){
+                console.log("sent comment to server");
+                var model = this.model;
+                var view = this;
+                this.model.save({
+                    new: {
+                        commenter: $('#commenter').val(),
+                        comment: $('#comment-string').val()
+                    }
+                }, {success: function(){
+                    console.log("updated");
+                    console.log(model);
+                    model.fetch({
+                        data: {picnum: model.get('picture')},
+                        success: function(){
+                            view.render();
+                            model.destroy();
+                        }
+                    });
+                }
+                });
+            } else {
+                console.log("invalid comment");
+            }
         }
 
 
@@ -136,10 +184,26 @@
             $("#" + e.currentTarget.id + "-pic").css({opacity: 1});
         },
 
+        uploadform: function() {
+            $('#page').addClass('clickedbackground');
+            $('#page').removeClass('unclickedbackground');
+            $('.picture').css({opacity: 0.2});
+            this.$el.prepend(Handlebars.templates['submit-photo']());
+            $('#x').click(function(){
+                $('#submit-photo-container').remove();
+                $('#page').removeClass('clickedbackground');
+                $('#page').addClass('unclickedbackground');
+                $('.picture').css({opacity: 1});
+            }).mouseover(function(){
+                $(this).css({cursor: 'pointer'});
+            });
+        },
+
         events: {
             'click button': 'submit',
             'mouseenter .picture' : 'info',
-            'mouseleave .picture' : 'deleteinfo'
+            'mouseleave .picture' : 'deleteinfo',
+            'click #upload-image' : 'uploadform'
         }
 
     });

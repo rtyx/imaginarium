@@ -7,8 +7,8 @@
         <div id="page">
             <a href="/#home"><div id="home">Home</div></a>
             <div id="main"></div>
+            <div id="pic"></div>
         </div>
-        <div id="pic"></div>
         <script id="desc" type="text/handlebars">
         {{#picture}}
             <div class="description-text" id="{{id}}">
@@ -20,31 +20,51 @@
         <script id="hello" type="text/handlebars">
         <div class="picture-container">
         {{#data}}
-            <a href="/#home/{{id}}"><div class="picture" id="{{id}}"><img id="{{id}}-pic" src='imageuploads/{{filename}}'</img></div></a>
+            <a href="/#home/{{id}}"><div class="picture unclickedbackground" id="{{id}}"><img id="{{id}}-pic" src='imageuploads/{{filename}}'</img></div></a>
         {{/data}}
         </div>
-        <form id="upload">
-            <input type="hidden" name="_csrf" value="{{csrfToken}}">
-            <p>Your Name:</p>
-            <input name="uploader"></input>
-            <p>Photo Title:</p>
-            <input name="title"></input>
-            <p>Photo Description:</p>
-            <input name="description"></input>
-        </form>
-        <form>
-            <input type="file"></input>
-            <button id="submit">Sumbit</button>
-        </form>
+        <div id="upload-image">Upload Image</div>
         </script>
         <script id="big-pic-script" type="text/handlebars">
         {{#pic}}
         <div class="big-pic-container">
-            <div class="big-pic-div"><img src="imageuploads/{{filename}}"></img></div>
+            <a href="/#home/clear"><div class="big-pic-div"><img src="imageuploads/{{filename}}"></img></div></a>
             <div class="comments"></div>
         </div>
         {{/pic}}
         </script>
+        <script id="comments-script" type="text/handlebars">
+        {{#comments}}
+            {{commenter}}: {{comment}}<br>
+        {{/comments}}
+        <form>
+            Your name:
+            <input id="commenter"></input><br>
+            Enter a comment:
+            <input id="comment-string"></input>
+            <button id="submit-comment">Sumbit</button>
+        </form>
+        </script>
+        <script id="submit-photo" type="text/handlebars">
+            <div id="submit-photo-container">
+                <img id="x" src="public/images/x.png"></img>
+                <div id="placeholder"><img src="/public/images/placeholder.png"></img></div>
+                <div id="form-container">
+                    <form id="upload">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                        <p>Your Name:</p>
+                        <input name="uploader"></input>
+                        <p>Photo Title:</p>
+                        <input name="title"></input>
+                        <p>Photo Description:</p>
+                        <input name="description"></input>
+                    </form>
+                    <form>
+                        <input type="file"></input>
+                        <button id="submit">Sumbit</button>
+                    </form>
+                </div>
+            </div>
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
