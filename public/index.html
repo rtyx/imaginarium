@@ -15,9 +15,9 @@
     <div id="main-images">
     {{#each this}}
     <div class="main-image-area">
-    <h3>{{title}}</h3>
+    <h3 id="images-title">{{title}}</h3>
     <a href="/#image/{{id}}"><img class="main-just-image" src ='{{url}}'></a>
-    <h3>From: {{user_name}}</h3>
+    <h3 id="from-images">From: {{user_name}}</h3>
     <a href="/#image/{{id}}"><h4>Learn more</h4></a>
     </div>
     {{/each}}
@@ -29,20 +29,24 @@
     <button id="home-button">Home</button>
     <div id="single-image-area">
     {{#file}}
-    <h1>{{title}}</h1>
+    <h1 id="single-image-title">{{title}}</h1>
     <img class="big-single-image" src ='{{url}}'>
-    <h3>From: {{user_name}}</h3>
-    <h4>{{description}}</h4>
+    <div id="description-single">{{description}}</div>
+    <h3 id='from-single-image'>From: <strong>{{user_name}}</strong></h3>
     {{/file}}
+    <div id="add-comment">
+    <h4>Add a comment:</h4>
+    <textarea id="comment-area"></textarea>
+    <button id="submit-comment">Submit</button>
+    </div>
     </div>
     </script>
-
 
 
 <script id="upload" type="text/handlebars">
 <button id="home-button">Home</button>
 <div id="upload">
-<form method="POST">
+<form id='upload-form' method="POST">
 <h3 class="upload-headline">Upload an image:</h3>
 <br>
 <input type="file" name="pic" accept="image/*">

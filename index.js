@@ -44,9 +44,9 @@ app.get('/image/:id', function(req,res) {
         res.json({
             success:true,
             file:result.rows[0]
-        })
-    })
-})
+        });
+    });
+});
 
 app.post('/upload', uploader.single('file'), function(req, res) {
     if (req.file) {
@@ -70,8 +70,8 @@ app.post('/InsertToDb', function(req, res) {
     db.insertData(url, username, title, description).then(function() {
         res.json({
             success:true
-        })
-    })
+        });
+    });
 });
 
 

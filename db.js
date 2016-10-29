@@ -44,5 +44,5 @@ function getFromDb(str, params) {
                     resolve(result);
                 }
             });
-        });
+    });
 }

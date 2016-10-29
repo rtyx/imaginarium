@@ -34,11 +34,6 @@
         }
     });
 
-
-
-
-
-
     var ImagesModel = Backbone.Model.extend({
         initialize: function() {
             var newModel = this;
@@ -58,8 +53,6 @@
     var ImagesView = Backbone.View.extend({
         initialize: function() {
             var thisView = this;
-            // console.log('images model ')
-            // console.log(thisView.model);
             this.model.on('showImages', function() {
                 var arrOfImages = thisView.model.get('arrOfImages');
                 console.log(arrOfImages)
@@ -72,29 +65,24 @@
         events: {
             'click #upload-button': function() {
                 router.navigate('/upload', {trigger:true});
-
             }
         }
     });
 
-
     var ImageModel = Backbone.Model.extend({
         initialize: function() {
-
-            // console.log(id);
             var newImageModel = this;
             this.fetch({
                 success: function() {
                     newImageModel.trigger('showImage');
                 }
             });
-
         },
         url: function() {
             return '/image/'+this.id;
 
         }
-    })
+    });
 
     var ImageView = Backbone.View.extend({
         initialize: function() {
@@ -115,11 +103,13 @@
             },
             'click #home-button': function() {
                 router.navigate('/images', {trigger:true});
+            },
+            'click #submit-comment': function() {
+                var value = $('#comment-area').val();
+                console.log(value);
             }
         }
-    })
-
-
+    });
 
     var UploadModel = Backbone.Model.extend({
         initialize: function() {
@@ -187,7 +177,7 @@
             },
             'click #home-button': function() {
                 router.navigate('/images', {trigger:true});
-                }
+            }
         }
     });
 
