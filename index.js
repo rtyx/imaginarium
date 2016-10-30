@@ -28,22 +28,47 @@ var uploader = multer({
 var db=require('./db');
 app.use(express.static('public'));
 app.use('/uploads', express.static('./uploads'));
+app.use(bodyParser.json());
 
 app.get('/images', function(req, res) {
     db.getImages().then(function(result) {
         res.json({
             success:true,
             file: result.rows
-        })
+        });
     });
 });
 
+
 app.get('/image/:id', function(req,res) {
     var id = req.params.id;
-    db.getImage(id).then(function(result) {
+    var immageDetails = db.getImage(id);
+    var immageComments = db.immageComments(id);
+    return Promise.all([immageDetails,immageComments])
+    .then(function(results) {
+        var result = {};
+        result.image = results[0].rows;
+        result.comments = results[1].rows;
         res.json({
             success:true,
-            file:result.rows[0]
+            file:result
+        });
+
+    }).catch(function(err) {
+        console.log(err);
+    });
+
+});
+
+app.post('/insert-comment', function(req,res) {
+    var comment = req.body.comment;
+    var image_id = req.body.image_id;
+    var username_comment = req.body.username_comment;
+    db.insertComment(comment,image_id,username_comment)
+    .then(function(result) {
+        res.json({
+            success:true,
+            file:result
         });
     });
 });

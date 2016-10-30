@@ -55,6 +55,7 @@ body {
 #comment-area {
     height: 30px;
     width: 200px;
+    font-size: 17px;
 }
 
 #from-single-image {
@@ -69,6 +70,38 @@ body {
     position: relative;
     text-align: center;
     bottom:20px;;
+}
+
+#comments {
+    position: relative;
+    bottom: 590px;
+    width: 350px;
+    left: 50px;
+}
+
+#user_comment {
+    font-size: 17px;
+    height: 30px;
+}
+
+#comment-text {
+    font-family: Comic Sans MS;
+}
+
+#submit-comment{
+    position: relative;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 20px 10px;
+    cursor: pointer;
+    height:35px;
+    width:75px;
+    bottom:13px;
 }
 
 #description-single {

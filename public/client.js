@@ -42,22 +42,21 @@
                     var arrOfImages = data.attributes.file;
                     newModel.set({
                         arrOfImages:arrOfImages
-                    })
-                    newModel.trigger('showImages')
+                    });
+                    newModel.trigger('showImages');
                 }
             });
         },
         url: '/images'
-    })
+    });
 
     var ImagesView = Backbone.View.extend({
         initialize: function() {
             var thisView = this;
             this.model.on('showImages', function() {
                 var arrOfImages = thisView.model.get('arrOfImages');
-                console.log(arrOfImages)
                 thisView.render(arrOfImages);
-            })
+            });
         },
         render: function(arrOfImages) {
             this.$el.html(Handlebars.templates.showImages(arrOfImages));
@@ -73,7 +72,7 @@
         initialize: function() {
             var newImageModel = this;
             this.fetch({
-                success: function() {
+                success: function(data) {
                     newImageModel.trigger('showImage');
                 }
             });
@@ -88,33 +87,61 @@
         initialize: function() {
             var newImageView = this;
             this.model.on('showImage', function() {
-                console.log(newImageView.model.toJSON());
                 newImageView.render();
             })
         },
-        render: function(arrOfImage) {
+        render: function() {
             this.$el.html(Handlebars.templates.showImage(this.model.toJSON()));
 
         },
         events: {
             'click #upload-button': function() {
                 router.navigate('/upload', {trigger:true});
-
             },
             'click #home-button': function() {
                 router.navigate('/images', {trigger:true});
             },
             'click #submit-comment': function() {
-                var value = $('#comment-area').val();
-                console.log(value);
+                var comment = $('#comment-area').val();
+                var usernameComment = $('#user_comment').val();
+                var id = this.model.attributes.file.image[0].id;
+                $('#comment-area').val('');
+                $('#user_comment').val('');
+                this.model = new InsertCommentModel({
+                    comment:comment,
+                    image_id:this.model.attributes.file.image[0].id,
+                    username_comment:usernameComment
+                });
             }
         }
+    });
+
+
+    var InsertCommentModel = Backbone.Model.extend({
+        initialize: function() {
+            var newInsertCommentModel = this;
+            var data = JSON.stringify(this.attributes);
+            var id = this.attributes.image_id;
+            return new Promise(function(resolve,reject) {
+                newInsertCommentModel.save(data, {
+                    success: function() {
+                        return;
+                    }
+                }).then(function() {
+                    console.log('heyy....');
+                    Backbone.history.loadUrl();
+                }).catch(function(err) {
+                    console.log(err);
+                });
+            });
+        },
+        url:'/insert-comment'
     });
 
     var UploadModel = Backbone.Model.extend({
         initialize: function() {
             var saveModel = this.save;
-            this.on('change', saveModel)
+            this.on('change', saveModel);
         },
 
         save: function() {
@@ -140,7 +167,6 @@
                             data: params,
                             // processData: false,
                             success: function(data) {
-                                console.log('data');
                                 router.navigate('/images', {trigger:true})
                             }
                         });

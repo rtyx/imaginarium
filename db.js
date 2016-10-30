@@ -14,8 +14,6 @@ exports.insertData = function(url,username,title,description) {
     });
 };
 
-
-
 exports.getImages = function() {
     return getFromDb('SELECT * FROM images ORDER BY created_at DESC LIMIT 12').then(function(result) {
         return result;
@@ -32,7 +30,22 @@ exports.getImage = function(id) {
     });
 };
 
+exports.insertComment = function(comment,image_id,username_comment) {
+    return getFromDb('INSERT into comments(comment,image_id,username_comment) VALUES($1,$2,$3) RETURNING id', [comment,image_id,username_comment]).then(function(result) {
+        return result;
+    }).catch(function(err) {
+        console.log(err);
+    });
+};
 
+
+ exports.immageComments = function(id) {
+     return getFromDb('SELECT * FROM comments WHERE image_id=$1 ORDER BY created_at DESC LIMIT 30',[id]).then(function(result) {
+         return result;
+     }).catch(function(err) {
+         console.log(err);
+     });
+ };
 
 function getFromDb(str, params) {
     return new Promise(function(resolve, reject) {
