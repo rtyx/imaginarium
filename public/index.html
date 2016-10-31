@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Board</title>
+    <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+</head>
+<body>
+    <div id="header">
+        <h1>ImageBoard</h1>
+    </div>
+<div id="body">
+    <script id="imageGrid" type="text/x-handlebars-template">
+        <div>
+            <button id="uploadbutton">Upload</button>
+        </div>
+        <div id="resultsContainer">
+            <h3 id="message"></h3>
+            <ul id="results">
+                {{#each this}}
+                    <div id="resultItem">
+                        <img id="picture" src='{{url}}'/>
+                        <div id="transparency"></div>
+                        <div id="name">{{title}}</div>
+                    </div>
+                {{/each}}
+            </ul>
+        </div>
+    </script>
+    <script id="uploadcontainer" type="text/x-handlebars-template">
+        <div id="form">
+            <p color="white" id="message"></p>
+            <form id="uploadform">
+                <input type="text" name="imgurl" placeholder="url">
+                <input type="file" name="pic" accept="image/*" id="file">
+                <input type="text" name="title" placeholder="title">
+                <input type="text" name="username" placeholder="username">
+                <input type="text" name="description" placeholder="description">
+                <input type="text" name="tags" placeholder="tags">
+                <input type="submit" id="submit">
+            </form>
+        </div>
+    </script>
+</div>
+<script src="js/handlebars.min.js"></script>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/underscore-min.js"></script>
+<script src="js/backbone-min.js"></script>
+<script src="js/backbone.js"></script>
+</body>
+</html>
