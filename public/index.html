@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ImageBoard</title>
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+</head>
+<body>
+    <div class="titleContainer">
+        <h1>Pictures</h1>
+    </div>
+
+    <div class="uploadContainer">
+        <form id="upload">
+            <input id="user_name" type="text" name="userName" placeholder="Name">
+            <br />
+            <input id="title" type="text" name="title" placeholder="Title">
+            <br />
+            <input id="description" type="text" name="description" placeholder="Description">
+            <br />
+            <input id="picture" type="file" name="picture">
+            <br />
+            <button type="submit" name="submit"> Submit </button>
+        </form>
+    </div>
+
+
+<div id="displayContainer">
+    <script id="home" type="text/handlebars">
+<div class="imagesContainer">
+    <ul  class="boxesContainer">
+    {{#images}}
+
+            <li class="boxesItem">
+        <a href='#picture/{{id}}'><img id="images" src="{{url}}"></a>
+        <div id="text"><div id="ti">{{title}}</div>
+                       <div id="des">{{description}}</div>
+                       <div id="us"> By {{user_name}}</div>
+        </div>
+           </li>
+    {{/images}}
+    </ul>
+</div>
+    </script>
+</div>
+
+<div id="displayImage">
+    <script id="bigImage" type="text/handlebars">
+
+    <img id="images" src="{{url}}"></a>
+    <button id="more">More</button>
+
+    </script>
+</div>
+
+
+
+
+
+    <script src="js/libs/jquery-3.1.1.min.js"></script>
+    <script src="js/libs/underscore-min.js"></script>
+    <script src="js/libs/backbone-min.js"></script>
+    <script src="js/libs/handlebars.min.js"></script>
+    <script src="js/backbone.js"></script>
+
+</body>
+</html>
