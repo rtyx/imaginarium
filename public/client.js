@@ -104,14 +104,21 @@
             'click #submit-comment': function() {
                 var comment = $('#comment-area').val();
                 var usernameComment = $('#user_comment').val();
-                var id = this.model.attributes.file.image[0].id;
-                $('#comment-area').val('');
-                $('#user_comment').val('');
-                this.model = new InsertCommentModel({
-                    comment:comment,
-                    image_id:this.model.attributes.file.image[0].id,
-                    username_comment:usernameComment
-                });
+                console.log(comment);
+                console.log(usernameComment);
+                if (comment.length===0 || usernameComment.length===0 ) {
+                    alert('Please fill all the fields')
+                }
+                else {
+                    var id = this.model.attributes.file.image[0].id;
+                    $('#comment-area').val('');
+                    $('#user_comment').val('');
+                    this.model = new InsertCommentModel({
+                        comment:comment,
+                        image_id:this.model.attributes.file.image[0].id,
+                        username_comment:usernameComment
+                    });
+                }
             }
         }
     });
@@ -128,7 +135,6 @@
                         return;
                     }
                 }).then(function() {
-                    console.log('heyy....');
                     Backbone.history.loadUrl();
                 }).catch(function(err) {
                     console.log(err);

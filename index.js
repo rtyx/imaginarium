@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-var fs = require('fs');
+// var fs = require('fs');
 var diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, __dirname + '/public/uploads');
@@ -55,7 +55,9 @@ app.get('/image/:id', function(req,res) {
         });
 
     }).catch(function(err) {
-        console.log(err);
+        if(err) {
+            console.log(err);            
+        }
     });
 
 });

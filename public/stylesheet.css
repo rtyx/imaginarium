@@ -11,39 +11,62 @@ body {
 }
 
 #main-images {
+    position: relative;
+    text-align: center;
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-content: flex-start;
     align-items: flex-start;
+    left:10%;
 }
 
 #images-title {
+    position:relative;
     font-family: arial black;
+    text-align: center;
+    right: 10%;
 
 }
 .main-image-area {
+    position: relative;
     text-align: center;
     margin-bottom: 20px;
     height: 450px;
     width: 400px;
+}
 
+#images-title {
+    text-align: center;
+}
+
+#from-images {
+    position: relative;
+    text-align: center;
+    right:10%;
+}
+
+#learn-more {
+    position: relative;
+    text-align: center;
+    right:10%;
 }
 
 .main-just-image {
     height: 300px;
     width: 300px;
+    margin-right:80px;
 }
 
 
 .big-single-image {
     position: relative;
+    text-align: center;
     left: 30%;
     height: 400px;
     width: 600px;
 }
-
 
 
 #single-image-title {
@@ -106,9 +129,9 @@ body {
 
 #description-single {
     float: right;
-    margin-right: 100px;
+    margin-right: 20px;
     font-family: Arial;
-    width: 200px;
+    width: 350px;
     font-size: 18px;
     line-height: 150%;
 

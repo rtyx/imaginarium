@@ -18,7 +18,7 @@
     <h3 id="images-title">{{title}}</h3>
     <a href="/#image/{{id}}"><img class="main-just-image" src ='{{url}}'></a>
     <h3 id="from-images">From: {{user_name}}</h3>
-    <a href="/#image/{{id}}"><h4>Learn more</h4></a>
+    <a href="/#image/{{id}}" id="learn-more"><h4>Learn more</h4></a>
     </div>
     {{/each}}
     </div>
@@ -36,6 +36,12 @@
     <h3 id='from-single-image'>From: <strong>{{user_name}}</strong></h3>
     {{/image}}
     {{/file}}
+    // <div id="tag area">
+    // {{#tags}}
+    // <h3 id="tag-headline">Tags:</h3>
+    // {{tag}}
+    // {{/tags}}
+    // </div>
     <div id="add-comment">
     <h3 id="add-comment-text">Add a comment:</h3>
     <textarea id="user_comment" placeholder="User Name"></textarea>
@@ -61,7 +67,7 @@
 <br>
 <input type="file" name="pic" accept="image/*">
 <br>
-<h3 class="upload-headline">User Name:</h3>
+<h3 class="upload-headline">Username:</h3>
 <br>
 <input class="field" id="username" type="text" name="username">
 <br>

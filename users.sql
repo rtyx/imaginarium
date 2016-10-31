@@ -18,3 +18,12 @@ CREATE TABLE comments (
     comment TEXT,
     created_at TIMESTAMP default CURRENT_TIMESTAMP
 );
+
+
+DROP TABLE IF EXISTS tags;
+CREATE TABLE tags (
+    id SERIAL primary key,
+    tag VARCHAR(255),
+    image_id INTEGER,
+    created_at TIMESTAMP default CURRENT_TIMESTAMP
+);
