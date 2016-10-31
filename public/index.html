@@ -18,19 +18,20 @@
         {{/picture}}
         </script>
         <script id="hello" type="text/handlebars">
+        <div id="upload-image">Upload Image</div>
         <div class="picture-container">
         {{#data}}
-            <a href="/#home/{{id}}"><div class="picture unclickedbackground" id="{{id}}"><img id="{{id}}-pic" src='imageuploads/{{filename}}'</img></div></a>
+            <div class="picture-box">
+                <a href="/#home/{{id}}"><div class="picture unclickedbackground" id="{{id}}"><img id="{{id}}-pic" src='imageuploads/{{filename}}'</img></div></a>
+                <div class="tags">{{#tags}}<a href="#tags/{{this}}"> {{this}} {{/tags}}</a></div>
+            </div>
         {{/data}}
         </div>
-        <div id="upload-image">Upload Image</div>
         </script>
         <script id="big-pic-script" type="text/handlebars">
         {{#pic}}
-        <div class="big-pic-container">
             <a href="/#home/clear"><div class="big-pic-div"><img src="imageuploads/{{filename}}"></img></div></a>
             <div class="comments"></div>
-        </div>
         {{/pic}}
         </script>
         <script id="comments-script" type="text/handlebars">
@@ -58,9 +59,11 @@
                         <input name="title"></input>
                         <p>Photo Description:</p>
                         <input name="description"></input>
+                        <p>Tags</p>
+                        <input name="tags"></input>
                     </form>
                     <form>
-                        <input type="file"></input>
+                        <input class="photo-input" type="file"></input>
                         <button id="submit">Sumbit</button>
                     </form>
                 </div>

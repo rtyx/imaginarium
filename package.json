@@ -17,6 +17,11 @@
   },
   "homepage": "https://github.com/spicedacademy/imageboard#readme",
   "dependencies": {
+"devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.0",
+    "rewire": "^2.5.2"
+  },
     "body-parser": "^1.15.2",
     "connect-redis": "^3.1.0",
     "cookie-parser": "^1.4.3",

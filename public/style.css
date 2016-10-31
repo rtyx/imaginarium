@@ -3,6 +3,7 @@
     height: 250px;
     margin: 15px;
     overflow: hidden;
+    border: 2px black solid;
 }
 
 .big-pic-container {
@@ -18,10 +19,9 @@
 }
 
 .comments {
-    width: 40%;
     z-index: 2;
     background-color: white;
-    width: 500px;
+    width: 400px;
 }
 
 
@@ -47,6 +47,8 @@
     height: 250px;
     text-align: left;
     font-weight: bold;
+    text-decoration: none;
+    color: black;
     z-index: 1;
 }
 
@@ -135,4 +137,27 @@ img {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+#upload-image {
+    width: 200px;
+    margin: 0 auto;
+    background-color: midnightblue;
+    border: #795548 3px solid;
+    border-radius: 15px;
+    color: whitesmoke;
+}
+
+#upload-image:hover {
+    cursor: pointer;
+}
+
+.tags a{
+    text-decoration: none;
+    color: green;
+}
+
+.tags a:hover{
+    text-decoration: none;
+    color: black;
 }

@@ -1,12 +1,9 @@
 const express = require('express');
-const multer = require('multer');
 const parser = require('body-parser');
+const router = require('./modules/routes.js');
 const dbconnect = require('./modules/dbconnect');
 
-const pathToUploads = './imageuploads'
-
-
-var app = express();
+const multer = require('multer');
 
 var diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -24,6 +21,8 @@ var uploader = multer({
     }
 });
 
+var app = express();
+
 app.use(parser.json());
 
 app.use(parser.urlencoded({
@@ -35,26 +34,31 @@ app.use(function logUrl(req, res, next) {
     next();
 });
 
-
-app.get('/photos', function(req, res) {
-    dbconnect.query('SELECT * FROM pictures').then(function(results){
-        console.log("res " + results);
-        res.json({pictures: results});
-    });
-});
-
-app.post('/photos', uploader.single('file'), function(req, res) {
+app.post('/photos', uploader.single('file'), function (req, res) {
+    console.log("made it here");
     if (req.file) {
         var values = JSON.parse(req.body.values);
-        console.log(values.uploader);
-        var query = 'INSERT INTO pictures (uploader, filename, title, description) VALUES ($1, $2, $3, $4)';
-        var variables = [values.uploader || null, req.file.filename, values.title || null, values.description || null];
-        dbconnect.query(query, variables).catch(function(err){
+        console.log(values);
+        var photoQuery = 'INSERT INTO pictures (uploader, filename, title, description, tags) VALUES ($1, $2, $3, $4, $5) RETURNING id';
+        var photoVariables = [values.uploader || null, req.file.filename, values.title || null, values.description || null, values.tags || null];
+        dbconnect.query(photoQuery, photoVariables).then(function(id){
+            var tags = values.tags.split(", ");
+            var tagQuery = "INSERT INTO tags (tag_name, picture_id) VALUES ($1, $2)";
+            var promiseArray = [];
+            for (var i=0; i<tags.length;i++){
+                promiseArray.push(dbconnect.query(tagQuery, [tags[i], id.id]));
+            }
+            Promise.all(promiseArray).then(function(){
+                res.json({
+                    success: true,
+                    file: '/imageuploads/' + req.file.filename
+                });
+            })
+            .catch(function(err){
+                console.log(err);
+            });
+        }).catch(function(err){
             console.log(err);
-        });
-        res.json({
-            success: true,
-            file: '/imageuploads/' + req.file.filename
         });
     } else {
         res.json({
@@ -63,30 +67,9 @@ app.post('/photos', uploader.single('file'), function(req, res) {
     }
 });
 
-app.get('/comments', function(req, res) {
-    dbconnect.query('SELECT * FROM comments WHERE picture_id = $1', [req.query.picnum]).then(function(results){
-        if (results){
-            res.json({comments: results});
-        }
-        else {
-            res.json({comments: 'none'});
-        }
-    }).catch(function(err){
-        console.log(err);
-    });
+app.use('/', router);
 
-});
-
-app.post('/comments', function (req, res) {
-    var query = 'INSERT INTO comments (picture_id, comment, commenter) VALUES ($1, $2, $3)';
-    console.log([req.body.picture, req.body.new.comment, req.body.new.commenter]);
-    var variables = [req.body.picture, req.body.new.comment, req.body.new.commenter];
-    dbconnect.query(query, variables).then(function(){
-        res.json({success: true});
-    }).catch(function(err){
-        console.log(err);
-    });
-});
+app.route('/');
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/'));

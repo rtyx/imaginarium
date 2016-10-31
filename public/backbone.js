@@ -1,5 +1,7 @@
 (function(){
 
+    var pictures;
+
     var templates = document.querySelectorAll('script[type="text/handlebars"]');
 
     Handlebars.templates = Handlebars.templates || {};
@@ -12,14 +14,27 @@
     var Router = Backbone.Router.extend({
         routes: {
             'home': 'home',
-            'home/:picture': 'home'
+            'home/:picture': 'home',
+            'tags/:tag': 'tags'
         },
 
-        home: function(picture) {
+        tags: function (tag) {
+            if(tag){
+                var tagModel = new TagModel({tag: tag});
+                new TagView({
+                    el: '#main',
+                    model: tagModel
+                });
+            }
+        },
+
+        home: function (picture) {
             if (picture == "clear"){
                 console.log("CLEAR");
             } else if (picture) {
-                var pictureModel = new PictureModel({picture: picture});
+                var pictureModel = new PictureModel(
+                    {picture: picture}
+                );
                 new PictureView({
                     el: '#pic',
                     model: pictureModel
@@ -43,16 +58,31 @@
 
     var PictureModel = Backbone.Model.extend({
         initialize: function(){
-            console.log(this.get('picture'));
             this.fetch({
-                data: {picnum: this.get('picture'),
+                data: {picnum: this.get('picture')},
                 success: function(){
                     console.log("success");
-                }}
+                }
             });
         },
         url: '/comments'
     });
+
+    var TagModel = Backbone.Model.extend({
+        initialize: function(){
+            console.log("weeeee");
+            this.fetch({
+                data: {tag: this.get('tag')},
+                success: function(data){
+                    console.log(data);
+                }
+            });
+
+        },
+        url: 'tags'
+    });
+
+
 
     var PictureView = Backbone.View.extend({
         initialize: function() {
@@ -63,7 +93,6 @@
         },
 
         render: function () {
-            var pictures = localStorage.getItem('pictures');
             var picArray = JSON.parse(pictures);
             var id = (this.model.get('picture'));
             var clickedPic = picArray.filter(function(pic){
@@ -74,6 +103,7 @@
             this.$el.html(Handlebars.templates['big-pic-script']({pic: clickedPic[0]}));
             $('#page').removeClass('unclickedbackground');
             $('#page').addClass('clickedbackground');
+            $('#pic').addClass('big-pic-container');
             $('.picture').css({opacity: 0.2});
             if (this.model.get('comments')){
                 $('.comments').html(Handlebars.templates['comments-script']({comments: this.model.get('comments')}));
@@ -90,7 +120,8 @@
         close: function(){
             $('#page').removeClass('clickedbackground');
             $('#page').addClass('unclickedbackground');
-            $('.big-pic-div').remove();
+            $('.big-pic-container').empty();
+            $('#pic').removeClass('big-pic-container');
             $('.comments').remove();
             $('.picture').css({opacity: 1});
             this.undelegateEvents();
@@ -127,19 +158,55 @@
 
     });
 
-    var HomeView = Backbone.View.extend({
+    var TagView = Backbone.View.extend({
         initialize: function() {
             var view = this;
-            view.render();
-            this.model.on('change', function() {
+            this.model.on('change', function(){
                 view.render();
             });
         },
+
+        render: function() {
+            this.$el.empty();
+            var picData = this.model.get('pictureData');
+            picData.forEach(function(pic){
+                if(pic.tags) {
+                    pic.tags = pic.tags.split(", ");
+                }
+            });
+            this.$el.html(Handlebars.templates.hello({
+                data: this.model.get('pictureData')
+            }));
+        }
+    });
+
+    var HomeView = Backbone.View.extend({
+        initialize: function() {
+            this.render();
+            this.model.on('change', function() {
+                console.log("changed");
+            });
+        },
         render: function () {
-            this.model.fetch();
-            var pictureObject = this.model.get('pictures');
-            localStorage.setItem('pictures', JSON.stringify(pictureObject));
-            this.$el.html(Handlebars.templates.hello({data: pictureObject}));
+            var model = this.model;
+            var elem = this.$el;
+            this.model.fetch({
+                success: function() {
+                    var pictureObject = model.get('pictures');
+                    if (pictureObject){
+                        pictures =  JSON.stringify(pictureObject);
+                        pictureObject.forEach(function(pic){
+                            if(pic.tags){
+                                pic.tags = pic.tags.split(", ");
+                                console.log(pic.tags);
+                            }
+                        });
+                        elem.html(Handlebars.templates.hello({
+                            data: pictureObject
+                        }));
+                    }
+                }
+            });
         },
         submit: function(e){
             e.preventDefault();
@@ -189,6 +256,13 @@
             $('#page').removeClass('unclickedbackground');
             $('.picture').css({opacity: 0.2});
             this.$el.prepend(Handlebars.templates['submit-photo']());
+            $(".photo-input").change(function(){
+                var reader = new FileReader();
+                reader.onload = function (){
+                    $('#placeholder').html("<img src=" + reader.result + "></img>");
+                };
+                reader.readAsDataURL($('input[type="file"]').get(0).files[0]);
+            });
             $('#x').click(function(){
                 $('#submit-photo-container').remove();
                 $('#page').removeClass('clickedbackground');
