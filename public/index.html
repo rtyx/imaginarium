@@ -36,15 +36,23 @@
     <h3 id='from-single-image'>From: <strong>{{user_name}}</strong></h3>
     {{/image}}
     {{/file}}
-    // <div id="tag area">
-    // {{#tags}}
-    // <h3 id="tag-headline">Tags:</h3>
-    // {{tag}}
-    // {{/tags}}
-    // </div>
+    <div id="existing-tags-area">
+    <h3 id="existing-tags-headline">Tags:</h3>
+    {{#file}}
+    {{#tags}}
+    <a href="/#images/{{tag}}">#{{tag}}</a>
+    {{/tags}}
+    {{/file}}
+    </div>
+    <div id="adding-tags-area">
+    <h3 id="add-tags-title">Add Tags:</h3>
+    <textarea id="tags-area"></textarea>
+    <button id="submit-tags">Submit</button>
+    </div>
+
     <div id="add-comment">
     <h3 id="add-comment-text">Add a comment:</h3>
-    <textarea id="user_comment" placeholder="User Name"></textarea>
+    <textarea id="user_comment" placeholder="Username"></textarea>
     <textarea id="comment-area"></textarea>
     <button id="submit-comment">Submit</button>
     </div>
@@ -79,7 +87,7 @@
 <br>
 <input class="field" id="description" type="text" name="description">
 <br>
-<input id='submit' type="button" value="submit">
+<input id='submit-photo' type="button" value="submit">
 </form>
 </div>
 </script>

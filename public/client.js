@@ -10,7 +10,8 @@
         routes: {
             'images': 'images',
             'image/:id': 'image',
-            'upload': 'upload'
+            'upload': 'upload',
+            'images/:tag': 'tag'
         },
         upload: function() {
             $('#main').off();
@@ -31,8 +32,19 @@
                 el:"#main",
                 model: new ImageModel({id:id})
             });
+        },
+        tag: function(tag) {
+            $('#main').off();
+            new TagView({
+                el:"#main",
+                model: new TagModel({tag:tag})
+            });
         }
     });
+
+
+
+
 
     var ImagesModel = Backbone.Model.extend({
         initialize: function() {
@@ -67,6 +79,23 @@
             }
         }
     });
+
+
+    var TagModel = Backbone.Model.extend({
+        initialize: function() {
+            var newTagModel = this;
+            this.fetch({
+                success: function(data) {
+                    newImageModel.trigger('showTagImages');
+                }
+            });
+        },
+        url: function() {
+            return '/images/'+this.tag;
+        }
+    });
+
+
 
     var ImageModel = Backbone.Model.extend({
         initialize: function() {
@@ -104,8 +133,6 @@
             'click #submit-comment': function() {
                 var comment = $('#comment-area').val();
                 var usernameComment = $('#user_comment').val();
-                console.log(comment);
-                console.log(usernameComment);
                 if (comment.length===0 || usernameComment.length===0 ) {
                     alert('Please fill all the fields')
                 }
@@ -119,25 +146,67 @@
                         username_comment:usernameComment
                     });
                 }
+            },
+            'click #submit-tags': function() {
+                var tags = $('#tags-area').val();
+                var tagsArr = tags.split(',').map(function(str) {
+                    return str.trim();
+                })
+                if (tags.length===0) {
+                    alert('Please specify a tag')
+                }
+                else {
+                    var id = this.model.attributes.file.image[0].id;
+                    $('#tags-area').val('');
+                    this.model = new InsertTagsModel({
+                        tags:tagsArr,
+                        image_id:id
+                    });
+                }
             }
         }
     });
 
+    var InsertTagsModel = Backbone.Model.extend({
+        initialize: function() {
+            var newInsertTagsModel = this;
+            var data = JSON.stringify(this.attributes);
+            // var id = this.attributes.image_id;
+            return new Promise(function(resolve,reject) {
+                newInsertTagsModel.save(data, {
+                    success: function(data) {
+                        console.log('hereee');
+                        return;
+                    }
+                }).then(function() {
+                    console.log('heyyyyy');
+                    Backbone.history.loadUrl();
+                }).catch(function(err) {
+                    if(err) {
+                        console.log(err);
+                    }
+                });
+            });
+        },
+        url: '/insert-tags'
+    })
 
     var InsertCommentModel = Backbone.Model.extend({
         initialize: function() {
             var newInsertCommentModel = this;
             var data = JSON.stringify(this.attributes);
-            var id = this.attributes.image_id;
+            // var id = this.attributes.image_id;
             return new Promise(function(resolve,reject) {
                 newInsertCommentModel.save(data, {
-                    success: function() {
+                    success: function(data) {
                         return;
                     }
                 }).then(function() {
                     Backbone.history.loadUrl();
                 }).catch(function(err) {
-                    console.log(err);
+                    if(err) {
+                        console.log(err);
+                    }
                 });
             });
         },

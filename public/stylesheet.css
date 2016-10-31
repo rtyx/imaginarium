@@ -92,7 +92,10 @@ body {
 #add-comment {
     position: relative;
     text-align: center;
-    bottom:20px;;
+    bottom:20px;
+    left:35%;
+    width:500px;
+
 }
 
 #comments {
@@ -178,7 +181,7 @@ body {
     width:200px;
 }
 
-#submit {
+#submit-photo {
     background-color:#FF8C00;
     border: none;
     color: white;
@@ -188,10 +191,45 @@ body {
     display: inline-block;
     font-size: 16px;
     margin-top: 20px;
-
     cursor: pointer;
 }
 
 #upload-form {
     text-align: center;
+}
+
+#adding-tags-area{
+    position: relative;
+    float: right;
+    left:8%;
+    bottom:40px;
+}
+
+#existing-tags-area {
+    width: 180px;
+    position: relative;
+    float: right;
+    right: 13%;
+    bottom: 210px;
+}
+
+#tags-area {
+    height: 30px;
+    width: 200px;
+}
+
+#submit-tags{
+    position: relative;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 20px 10px;
+    cursor: pointer;
+    height:35px;
+    width:75px;
+    bottom:13px;
 }

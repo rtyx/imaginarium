@@ -49,8 +49,33 @@ exports.insertComment = function(comment,image_id,username_comment) {
     });
 };
 
+exports.insertTags = function(tags,image_id) {
+    return new Promise(function(resolve, reject) {
+        for (var i=0;i<tags.length;i++) {
+            getFromDb('INSERT into tags(tag,image_id) VALUES($1,$2) RETURNING id', [tags[i],image_id]);
+        }
+        return;
+    }).catch(function(err) {
+            if(err) {
+                console.log(err);
+            }
+        });
 
-exports.immageComments = function(id) {
+};
+
+exports.imageTags = function(id) {
+    return getFromDb('SELECT * from tags WHERE image_id=$1 ORDER BY created_at', [id]).then(function(result) {
+        // console.log('tags result');
+        // console.log(result);
+        return result;
+    }).catch(function(err) {
+        if(err) {
+            console.log(err);
+        }
+    });
+};
+
+exports.imageComments = function(id) {
     return getFromDb('SELECT * FROM comments WHERE image_id=$1 ORDER BY created_at DESC LIMIT 30',[id]).then(function(result) {
         return result;
     }).catch(function(err) {

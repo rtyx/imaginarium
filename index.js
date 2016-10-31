@@ -42,13 +42,17 @@ app.get('/images', function(req, res) {
 
 app.get('/image/:id', function(req,res) {
     var id = req.params.id;
-    var immageDetails = db.getImage(id);
-    var immageComments = db.immageComments(id);
-    return Promise.all([immageDetails,immageComments])
+    var imageDetails = db.getImage(id);
+    var imageComments = db.imageComments(id);
+    var imageTags = db.imageTags(id);
+    return Promise.all([imageDetails,imageComments,imageTags])
     .then(function(results) {
         var result = {};
         result.image = results[0].rows;
         result.comments = results[1].rows;
+        result.tags = results[2].rows;
+        console.log('these are the tags');
+        console.log(result.tags);
         res.json({
             success:true,
             file:result
@@ -56,11 +60,28 @@ app.get('/image/:id', function(req,res) {
 
     }).catch(function(err) {
         if(err) {
-            console.log(err);            
+            console.log(err);
         }
     });
 
 });
+
+app.post('/insert-tags', function(req,res) {
+     var tags = req.body.tags;
+     var image_id = req.body.image_id;
+     console.log(tags);
+     db.insertTags(tags,image_id)
+    .then(function() {
+        console.log('result');
+        res.json({
+            success:true,
+            file:result
+        });
+    }).catch(function(err) {
+        console.log(err);
+    })
+});
+
 
 app.post('/insert-comment', function(req,res) {
     var comment = req.body.comment;
