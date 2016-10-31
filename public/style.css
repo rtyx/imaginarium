@@ -65,7 +65,7 @@ img {
     position: fixed;
     top: 15%;
     left: 10%;
-    background-color: whitesmoke;
+    background-color: transparent;
     z-index: 3;
     width: 80%;
     height: 70%;
@@ -78,6 +78,18 @@ img {
     align-content: space-around;
 }
 
+#file-input-container {
+    background-color: whitesmoke;
+    height: 250px;
+    width: 250px;
+    border: 2px black solid;
+}
+
+#file-input-container form {
+    height: 50%;
+    width: 100%;
+    margin: 0px auto;
+}
 
 .clickedbackground {
 	animation-name: clickedbackground;
@@ -124,11 +136,14 @@ img {
 #placeholder {
     height: 250px;
     width: 250px;
+    border: 2px black solid;
 }
 
 #form-container {
     height: 300px;
     width: 300px;
+    background-color: whitesmoke;
+    border: 2px black solid;
 }
 
 #x {
@@ -160,4 +175,9 @@ img {
 .tags a:hover{
     text-decoration: none;
     color: black;
+}
+
+.comment-icon {
+    height: 30px;
+    width: 30px;
 }

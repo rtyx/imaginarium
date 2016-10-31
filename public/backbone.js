@@ -51,7 +51,6 @@
 
     var HomeModel = Backbone.Model.extend({
         initialize: function(){
-            this.fetch();
         },
         url: '/photos'
     });
@@ -60,7 +59,8 @@
         initialize: function(){
             this.fetch({
                 data: {picnum: this.get('picture')},
-                success: function(){
+                success: function(data){
+                    console.log(data);
                     console.log("success");
                 }
             });
@@ -94,22 +94,31 @@
 
         render: function () {
             var picArray = JSON.parse(pictures);
+            var comments = JSON.parse(this.model.get('comments'));
+            console.log(comments);
             var id = (this.model.get('picture'));
             var clickedPic = picArray.filter(function(pic){
                 if (id == pic.id){
                     return pic;
                 }
             });
-            this.$el.html(Handlebars.templates['big-pic-script']({pic: clickedPic[0]}));
+            this.$el.html(Handlebars.templates['big-pic-script'](
+                {pic: clickedPic[0]}
+            ));
             $('#page').removeClass('unclickedbackground');
             $('#page').addClass('clickedbackground');
             $('#pic').addClass('big-pic-container');
             $('.picture').css({opacity: 0.2});
             if (this.model.get('comments')){
-                $('.comments').html(Handlebars.templates['comments-script']({comments: this.model.get('comments')}));
+                $('.comments').html(Handlebars.templates['comments-script']({
+                    comments: comments
+                }));
             } else {
-                $('.comments').html(Handlebars.templates['comments-script']({comments: 'no comments'}));
+                $('.comments').html(Handlebars.templates['comments-script']({
+                    comments: 'no comments'
+                }));
             }
+            $('#commenter').val(localStorage.getItem('name'));
         },
 
         events: {
@@ -118,8 +127,8 @@
         },
 
         close: function(){
-            $('#page').removeClass('clickedbackground');
-            $('#page').addClass('unclickedbackground');
+            localStorage.setItem('name', $('#commenter').val());
+            $('#page').removeClass('clickedbackground').addClass('unclickedbackground');
             $('.big-pic-container').empty();
             $('#pic').removeClass('big-pic-container');
             $('.comments').remove();
@@ -129,8 +138,8 @@
 
         submit: function(e) {
             e.preventDefault();
+            localStorage.setItem('name', $('#commenter').val());
             if ($('#commenter').val() && $('#comment-string').val()){
-                console.log("sent comment to server");
                 var model = this.model;
                 var view = this;
                 this.model.save({
@@ -139,8 +148,6 @@
                         comment: $('#comment-string').val()
                     }
                 }, {success: function(){
-                    console.log("updated");
-                    console.log(model);
                     model.fetch({
                         data: {picnum: model.get('picture')},
                         success: function(){
@@ -190,20 +197,20 @@
         render: function () {
             var model = this.model;
             var elem = this.$el;
+            console.log("rendering");
             this.model.fetch({
                 success: function() {
-                    var pictureObject = model.get('pictures');
+                    console.log("made it here");
+                    var pictureObject = JSON.parse(model.get('pictures'));
                     if (pictureObject){
                         pictures =  JSON.stringify(pictureObject);
                         pictureObject.forEach(function(pic){
                             if(pic.tags){
                                 pic.tags = pic.tags.split(", ");
-                                console.log(pic.tags);
                             }
                         });
                         elem.html(Handlebars.templates.hello({
-                            data: pictureObject
-                        }));
+                            data: pictureObject}));
                     }
                 }
             });
@@ -233,8 +240,37 @@
                 }
             });
         },
+
+        submitUrl: function(e) {
+            e.preventDefault();
+            var inputs = $('#upload :input');
+            var values = {};
+            var view = this;
+            inputs.each(function() {
+                values[this.name] = $(this).val();
+            });
+            values = JSON.stringify(values);
+            $.ajax({
+                url: '/uploadurl',
+                method: 'POST',
+                data: {
+                    values: values,
+                    url: $('#photo-url').val()
+                },
+                success: function(data){
+                    view.render();
+                    console.log(data);
+                }
+            });
+        },
+
+        previewUrl: function(e){
+            e.preventDefault();
+            $('#placeholder-image').attr("src", $('#photo-url').val());
+        },
+
         info: function(e){
-            var pictureArray = this.model.get('pictures');
+            var pictureArray = JSON.parse(this.model.get('pictures'));
             var hoveredPicture = pictureArray.filter(function(picture){
                 if (picture.id == e.currentTarget.id){
                     return picture;
@@ -252,11 +288,12 @@
         },
 
         uploadform: function() {
-            $('#page').addClass('clickedbackground');
-            $('#page').removeClass('unclickedbackground');
+            console.log("preview");
+            $('#page').addClass('clickedbackground').removeClass('unclickedbackground');
             $('.picture').css({opacity: 0.2});
             this.$el.prepend(Handlebars.templates['submit-photo']());
             $(".photo-input").change(function(){
+                console.log("input changed");
                 var reader = new FileReader();
                 reader.onload = function (){
                     $('#placeholder').html("<img src=" + reader.result + "></img>");
@@ -265,8 +302,7 @@
             });
             $('#x').click(function(){
                 $('#submit-photo-container').remove();
-                $('#page').removeClass('clickedbackground');
-                $('#page').addClass('unclickedbackground');
+                $('#page').removeClass('clickedbackground').addClass('unclickedbackground');
                 $('.picture').css({opacity: 1});
             }).mouseover(function(){
                 $(this).css({cursor: 'pointer'});
@@ -274,7 +310,9 @@
         },
 
         events: {
-            'click button': 'submit',
+            'click #submit': 'submit',
+            'click #preview-url': 'previewUrl',
+            'click #submit-url': 'submitUrl',
             'mouseenter .picture' : 'info',
             'mouseleave .picture' : 'deleteinfo',
             'click #upload-image' : 'uploadform'

@@ -36,7 +36,7 @@
         </script>
         <script id="comments-script" type="text/handlebars">
         {{#comments}}
-            {{commenter}}: {{comment}}<br>
+            <div class="comment"><img class="comment-icon" src="{{img}}"></img>{{commenter}}: {{comment}}<br></div>
         {{/comments}}
         <form>
             Your name:
@@ -49,10 +49,9 @@
         <script id="submit-photo" type="text/handlebars">
             <div id="submit-photo-container">
                 <img id="x" src="public/images/x.png"></img>
-                <div id="placeholder"><img src="/public/images/placeholder.png"></img></div>
+                <div id="placeholder"><img id="placeholder-image" src="/public/images/placeholder.png"></img></div>
                 <div id="form-container">
                     <form id="upload">
-                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
                         <p>Your Name:</p>
                         <input name="uploader"></input>
                         <p>Photo Title:</p>
@@ -62,9 +61,18 @@
                         <p>Tags</p>
                         <input name="tags"></input>
                     </form>
+                </div>
+                <div id="file-input-container">
                     <form>
-                        <input class="photo-input" type="file"></input>
-                        <button id="submit">Sumbit</button>
+                        <p>Upload Photo:</p>
+                        <input class="photo-input" type="file"></input><br>
+                        <button id="submit">SUBMIT</button><br>
+                    </form>
+                    <form>
+                        <p>Upload from Url:</p>
+                        <input type="url" id="photo-url"></input>
+                        <button id="preview-url">Preview</button><br>
+                        <button id="submit-url">SUBMIT</button><br>
                     </form>
                 </div>
             </div>
