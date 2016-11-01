@@ -27,6 +27,7 @@
             </div>
         {{/data}}
         </div>
+        <button id="next">NEXT</button>
         </script>
         <script id="big-pic-script" type="text/handlebars">
         {{#pic}}
@@ -37,25 +38,25 @@
         <script id="comments-script" type="text/handlebars">
         <div id="comments">
             {{#comments}}
-                <div class="comment"><img class="comment-icon" src="{{../img}}"></img>{{commenter}}: {{comment}}<br></div>
+                <div class="comment"><img class="comment-icon" src="{{#if avatar}}avatars/{{avatar}}{{else}}public/images/placeholder.png{{/if}}"></img>{{commenter}}: {{comment}}<br></div>
             {{/comments}}
         </div>
         <div id="avatar-upload-container">
+            <div id="avatar-preview"><img id="avatar-img" src="public/images/placeholder.png"></img></div>
+            <form>
+                Upload Avatar:
+                <input class="avatar-input" type="file"></input>
+            </form>
+            <form>
+                <input type="url" placeholder="enter avatar url" id="avatar-url"></input>
+                <button id="avatar-url">UPLOAD</button>
+            </form>
             <form>
                 Your name:
                 <input id="commenter"></input><br>
                 Your comment:
-                <input id="comment-string"></input>
+                <textarea id="comment-string"></textarea>
                 <button id="submit-comment">SUBMIT</button>
-                <form>
-                    Upload Avatar:
-                    <input class="avatar-input" type="file"></input>
-                    <button id="submit-avatar">UPLOAD</button>
-                </form>
-                <form>
-                    <input type="url" placeholder="enter url" id="avatar-url"></input>
-                    <button id="avatar-url">UPLOAD</button>
-                </form>
             </form>
         </div>
         </script>

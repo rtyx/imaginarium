@@ -51,6 +51,7 @@
 
     var HomeModel = Backbone.Model.extend({
         initialize: function(){
+
         },
         url: '/photos'
     });
@@ -110,8 +111,7 @@
             $('.picture').css({opacity: 0.2});
             if (this.model.get('comments')){
                 $('.comments').html(Handlebars.templates['comments-script']({
-                    comments: comments,
-                    img: "/public/images/placeholder.png"
+                    comments: comments
                 }));
             } else {
                 $('.comments').html(Handlebars.templates['comments-script']({
@@ -119,15 +119,33 @@
                 }));
             }
             $('#commenter').val(localStorage.getItem('name'));
+            console.log('avatar: ' + localStorage.getItem('avatar'));
+            if (localStorage.getItem('avatar')){
+                $('#avatar-img').attr('src', localStorage.getItem('avatar'));
+            }
+            $(".avatar-input").change(function(){
+                console.log("input changes");
+                var reader = new FileReader();
+                reader.onload = function (){
+                    $('#avatar-preview').html("<img id='avatar-img' src=" + reader.result + "></img>");
+                };
+                reader.readAsDataURL($('input[type="file"]').get(0).files[0]);
+            });
         },
 
         events: {
             'click .big-pic-div': 'close',
             'click #submit-comment' : 'submit'
+            // 'click #avatar-url': 'previewAvatar'
         },
+
+        // previewAvatar: function (e){
+        //
+        // },
 
         close: function(){
             localStorage.setItem('name', $('#commenter').val());
+            localStorage.setItem('avatar', $('#avatar-img').attr('src'));
             $('#page').removeClass('clickedbackground').addClass('unclickedbackground');
             $('.big-pic-container').empty();
             $('#pic').removeClass('big-pic-container');
@@ -142,20 +160,27 @@
             if ($('#commenter').val() && $('#comment-string').val()){
                 var model = this.model;
                 var view = this;
-                this.model.save({
-                    new: {
-                        commenter: $('#commenter').val(),
-                        comment: $('#comment-string').val()
+                var file = $('input[type="file"]').get(0).files[0];
+                var formData = new FormData();
+                formData.append('file', file);
+                formData.append('commenter',  $('#commenter').val());
+                formData.append('comment',  $('#comment-string').val());
+                formData.append('picture', model.get('picture'));
+                $.ajax({
+                    url: '/comments',
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(){
+                        model.fetch({
+                            data: {picnum: model.get('picture')},
+                            success: function(){
+                                view.render();
+                                model.destroy();
+                            }
+                        });
                     }
-                }, {success: function(){
-                    model.fetch({
-                        data: {picnum: model.get('picture')},
-                        success: function(){
-                            view.render();
-                            model.destroy();
-                        }
-                    });
-                }
                 });
             } else {
                 console.log("invalid comment");
@@ -175,15 +200,37 @@
 
         render: function() {
             this.$el.empty();
+            var view = this.$el;
             var picData = this.model.get('pictureData');
             picData.forEach(function(pic){
                 if(pic.tags) {
                     pic.tags = pic.tags.split(", ");
                 }
             });
-            this.$el.html(Handlebars.templates.hello({
-                data: this.model.get('pictureData')
-            }));
+            var pictureObject = this.model.get('pictureData');
+            var size = 9;
+            var page = 0;
+            var pictureObjectChunks = [];
+            for (var i=0; i<pictureObject.length; i+=size) {
+                var smallArray = pictureObject.slice(i,i+size);
+                pictureObjectChunks.push(smallArray);
+            }
+            function renderImages(pageNum){
+                view.html(Handlebars.templates.hello({
+                    data: pictureObjectChunks[pageNum]
+                }));
+                $('#next').click(function(){
+                    if ((page + 1) * size < pictureObject.length){
+                        page += 1;
+                        renderImages(page);
+                    } else {
+                        page = 0;
+                        renderImages(page);
+                    }
+
+                });
+            }
+            renderImages(page);
         }
     });
 
@@ -195,9 +242,13 @@
             });
         },
         render: function () {
+            var view = this;
             var model = this.model;
             var elem = this.$el;
-            console.log("rendering");
+            $('#home').click(function(){
+                view.undelegateEvents();
+            });
+
             this.model.fetch({
                 success: function() {
                     console.log("made it here");
@@ -209,12 +260,34 @@
                                 pic.tags = pic.tags.split(", ");
                             }
                         });
-                        elem.html(Handlebars.templates.hello({
-                            data: pictureObject}));
+                        var size = 9;
+                        var pictureObjectChunks = [];
+                        for (var i=0; i<pictureObject.length; i+=size) {
+                            var smallArray = pictureObject.slice(i,i+size);
+                            pictureObjectChunks.push(smallArray);
+                        }
+                        var page = 0;
+                        function renderImages(pageNum){
+                            elem.html(Handlebars.templates.hello({
+                                data: pictureObjectChunks[pageNum]
+                            }));
+                            $('#next').click(function(){
+                                if ((page + 1) * size < pictureObject.length){
+                                    page += 1;
+                                    renderImages(page);
+                                } else {
+                                    page = 0;
+                                    renderImages(page);
+                                }
+
+                            });
+                        }
+                        renderImages(page);
                     }
                 }
             });
         },
+
         submit: function(e){
             e.preventDefault();
             var file = $('input[type="file"]').get(0).files[0];
@@ -288,7 +361,6 @@
         },
 
         uploadform: function() {
-            console.log("preview");
             $('#page').addClass('clickedbackground').removeClass('unclickedbackground');
             $('.picture').css({opacity: 0.2});
             this.$el.prepend(Handlebars.templates['submit-photo']());
@@ -313,12 +385,13 @@
             'click #submit': 'submit',
             'click #preview-url': 'previewUrl',
             'click #submit-url': 'submitUrl',
+            'click #upload-image' : 'uploadform',
             'mouseenter .picture' : 'info',
-            'mouseleave .picture' : 'deleteinfo',
-            'click #upload-image' : 'uploadform'
+            'mouseleave .picture' : 'deleteinfo'
         }
 
     });
+
 
     var router = new Router;
 

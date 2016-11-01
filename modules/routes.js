@@ -66,19 +66,6 @@ router.route('/comments')
             }
 
         });
-    })
-
-    .post( (req, res) => {
-        console.log(req);
-        var query = 'INSERT INTO comments (picture_id, comment, commenter) VALUES ($1, $2, $3)';
-        console.log([req.body.picture, req.body.new.comment, req.body.new.commenter]);
-        var variables = [req.body.picture, req.body.new.comment, req.body.new.commenter];
-        dbconnect.query(query, variables).then(function(){
-            cache.del('comments-' + req.body.picture);
-            res.json({success: true});
-        }).catch(function(err){
-            console.log(err);
-        });
     });
 
 router.route('/tags')
