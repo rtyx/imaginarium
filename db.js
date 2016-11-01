@@ -1,8 +1,24 @@
 
 var pg = require('pg');
-var client = new pg.Client('postgres://spicedling:036363976@localhost:5432/users');
+var dbUrl = 'postgres://spicedling:036363976@localhost:5432/users';
 
-client.connect(function(err) {
+dbUrl = require('url').parse(dbUrl);
+
+var dbUser = dbUrl.auth.split(':');
+
+var dbConfig = {
+    user: dbUser[0],
+    database: dbUrl.pathname.slice(1),
+    password: dbUser[1],
+    host: dbUrl.hostname,
+    port: 5432,
+    max: 10,
+    idleTimeoutMillis: 30000
+};
+
+var pool = new pg.Pool(dbConfig);
+
+pool.on('error', function(err) {
     if(err) {
         console.log(err);
     }
@@ -51,22 +67,16 @@ exports.insertComment = function(comment,image_id,username_comment) {
 
 exports.insertTags = function(tags,image_id) {
     return new Promise(function(resolve, reject) {
+        var arr = []
         for (var i=0;i<tags.length;i++) {
-            getFromDb('INSERT into tags(tag,image_id) VALUES($1,$2) RETURNING id', [tags[i],image_id]);
+            arr.push(getFromDb('INSERT into tags(tag,image_id) VALUES($1,$2) RETURNING id', [tags[i],image_id]));
         }
-        return;
-    }).catch(function(err) {
-            if(err) {
-                console.log(err);
-            }
-        });
-
+        Promise.all(arr).then(resolve).catch(reject);
+    })
 };
 
 exports.imageTags = function(id) {
     return getFromDb('SELECT * from tags WHERE image_id=$1 ORDER BY created_at', [id]).then(function(result) {
-        // console.log('tags result');
-        // console.log(result);
         return result;
     }).catch(function(err) {
         if(err) {
@@ -75,25 +85,16 @@ exports.imageTags = function(id) {
     });
 };
 
-// exports.getTaggedImagesId = function(tag) {
-//     return getFromDb('SELECT * from tags WHERE tag=$1 ORDER BY created_at', [tag]).then(function(result) {
-//         return result;
-//     }).catch(function(err) {
-//         if(err) {
-//             console.log(err);
-//         }
-//     });
-// };
 
 exports.getTaggedImages = function(tag) {
     return getFromDb('SELECT * from tags JOIN images on images.id=tags.image_id WHERE tags.tag=$1', [tag]).then(function(result) {
         return result;
     }).catch(function(err) {
-            if(err) {
-                console.log(err);
-            }
-        });
-}
+        if(err) {
+            console.log(err);
+        }
+    });
+};
 
 
 exports.imageComments = function(id) {
@@ -108,13 +109,21 @@ exports.imageComments = function(id) {
 
 function getFromDb(str, params) {
     return new Promise(function(resolve, reject) {
-        client.query(str, params || [], function(err, result) {
-            if(err) {
+        pool.connect(function(err, client, done) {
+            if (err) {
                 reject(err);
+                return;
             }
-            else {
-                resolve(result);
-            }
+            client.query(str, params || [], function(err, result) {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    resolve(result);
+                }
+
+                done();
+            });
         });
     });
 }

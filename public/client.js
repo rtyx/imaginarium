@@ -35,7 +35,7 @@
         },
         tags: function(tag) {
             $('#main').off();
-            new TagView({
+            new ImagesView({
                 el:"#main",
                 model: new TagModel({tag:tag})
             });
@@ -75,39 +75,6 @@
     });
 
 
-    var TagModel = Backbone.Model.extend({
-        initialize: function() {
-            var newTagModel = this;
-            this.fetch({
-                success: function(data) {
-                    var arrOfImages = data.attributes.file;
-                    newTagModel.set({
-                        arrOfImages:arrOfImages
-                    });
-                     newTagModel.trigger('showTagImages');
-                }
-            });
-        },
-        url: function() {
-            return '/images/'+ this.attributes.tag;
-        }
-    });
-
-    var TagView = Backbone.View.extend({
-        initialize: function() {
-            var newTagView = this;
-            this.model.on('showTagImages', function() {
-                var arrOfImages = newTagView.model.get('arrOfImages');
-                console.log('in tag view');
-                console.log(arrOfImages);
-                newTagView.render(arrOfImages);
-            })
-        },
-        render: function(arrOfImages) {
-            this.$el.html(Handlebars.templates.showImages(this.model.toJSON()));
-
-        }
-})
 
     var ImageModel = Backbone.Model.extend({
         initialize: function() {
@@ -163,9 +130,9 @@
                 var tags = $('#tags-area').val();
                 var tagsArr = tags.split(',').map(function(str) {
                     return str.trim();
-                })
+                });
                 if (tags.length===0) {
-                    alert('Please specify a tag')
+                    alert('Please specify a tag');
                 }
                 else {
                     var id = this.model.attributes.file.image[0].id;
@@ -179,20 +146,36 @@
         }
     });
 
+    var TagModel = Backbone.Model.extend({
+        initialize: function() {
+            var newTagModel = this;
+            this.fetch({
+                success: function(data) {
+                    newTagModel.trigger('showImages');
+                }
+            });
+        },
+        url: function() {
+            return '/images/'+ this.attributes.tag;
+        }
+    });
+
+
+
     var InsertTagsModel = Backbone.Model.extend({
         initialize: function() {
             var newInsertTagsModel = this;
             var data = JSON.stringify(this.attributes);
-            // var id = this.attributes.image_id;
+            console.log(this.attributes);
+            var id = this.attributes.image_id;
             return new Promise(function(resolve,reject) {
                 newInsertTagsModel.save(data, {
                     success: function(data) {
-                        console.log('hereee');
+                        console.log(router.image);
                         return;
                     }
                 }).then(function() {
-                    console.log('heyyyyy');
-                    Backbone.history.loadUrl();
+                    router.image(id);
                 }).catch(function(err) {
                     if(err) {
                         console.log(err);
@@ -201,13 +184,12 @@
             });
         },
         url: '/insert-tags'
-    })
+    });
 
     var InsertCommentModel = Backbone.Model.extend({
         initialize: function() {
             var newInsertCommentModel = this;
             var data = JSON.stringify(this.attributes);
-            // var id = this.attributes.image_id;
             return new Promise(function(resolve,reject) {
                 newInsertCommentModel.save(data, {
                     success: function(data) {
@@ -254,7 +236,7 @@
                             data: params,
                             // processData: false,
                             success: function(data) {
-                                router.navigate('/images', {trigger:true})
+                                router.navigate('/images', {trigger:true});
                             }
                         });
                     }
