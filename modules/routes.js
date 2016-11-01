@@ -83,23 +83,12 @@ router.route('/comments')
 
 router.route('/tags')
     .get( (req, res) => {
-        dbconnect.query('SELECT * FROM tags WHERE tag_name=$1', [req.query.tag]).then(function(results){
-            var promiseArray = [];
-            if (results.length > 1){
-                results.forEach(function(result){
-                    promiseArray.push(dbconnect.query('SELECT * FROM pictures WHERE id=$1', [result['picture_id']]));
-                });
-            }
-            else {
-                promiseArray.push(dbconnect.query('SELECT * FROM pictures WHERE id=$1', [results['picture_id']]));
-            }
-            Promise.all(promiseArray).then(function(pictures){
-                pictures.reverse();
-                console.log(pictures);
-                res.json({
-                    pictureData: pictures,
-                    success: true
-                });
+        dbconnect.query('SELECT * from tags JOIN pictures on pictures.id=tags.picture_id WHERE tags.tag_name=$1', [req.query.tag]).then(function(pictures){
+            pictures.reverse();
+            console.log(pictures);
+            res.json({
+                pictureData: pictures,
+                success: true
             });
         }).catch(function(err){
             console.log(err);

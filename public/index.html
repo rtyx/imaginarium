@@ -35,16 +35,29 @@
         {{/pic}}
         </script>
         <script id="comments-script" type="text/handlebars">
-        {{#comments}}
-            <div class="comment"><img class="comment-icon" src="{{img}}"></img>{{commenter}}: {{comment}}<br></div>
-        {{/comments}}
-        <form>
-            Your name:
-            <input id="commenter"></input><br>
-            Enter a comment:
-            <input id="comment-string"></input>
-            <button id="submit-comment">Sumbit</button>
-        </form>
+        <div id="comments">
+            {{#comments}}
+                <div class="comment"><img class="comment-icon" src="{{../img}}"></img>{{commenter}}: {{comment}}<br></div>
+            {{/comments}}
+        </div>
+        <div id="avatar-upload-container">
+            <form>
+                Your name:
+                <input id="commenter"></input><br>
+                Your comment:
+                <input id="comment-string"></input>
+                <button id="submit-comment">SUBMIT</button>
+                <form>
+                    Upload Avatar:
+                    <input class="avatar-input" type="file"></input>
+                    <button id="submit-avatar">UPLOAD</button>
+                </form>
+                <form>
+                    <input type="url" placeholder="enter url" id="avatar-url"></input>
+                    <button id="avatar-url">UPLOAD</button>
+                </form>
+            </form>
+        </div>
         </script>
         <script id="submit-photo" type="text/handlebars">
             <div id="submit-photo-container">

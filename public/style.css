@@ -22,6 +22,7 @@
     z-index: 2;
     background-color: white;
     width: 400px;
+    height: 500px;
 }
 
 
@@ -180,4 +181,15 @@ img {
 .comment-icon {
     height: 30px;
     width: 30px;
+}
+
+#comments {
+    height: 60%;
+    overflow-y: scroll;
+}
+
+#avatar-upload-container {
+    height: 40%;
+    overflow-y: scroll;
+    background-color: powderblue;
 }

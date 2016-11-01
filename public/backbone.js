@@ -95,7 +95,6 @@
         render: function () {
             var picArray = JSON.parse(pictures);
             var comments = JSON.parse(this.model.get('comments'));
-            console.log(comments);
             var id = (this.model.get('picture'));
             var clickedPic = picArray.filter(function(pic){
                 if (id == pic.id){
@@ -111,7 +110,8 @@
             $('.picture').css({opacity: 0.2});
             if (this.model.get('comments')){
                 $('.comments').html(Handlebars.templates['comments-script']({
-                    comments: comments
+                    comments: comments,
+                    img: "/public/images/placeholder.png"
                 }));
             } else {
                 $('.comments').html(Handlebars.templates['comments-script']({
