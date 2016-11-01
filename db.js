@@ -67,12 +67,12 @@ exports.insertComment = function(comment,image_id,username_comment) {
 
 exports.insertTags = function(tags,image_id) {
     return new Promise(function(resolve, reject) {
-        var arr = []
+        var arr = [];
         for (var i=0;i<tags.length;i++) {
             arr.push(getFromDb('INSERT into tags(tag,image_id) VALUES($1,$2) RETURNING id', [tags[i],image_id]));
         }
         Promise.all(arr).then(resolve).catch(reject);
-    })
+    });
 };
 
 exports.imageTags = function(id) {
@@ -121,7 +121,6 @@ function getFromDb(str, params) {
                 else {
                     resolve(result);
                 }
-
                 done();
             });
         });

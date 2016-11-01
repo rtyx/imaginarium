@@ -11,6 +11,11 @@
 
 <div id="main">
     <script id="showImages" type="text/handlebars">
+    {{#button}}
+    {{#if button}}
+    <button id="home-button">Home</button>
+    {{/if}}
+    {{/button}}
     <button id="upload-button">Upload A Photo</button>
     <div id="main-images">
     {{#each file}}
@@ -25,8 +30,8 @@
     </script>
 
     <script id="showImage" type="text/handlebars">
-    <button id="upload-button">Upload A Photo</button>
     <button id="home-button">Home</button>
+    <button id="upload-button">Upload A Photo</button>
     <div id="single-image-area">
     {{#file}}
     {{#image}}
@@ -40,7 +45,7 @@
     <h3 id="existing-tags-headline">Tags:</h3>
     {{#file}}
     {{#tags}}
-    <a href="/#images/{{tag}}">#{{tag}}</a>
+    <a href="/#images/{{tag}}" id="existing-tags">#{{tag}}</a>
     {{/tags}}
     {{/file}}
     </div>
@@ -73,11 +78,11 @@
 <form id='upload-form' method="POST">
 <h3 class="upload-headline">Upload an image:</h3>
 <br>
-<input type="file" name="pic" accept="image/*">
+<input id="choose-a-file" type="file" name="pic" accept="image/*">
 <br>
 <h3 class="upload-headline">Username:</h3>
 <br>
-<input class="field" id="username" type="text" name="username">
+<input class="field" id="username" type="text" name="username" required="require"/>
 <br>
 <h3 class="upload-headline">Title:</h3>
 <br>

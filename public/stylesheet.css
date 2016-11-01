@@ -116,7 +116,7 @@ body {
 
 #submit-comment{
     position: relative;
-    background-color: #4CAF50;
+    background-color: #FF8C00;
     border: none;
     color: white;
     text-align: center;
@@ -201,16 +201,16 @@ body {
 #adding-tags-area{
     position: relative;
     float: right;
-    left:8%;
+    left:12%;
     bottom:40px;
 }
 
 #existing-tags-area {
-    width: 180px;
+    width: 250px;
     position: relative;
     float: right;
-    right: 13%;
-    bottom: 210px;
+    right: 9%;
+    bottom: 250px;
 }
 
 #tags-area {
@@ -220,7 +220,7 @@ body {
 
 #submit-tags{
     position: relative;
-    background-color: #4CAF50;
+    background-color: #FF8C00;
     border: none;
     color: white;
     text-align: center;
@@ -232,4 +232,9 @@ body {
     height:35px;
     width:75px;
     bottom:13px;
+}
+
+#existing-tags {
+    text-decoration: none;
+    margin-right: 8px;
 }

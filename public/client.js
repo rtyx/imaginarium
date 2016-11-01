@@ -16,7 +16,8 @@
         upload: function() {
             $('#main').off();
             new UploadView({
-                el:"#main"
+                el:"#main",
+                model: new UploadModel
             });
         },
         images: function(){
@@ -70,6 +71,9 @@
         events: {
             'click #upload-button': function() {
                 router.navigate('/upload', {trigger:true});
+            },
+            'click #home-button': function() {
+                router.navigate('/images', {trigger:true});
             }
         }
     });
@@ -96,7 +100,7 @@
             var newImageView = this;
             this.model.on('showImage', function() {
                 newImageView.render();
-            })
+            });
         },
         render: function() {
             this.$el.html(Handlebars.templates.showImage(this.model.toJSON()));
@@ -113,7 +117,7 @@
                 var comment = $('#comment-area').val();
                 var usernameComment = $('#user_comment').val();
                 if (comment.length===0 || usernameComment.length===0 ) {
-                    alert('Please fill all the fields')
+                    alert('Please fill all the fields');
                 }
                 else {
                     var id = this.model.attributes.file.image[0].id;
@@ -121,7 +125,7 @@
                     $('#user_comment').val('');
                     this.model = new InsertCommentModel({
                         comment:comment,
-                        image_id:this.model.attributes.file.image[0].id,
+                        image_id:id,
                         username_comment:usernameComment
                     });
                 }
@@ -151,6 +155,10 @@
             var newTagModel = this;
             this.fetch({
                 success: function(data) {
+                    newTagModel.set({
+                        button:true
+                    })
+                    console.log(newTagModel);
                     newTagModel.trigger('showImages');
                 }
             });
@@ -258,17 +266,22 @@
         },
 
         events: {
-            'click #submit': function() {
-                this.model = new UploadModel();
+            'click #submit-photo': function() {
+                console.log('submit!');
+                // this.model = new UploadModel();
                 var file = $('input[type="file"]').get(0).files[0];
                 var formData = new FormData();
                 formData.append('file', file);
+                var username = $('#username').val();
+                var title = $('#title').val().toUpperCase();
+                var description = $('#description').val();
                 this.model.set({
-                    username: $('#username').val(),
-                    title: $('#title').val().toUpperCase(),
-                    description: $('#description').val(),
+                    username: username,
+                    title: title,
+                    description: description,
                     file: formData
                 });
+                console.log(this.model);
             },
             'click #home-button': function() {
                 router.navigate('/images', {trigger:true});

@@ -1,6 +1,21 @@
 
 var express = require('express');
 var app = express();
+var basicAuth = require('basic-auth');
+
+var auth = function(req, res, next) {
+    var creds = basicAuth(req);
+    if (!creds || creds.name != 'admin' || creds.pass != 'password') {
+        res.setHeader('WWW-Authenticate', 'Basic realm=www');
+        res.sendStatus(401);
+    } else {
+        next();
+    }
+};
+
+app.use('/admin', auth);
+
+
 var multer = require('multer');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({
