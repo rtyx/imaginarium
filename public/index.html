@@ -6,7 +6,8 @@
 </head>
 <body>
     <div id="header">
-        <h1>ImageBoard</h1>
+        <a href="#"><h1>ImageBoard</h1></a>
+        <a href="/admin" id="adminbutton">Admin</a>
     </div>
 <div id="body">
     <script id="imageGrid" type="text/x-handlebars-template">
@@ -14,13 +15,13 @@
             <button id="uploadbutton">Upload</button>
         </div>
         <div id="resultsContainer">
-            <h3 id="message"></h3>
+            <h3 id="message">{{message}}</h3>
             <ul id="results">
                 {{#each this}}
                     <div id="resultItem">
-                        <img id="picture" src='{{url}}'/>
-                        <div id="transparency"></div>
-                        <div id="name">{{title}}</div>
+                        <img class="picture" src='{{url}}'/>
+                        <a href="#image/{{id}}"><div class="transparency"></div></a>
+                        <div class="name">{{title}}</div>
                     </div>
                 {{/each}}
             </ul>
@@ -40,11 +41,39 @@
             </form>
         </div>
     </script>
+    <script id="singleimage" type="text/x-handlebars-template">
+        <div id="image">
+            <p>{{message}}</p>
+            <img id="single" src="{{url}}"/>
+            <div id="text">
+                <h3>{{title}}</h3>
+                <p>{{description}}</p>
+                <p>Added by: {{username}} on {{created}}</p>
+            </div>
+        </div>
+        <div id="comments">
+            <form class="addcomment">
+                <input type="hidden" name="id" value="{{id}}"></input>
+                <input type="text" name="text" placeholder="comment but dont be a dick"></input>
+                <input type="text" name="username" placeholder="username"></input>
+                <input type="submit" id="commentsubmit">
+            </form>
+            {{#each this.comments}}
+                <div class="comment">
+                    <p>{{comment}}</p>
+                    <p>By {{username}} on {{created}}</p>
+                </div>
+            {{/each}}
+        </div>
+    </script>
 </div>
-<script src="js/handlebars.min.js"></script>
-<script src="js/jquery-3.1.1.min.js"></script>
-<script src="js/underscore-min.js"></script>
-<script src="js/backbone-min.js"></script>
-<script src="js/backbone.js"></script>
+<script src="js/libraries/handlebars.min.js"></script>
+<script src="js/libraries/jquery-3.1.1.min.js"></script>
+<script src="js/libraries/underscore-min.js"></script>
+<script src="js/libraries/backbone-min.js"></script>
+<script src="js/backbone/home.js"></script>
+<script src="js/backbone/upload.js"></script>
+<script src="js/backbone/image.js"></script>
+<script src="js/backbone/router.js"></script>
 </body>
 </html>
