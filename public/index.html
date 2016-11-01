@@ -25,6 +25,7 @@
                     </div>
                 {{/each}}
             </ul>
+            <button id="more">More</button>
         </div>
     </script>
     <script id="uploadcontainer" type="text/x-handlebars-template">
@@ -36,7 +37,7 @@
                 <input type="text" name="title" placeholder="title">
                 <input type="text" name="username" placeholder="username">
                 <input type="text" name="description" placeholder="description">
-                <input type="text" name="tags" placeholder="tags">
+                <input type="text" name="tags" placeholder="tags, seperated by a comma">
                 <input type="submit" id="submit">
             </form>
         </div>
@@ -49,6 +50,8 @@
                 <h3>{{title}}</h3>
                 <p>{{description}}</p>
                 <p>Added by: {{username}} on {{created}}</p>
+                <p>Likes: {{likes}}</p>
+                <p>{{#each tags}}<a href='#tag/{{this}}'>{{this}}</a>  {{/each}}<p>
             </div>
         </div>
         <div id="comments">
@@ -64,6 +67,7 @@
                     <p>By {{username}} on {{created}}</p>
                 </div>
             {{/each}}
+            <button id="morecomments">More</button>
         </div>
     </script>
 </div>

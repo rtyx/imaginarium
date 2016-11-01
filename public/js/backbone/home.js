@@ -1,12 +1,30 @@
-var Images = Backbone.Model.extend({
+window.site = {
+    routes: {},
+    views: {},
+    models: {}
+};
+
+site.models.Images = Backbone.Model.extend({
     initialize: function() {
-        console.log("images initialized");
+        if (this.attributes.count){
+            this.attributes.path = '/grid/' + this.attributes.count;
+        } else if (this.attributes.tag){
+            this.attributes.path = '/tag/' + this.attributes.tag;
+        } else {
+            this.attributes.count = 6;
+            this.attributes.path = '/grid/' + this.attributes.count;
+        }
         this.fetch();
     },
-    url: function(){return '/grid';}
+    loadmore: function(){
+        this.attributes.count += 6;
+        this.attributes.path = '/grid/' + this.attributes.count;
+        this.fetch();
+    },
+    url: function(){return this.attributes.path;}
 });
 
-var HomeView = Backbone.View.extend({
+site.views.Home = Backbone.View.extend({
     template: Handlebars.compile($('#imageGrid').html()),
     el: '#body',
     render: function () {
@@ -27,9 +45,13 @@ var HomeView = Backbone.View.extend({
     },
     openupload: function(){
         console.log("button pressed");
-        router.navigate("upload", {trigger: true});
+        site.router.navigate("upload", {trigger: true});
+    },
+    loadmore: function(){
+        this.model.loadmore();
     },
     events: {
-        'click #uploadbutton': 'openupload'
+        'click #uploadbutton': 'openupload',
+        'click #more': 'loadmore'
     }
 });

@@ -1,9 +1,18 @@
-var Upload = Backbone.Model.extend({
-    url: '/upload'
+site.models.Upload = Backbone.Model.extend({
+    url: '/upload',
+    putData: function(inputs){
+        $.post({
+            url: '/insert',
+            data: inputs,
+            success: function(data){
+                site.router.navigate('image/' + data.id,{trigger: true});
+            }
+        });
+    }
 });
-var upload = new Upload;
+var upload = new site.models.Upload;
 
-var uploadView = Backbone.View.extend({
+site.views.upload = Backbone.View.extend({
     template: Handlebars.compile($('#uploadcontainer').html()),
     el: '#body',
     render: function(){
@@ -30,28 +39,26 @@ var uploadView = Backbone.View.extend({
                 inputs[elements[i].name] = elements[i].value;
             }
         }
+        if (elements[5].value != '') {
+            inputs.tags = elements[5].value.split(",");
+            inputs.tags = inputs.tags.map(function(elem){
+                return elem.trim();
+            });
+        }
+        var view = this;
     //Deal with files uploaded
         if ($('input[type="file"]').get(0).files.length != 0){
             var file = $('input[type="file"]').get(0).files[0];
             var formData = new FormData();
             formData.append('file', file);
-            $.ajax({
+            $.post({
                 url: '/upload',
-                method: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function(path) {
                     inputs.path = path;
-                    $.ajax({
-                        url: '/insert',
-                        method: 'POST',
-                        data: inputs,
-                        success: function(data){
-                            console.log("id: " + data.id);
-                            router.navigate('image/' + data.id,{trigger: true});
-                        }
-                    });
+                    view.model.putData(inputs);
                 }
             });
         }
@@ -65,24 +72,15 @@ var uploadView = Backbone.View.extend({
                 $('#message').html("Please enter a valid URL");
                 return;
             } else {
-                $.ajax({
+                $.post({
                     url:'/upload',
-                    method: 'POST',
                     data: {
                         'url': url,
                         'title': $('input[name="title"]').val()
                     },
                     success: function(path){
                         inputs.path = path;
-                        $.ajax({
-                            url: '/insert',
-                            method: 'POST',
-                            data: inputs,
-                            success: function(data){
-                                console.log("id: " + data.id);
-                                router.navigate('image/' + data.id,{trigger: true});
-                            }
-                        });
+                        view.model.putData(inputs);
                     },
                     error: function(err){
                         console.log(err);

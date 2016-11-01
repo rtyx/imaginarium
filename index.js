@@ -12,6 +12,7 @@ const express = require('express'),
     db = require('./public/js/dbconnect.js'),
     chalk = require('chalk'),
     path = require('path'),
+    url = require('url'),
     util = require('util'),
     note = chalk.green,
     prop = chalk.cyan,
@@ -65,22 +66,29 @@ app.use(express.static(staticURL));
 var staticURL2 = path.join(__dirname, 'uploads');
 app.use(express.static(staticURL2));
 
-app.get('/grid', function(req,res){
-    var call = 'SELECT URL, Title, ID FROM images;';
-    db.pgConnect(call).then(function(data){
+app.get('/grid/*', function(req,res){
+    var count = path.basename(req.url);
+    var call = 'SELECT * FROM images LIMIT $1;';
+    db.pgConnect(call, [count]).then(function(data){
+        res.json(data);
+    });
+});
+app.get('/tag/*', function(req,res){
+    var tag = path.basename(req.url);
+    var call = 'SELECT * FROM images WHERE $1 = ANY(Tags);';
+    db.pgConnect(call,[tag]).then(function(data){
         res.json(data);
     });
 });
 
 app.get('/image/*', function(req,res){
-    console.log("one step farther");
-    var id = path.basename(req.url);
-    var call = 'SELECT * FROM images WHERE id=$1;';
+    var parsed = url.parse(req.url);
+    var id = path.basename(parsed.pathname);
+    var call = 'SELECT * FROM images WHERE images.id=$1;';
     db.pgConnect(call, [id]).then(function(data){
-        var callcomments = 'SELECT * FROM comments WHERE ImageID=$1 ORDER BY created DESC;';
-        db.pgConnect(callcomments, [id]).then(function(comments){
+        var callcomments = 'SELECT * FROM comments WHERE ImageID=$1 ORDER BY created DESC LIMIT $2;';
+        db.pgConnect(callcomments, [id, req.query.count]).then(function(comments){
             data.rows[0].comments = comments.rows;
-            console.log(data.rows[0]);
             res.json(data.rows[0]);
         });
     });
@@ -136,8 +144,8 @@ app.post('/upload', uploader.single('file'), function(req,res){
     }
 });
 app.post('/insert', function(req,res){
-    var call = 'INSERT INTO images (Username, URL, Title, Description) VALUES ($1,$2,$3,$4) RETURNING ID;';
-    var params = [req.body.username, req.body.path, req.body.title, req.body.description];
+    var call = 'INSERT INTO images (Username, URL, Title, Description, Tags) VALUES ($1,$2,$3,$4,$5) RETURNING ID;';
+    var params = [req.body.username, req.body.path, req.body.title, req.body.description, req.body['tags[]']];
     db.pgConnect(call, params).then(function(data){
         res.json({
             success: true,
