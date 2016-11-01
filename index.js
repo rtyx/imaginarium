@@ -39,6 +39,29 @@ app.get('/images', function(req, res) {
     });
 });
 
+app.get('/images/:tag', function(req,res){
+    var tag=req.params.tag;
+    db.getTaggedImages(tag).then(function(result) {
+        console.log(result.rows);
+        res.json({
+            success:true,
+            file:result.rows
+        });
+
+
+    //     console.log(result.rows);
+    //     var arr = [];
+    //     for (var i=0;i<result.rows.length;i++) {
+    //         arr.push(result.rows[i].image_id)
+    //     }
+    // }).then(function(tag) {
+    //     db.getTaggedImages(arr);
+    // }).then(function(result) {
+    //     console.log('result is');
+    //     console.log(result);
+    })
+});
+
 
 app.get('/image/:id', function(req,res) {
     var id = req.params.id;
@@ -51,8 +74,6 @@ app.get('/image/:id', function(req,res) {
         result.image = results[0].rows;
         result.comments = results[1].rows;
         result.tags = results[2].rows;
-        console.log('these are the tags');
-        console.log(result.tags);
         res.json({
             success:true,
             file:result
@@ -63,8 +84,9 @@ app.get('/image/:id', function(req,res) {
             console.log(err);
         }
     });
-
 });
+
+
 
 app.post('/insert-tags', function(req,res) {
      var tags = req.body.tags;

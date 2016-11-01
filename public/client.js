@@ -11,7 +11,7 @@
             'images': 'images',
             'image/:id': 'image',
             'upload': 'upload',
-            'images/:tag': 'tag'
+            'images/:tag': 'tags'
         },
         upload: function() {
             $('#main').off();
@@ -33,7 +33,7 @@
                 model: new ImageModel({id:id})
             });
         },
-        tag: function(tag) {
+        tags: function(tag) {
             $('#main').off();
             new TagView({
                 el:"#main",
@@ -44,17 +44,11 @@
 
 
 
-
-
     var ImagesModel = Backbone.Model.extend({
         initialize: function() {
             var newModel = this;
             this.fetch({
                 success: function(data) {
-                    var arrOfImages = data.attributes.file;
-                    newModel.set({
-                        arrOfImages:arrOfImages
-                    });
                     newModel.trigger('showImages');
                 }
             });
@@ -64,14 +58,14 @@
 
     var ImagesView = Backbone.View.extend({
         initialize: function() {
-            var thisView = this;
+            var newImagesView = this;
             this.model.on('showImages', function() {
-                var arrOfImages = thisView.model.get('arrOfImages');
-                thisView.render(arrOfImages);
+                newImagesView.render();
+
             });
         },
-        render: function(arrOfImages) {
-            this.$el.html(Handlebars.templates.showImages(arrOfImages));
+        render: function() {
+            this.$el.html(Handlebars.templates.showImages(this.model.toJSON()));
         },
         events: {
             'click #upload-button': function() {
@@ -86,16 +80,34 @@
             var newTagModel = this;
             this.fetch({
                 success: function(data) {
-                    newImageModel.trigger('showTagImages');
+                    var arrOfImages = data.attributes.file;
+                    newTagModel.set({
+                        arrOfImages:arrOfImages
+                    });
+                     newTagModel.trigger('showTagImages');
                 }
             });
         },
         url: function() {
-            return '/images/'+this.tag;
+            return '/images/'+ this.attributes.tag;
         }
     });
 
+    var TagView = Backbone.View.extend({
+        initialize: function() {
+            var newTagView = this;
+            this.model.on('showTagImages', function() {
+                var arrOfImages = newTagView.model.get('arrOfImages');
+                console.log('in tag view');
+                console.log(arrOfImages);
+                newTagView.render(arrOfImages);
+            })
+        },
+        render: function(arrOfImages) {
+            this.$el.html(Handlebars.templates.showImages(this.model.toJSON()));
 
+        }
+})
 
     var ImageModel = Backbone.Model.extend({
         initialize: function() {

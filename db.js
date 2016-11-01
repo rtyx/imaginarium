@@ -75,6 +75,27 @@ exports.imageTags = function(id) {
     });
 };
 
+// exports.getTaggedImagesId = function(tag) {
+//     return getFromDb('SELECT * from tags WHERE tag=$1 ORDER BY created_at', [tag]).then(function(result) {
+//         return result;
+//     }).catch(function(err) {
+//         if(err) {
+//             console.log(err);
+//         }
+//     });
+// };
+
+exports.getTaggedImages = function(tag) {
+    return getFromDb('SELECT * from tags JOIN images on images.id=tags.image_id WHERE tags.tag=$1', [tag]).then(function(result) {
+        return result;
+    }).catch(function(err) {
+            if(err) {
+                console.log(err);
+            }
+        });
+}
+
+
 exports.imageComments = function(id) {
     return getFromDb('SELECT * FROM comments WHERE image_id=$1 ORDER BY created_at DESC LIMIT 30',[id]).then(function(result) {
         return result;
