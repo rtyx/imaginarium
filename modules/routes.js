@@ -3,13 +3,18 @@ const express = require('express');
 const router = express.Router();
 const cache = require('../modules/redis.js');
 
+var myEmitter = require('../modules/events.js');
+var newComment = false;
+
+myEmitter.on('event', function(){
+    newComment = true;
+});
+
 router.route('/photos')
     .get( (req, res) => {
-        console.log(req.query);
         if (req.query.checking == 'true'){
-            console.log ("checking for new photos");
             res.json({
-                success: true
+                commentstatus: newComment
             });
         } else {
             cache.get('photos').then(function(photos){
@@ -90,4 +95,5 @@ router.route('/tags')
         });
     });
 
-module.exports = router;
+module.exports.router = router;
+module.exports.myEmitter = myEmitter;
