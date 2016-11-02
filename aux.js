@@ -1,0 +1,29 @@
+const chalk = require('chalk');
+const db = require('./SQL/db.js');
+
+module.exports = {
+    saveImage: function (data) {
+        console.log(chalk.blue("Saving image..."));
+        return db.usedb('INSERT INTO images (url, title, description, hashtags) VALUES ($1, $2, $3, $4) RETURNING id;', [data.url, data.title, data.description, data.hashtags]);
+    },
+    getImage: function(id) {
+        console.log(chalk.blue("Getting image (" + id + ") from the server..."));
+        return db.usedb('SELECT * FROM images WHERE id = $1;', [id]);
+    },
+    getImages: function(count) {
+        console.log(chalk.blue("Getting the images from the server..."));
+        return db.usedb('SELECT * FROM images ORDER BY timestamp DESC LIMIT $1;', [count]);
+    },
+    getImagesByTag: function(tag) {
+        console.log(chalk.blue("Getting the images tagged as " + tag + " from the server..."));
+        return db.usedb('SELECT * FROM images WHERE $1 = ANY(hashtags) ORDER BY timestamp DESC LIMIT 12;', [tag]);
+    },
+    getComments: function(id) {
+        console.log(chalk.blue("Getting comments from the server..."));
+        return db.usedb('SELECT * FROM comments WHERE imageid = $1 ORDER BY timestamp DESC LIMIT 6;', [id]);
+    },
+    postComment: function(imageId, author, comment) {
+        console.log(chalk.blue("Saving comment..."));
+        return db.usedb('INSERT INTO comments (imageId, author, comment) VALUES ($1, $2, $3) RETURNING id;', [imageId, author, comment]);
+    }
+};

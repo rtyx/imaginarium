@@ -1,0 +1,260 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+    margin: 0;
+    font-family: 'Rubik', sans-serif;
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    background-color: #FAFAFA;
+}
+
+#header {
+    height: 60px;
+    width: 100%;
+    background: #F9F9F9;
+    border-bottom: 1px solid #DBDBDB;
+    font-size: 40px;
+    font-family: 'Monoton', cursive;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.02), 0 5px 5px 0 rgba(0, 0, 0, 0.02);
+}
+
+#uploadButton {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    height: 40px;
+    width: 100px;
+    border: 1px solid #EFEFEF;
+    border-radius: 30px;
+    font-family: 'Rubik', sans-serif;
+    color: #DBDBDB;
+    font-size: 15px;
+    background-color: #FFFFFF;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#uploadButton:hover {
+    background-color: #FAFAFA;
+}
+
+#uploadCancel {
+}
+
+#background {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#content {
+    height: auto;
+    width: 80%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around
+}
+
+.card {
+    height: 320px;
+    width: 320px;
+    background-color: #FFFFFF;
+    border: 1px solid #EFEFEF;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.02);
+}
+
+.selectedCard {
+    height: 90%;
+    width: auto;
+    background-color: #FFFFFF;
+    border: 1px solid #EFEFEF;
+    border-radius: 5px;
+    margin: 15px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.card:hover {
+    border: 1px solid #DBDBDB;
+}
+
+.cardtext {
+    margin: 5px;
+    font-size: 15px;
+    font-family: 'Rubik', sans-serif;
+}
+
+.selectedCardText {
+    position: relative;
+    border-left: 1px solid #EFEFEF;
+    padding-left: 10px;
+    width: 300px;
+    margin: 5px;
+    font-size: 15px;
+    font-family: 'Rubik', sans-serif;
+}
+
+.imageInfo {
+    border-bottom: 1px solid #EFEFEF;
+}
+
+.newCommentBox {
+    position: absolute;
+    bottom: 5px;
+    padding-top: 5px;
+    width: 95%;
+    border-top: 1px solid #EFEFEF;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.description {
+    font-style: italic;
+}
+
+.time {
+    color: #c6c6c6
+}
+
+.image {
+    border: 1px solid #EFEFEF;
+    border-radius: 3px;
+    width: 100%;
+    height: 80%;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.8;
+}
+
+.image:hover {
+    opacity: 1;
+}
+
+.selectedImage {
+    border: 1px solid #EFEFEF;
+    border-radius: 3px;
+    width: auto;
+    height: auto;
+    margin: 5px;
+}
+
+img {
+    height: 100%;
+    width: auto;
+    border-radius: 3px;
+}
+
+#uploadBox {
+    background: #F9F9F9;
+    padding: 25px;
+    margin: 150px 0;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05), 0 5px 5px 0 rgba(0, 0, 0, 0.1);
+    height: 300px;
+    width: 50%;
+    border: 1px solid #DBDBDB;
+    border-radius: 10px;
+    position: fixed;
+    text-align: center;
+}
+
+#uploadBox h3 {
+  display: block;
+  font-size: 30px;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+fieldset {
+  border: medium none !important;
+  margin: 0 0 10px;
+  min-width: 100%;
+  padding: 0;
+  width: 100%;
+}
+
+input {
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #FFF;
+  margin: 0 0 5px;
+  padding: 10px;
+}
+
+input:hover {
+  transition: border-color 0.3s ease-in-out;
+  border: 1px solid #aaa;
+}
+
+input:focus {
+    outline: 0;
+    border: 1px solid #aaa;
+}
+
+form {
+    display: flex;
+}
+
+#submit {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    background: #4CAF50;
+    color: #FFF;
+    margin: 0 0 5px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+#submit:hover {
+    background: #43A047;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#submit:active {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+#bottom {
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+    background: #F9F9F9;
+    border-top: 1px solid #DBDBDB;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
