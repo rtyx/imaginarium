@@ -1,0 +1,64 @@
+html {
+    margin: 0;
+    font-family: 'Rubik', sans-serif;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    background-color: #FAFAFA;
+}
+
+h1 {
+    height: 60px;
+    width: 100%;
+    background: #F9F9F9;
+    border-bottom: 1px solid #DBDBDB;
+    font-size: 40px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#background {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#index {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around
+}
+
+.adminImageBox {
+    height: 300px;
+    width: 800px;
+    border: 1px solid black;
+    padding: 30px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around
+}
+
+.adminImage {
+    border: 1px solid red;
+}
+
+.adminInfo {
+    width: 300px;
+    border: 1px solid black;
+}
+
+img {
+    height: 250px;
+    width: auto;
+}

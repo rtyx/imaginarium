@@ -2,23 +2,36 @@
 
     var myApp = angular.module('myApp', []);
 
-    myApp.controller('cityList', function($scope, $http) {
-        $http.get('/cities').then(function(resp) {
-            console.log("hi!");
-            $scope.cities = resp.data;
+    myApp.controller('index', function($scope, $http) {
+        $http.get('/admin/index').then(function(resp) {
+            $scope.index = resp.data;
         });
-        // $scope.cities = [
-            // {
-            //     name: "Berlin",
-            //     country: "Germany"
-            // },
-            // {
-            //     name: "Barcelona",
-            //     country: "Spain"
-            // }
-        // ];
         $scope.update = function() {
-            console.log($scope.cities);
+            console.log("Updating...");
+            var tags = this.image.hashtags;
+            var url = '/admin/update/';
+            var data = {
+                id: this.image.id,
+                description: this.image.description,
+                hashtags: tags.split(', ')
+            };
+            $http.post(url, data).then(function() {
+                alert("Updated!");
+            });
+        };
+        $scope.delete = function() {
+            console.log("Deleting...");
+            var url = '/admin/delete/';
+            var data = {
+                id: this.image.id,
+            };
+            $http.post(url, data).then(function(resp) {
+                console.log(resp);
+                alert("Deleted!");
+                $http.get('/admin/index').then(function(resp) {
+                    $scope.index = resp.data;
+                });
+            });
         };
     });
 })();

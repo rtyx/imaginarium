@@ -4,23 +4,45 @@
     <head>
         <title>Admin</title>
         <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
         <script src="admin.js"></script>
     </head>
 
     <body ng-app="myApp">
-        <h1>Admin</h1>
-        <p>{{ 'Hello World!' }}
-        <p>2 + 2 = {{ 2 + 2 }}
-        <div ng-controller="cityList">
-            <ul ng-if="cities.length > 0">
-                <li ng-repeat="city in cities">
-                    <input type="text" ng-model="city.name">
-                    <input type="text" ng-model="city.country">
-                </li>
-            </ul>
+        <a href="/admin/index.html">
+            <h1>Admin Board</h1>
+        </a>
+        <div ng-controller="index">
+            <div ng-repeat="image in index">
+                <div class="adminImageBox">
+                    <div class="adminImage">
+                        <img src="{{image.url}}" alt="" />
+                    </div>
+                    <div class="adminInfo">
+                        Imagen
+                        <div class="adminId">
+                            {{image.id}}
+                        </div>
+                        <div class="adminTitle">
+                            {{image.title}}
+                        </div>
+                        <div class="adminDescription">
+                            <input type="text" ng-model="image.description">
+                        </div>
+                        <div class="adminHashtags">
+                            <input type="text" ng-model="image.hashtags">
+                        </div>
+                        <button ng-click="update()">UPDATE {{image.id}}</button>
+                        <button ng-click="delete()">DELETE {{image.id}}</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <li ng-repeat="image in index">
+                <input type="text" ng-model="city.name">
+                <input type="text" ng-model="city.country">
+            </li> -->
         </div>
-        <button ng-click="update()">reveal</button>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

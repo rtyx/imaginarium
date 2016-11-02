@@ -10,6 +10,14 @@ module.exports = {
         console.log(chalk.blue("Getting image (" + id + ") from the server..."));
         return db.usedb('SELECT * FROM images WHERE id = $1;', [id]);
     },
+    updateImage: function(description, hashtags, id) {
+        console.log(chalk.blue("Updating image (" + id + ") at the server..."));
+        return db.usedb('UPDATE images SET description = $1, hashtags = $2 WHERE id = $3;', [description, hashtags, id]);
+    },
+    deleteImage: function(id) {
+        console.log(chalk.blue("Deleting image (" + id + ") from the server..."));
+        return db.usedb('DELETE FROM images WHERE id = $1;', [id]);
+    },
     getImages: function(count) {
         console.log(chalk.blue("Getting the images from the server..."));
         return db.usedb('SELECT * FROM images ORDER BY timestamp DESC LIMIT $1;', [count]);
@@ -25,5 +33,13 @@ module.exports = {
     postComment: function(imageId, author, comment) {
         console.log(chalk.blue("Saving comment..."));
         return db.usedb('INSERT INTO comments (imageId, author, comment) VALUES ($1, $2, $3) RETURNING id;', [imageId, author, comment]);
-    }
+    },
+    deleteComment: function(id) {
+        console.log(chalk.blue("Deleting comment " + id + "..."));
+        return db.usedb('DELETE * FROM comments WHERE id = $1;', [id]);
+    },
+    deleteAllComments: function(imageid) {
+        console.log(chalk.blue("Deleting comments in image (" + imageid + ") from the server..."));
+        return db.usedb('DELETE FROM comments WHERE imageid = $1;', [imageid]);
+    },
 };

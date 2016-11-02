@@ -30,8 +30,6 @@ BB.Models.Index = Backbone.Model.extend({
     },
 });
 
-console.log(BB.Models.Index);
-
 BB.Views.Index = Backbone.View.extend({
     template: Handlebars.compile($('#indexTemplate').html()),
     el: '#content',

@@ -19,7 +19,6 @@ BB.Models.Comments = Backbone.Model.extend({
                 success: function(id) {
                     console.log("All the information saved!");
                     model.fetch('id');
-                    // imageRouter.navigate('/images/'+ id.id);
                 }
             }
         );

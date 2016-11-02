@@ -147,8 +147,49 @@ router.get('/cities', function(req, res) {
     );
 });
 
-// admin get images
-// admin update description
-// admin delete image
+router.get('/admin/index', function(req, res) {
+    aux.getImages(100)
+    .then(function(response){
+        res.json(response.rows);
+    })
+    .catch(function(error){
+        console.log(error(error));
+        res.json({
+            success: false,
+            reason: error
+        });
+    });
+});
+
+router.post('/admin/update/', function(req, res) {
+    console.log("Updating...");
+    aux.updateImage(req.body.description, req.body.hashtags, req.body.id)
+    .then(function(response){
+        res.json(response.rows);
+    })
+    .catch(function(error){
+        console.log(error(error));
+        res.json({
+            success: false,
+            reason: error
+        });
+    });
+});
+
+router.post('/admin/delete/', function(req, res) {
+    console.log("Deleting...");
+    aux.deleteImage(req.body.id)
+    .then(function() {
+        aux.deleteAllComments(req.body.id);
+    }).then(function(response){
+        res.json(response);
+    }).catch(function(error){
+        console.log(error(error));
+        res.json({
+            success: false,
+            reason: error
+        });
+    });
+});
 
 module.exports = router;

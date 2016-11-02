@@ -22,22 +22,21 @@ BB.Views.Image = Backbone.View.extend({
     className: 'selectedCard',
     el: '#content',
     createCommentsView: function () {
-        new CommentsView({
-            model: new CommentsModel({
+        new BB.Views.Comments({
+            model: new BB.Models.Comments({
                 id: this.model.attributes.id
             })
         });
     },
-    urlifyHashtags: function(text) {
-        var re = ["#([a-z0-9]+)"];
-        re = new RegExp(re.join('|'), "gi");
-        return text.replace(re, function(url) {
-            return "<a href=\"#explore/" + url + "\">" + url + "</a>";
-        });
-    },
+    // urlifyHashtags: function(text) {
+    //     var re = ["#([a-z0-9]+)"];
+    //     re = new RegExp(re.join('|'), "gi");
+    //     return text.replace(re, function(url) {
+    //         return "<a href=\"#explore/" + url + "\">" + url + "</a>";
+    //     });
+    // },
     render: function () {
         var image = this.model.attributes;
-        this.model.attributes.description = this.urlifyHashtags(this.model.attributes.description);
         if (!image) {
             this.$el.html('Image not found!');
             return;

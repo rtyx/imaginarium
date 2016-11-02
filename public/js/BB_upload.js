@@ -56,8 +56,9 @@ BB.Views.Upload = Backbone.View.extend({
         console.log("Submitting image...");
         var file = $('input[type="file"]').get(0).files[0];
         var title = $('#titleInput').val();
-        var description = $('#descriptionInput').val();
-        var hashtags = description.match(/#\S+/g);
+		var descriptionAndHashtags = $('#descriptionInput').val();
+		var description = descriptionAndHashtags.replace(/#\S+/ig,"")
+		var hashtags = descriptionAndHashtags.match(/#\S+/g);
         var tags = this.removeHash(hashtags);
         var formData = new FormData();
         formData.append('file', file);
