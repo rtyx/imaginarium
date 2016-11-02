@@ -18,7 +18,7 @@ var dbConfig = {
 var pool= new pg.Pool(dbConfig);
 pool.on('error',function(err){
     console.log(err);
-})
+});
 
 module.exports.query= query;
 function query(query,parameters,callback){
@@ -38,4 +38,4 @@ function query(query,parameters,callback){
             done();
         });
     });
-};
+}

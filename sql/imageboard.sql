@@ -15,6 +15,6 @@ CREATE TABLE comments(
     id SERIAL primary key,
     img_id  INT,
     user_name Varchar(225)  not null,
-    commment Varchar(255) not null,
+    comment Varchar(255) not null,
     createdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

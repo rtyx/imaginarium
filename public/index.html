@@ -8,7 +8,10 @@
     <div class="titleContainer">
         <h1>Pictures</h1>
     </div>
+<div id="displayContainer">
 
+
+    <script id="home" type="text/handlebars">
     <div class="uploadContainer">
         <form id="upload">
             <input id="user_name" type="text" name="userName" placeholder="Name">
@@ -23,18 +26,18 @@
         </form>
     </div>
 
-
-<div id="displayContainer">
-    <script id="home" type="text/handlebars">
 <div class="imagesContainer">
     <ul  class="boxesContainer">
     {{#images}}
 
             <li class="boxesItem">
-        <a href='#picture/{{id}}'><img id="images" src="{{url}}"></a>
-        <div id="text"><div id="ti">{{title}}</div>
-                       <div id="des">{{description}}</div>
-                       <div id="us"> By {{user_name}}</div>
+            <a href='#picture/{{id}}'>
+            <img id="images" src="{{url}}">
+            </a>
+        <div id="text">
+        <div id="ti">{{title}}</div>
+        <div id="des">{{description}}</div>
+        <div id="us"> By {{user_name}}</div>
         </div>
            </li>
     {{/images}}
@@ -47,10 +50,38 @@
     <script id="bigImage" type="text/handlebars">
 
     <img id="images" src="{{url}}"></a>
-    <button id="more">More</button>
+                   <div id="text">
+                   <div id="ti">{{title}}</div>
+                   <div id="des">{{description}}</div>
+                   <div id="us"> By {{user_name}}</div>
+                   </div>
 
     </script>
+
+    <script id="comments" type="text/handlebars">
+    <div class="displayComments">
+        <form id="commentsForm">
+            <h1>Comments</h1>
+            <input id="comment" type="text"><br />
+            <input id="user_name" type="text"  placeholder="Name">
+            <button type="submit" name="submit"> Submit </button>
+        </form>
+
+        {{#.}}
+            <div id="co">{{comment}} By {{user_name}}</div>
+        {{/.}}
+
+    </div>
+
+    <button id="more">More</button>
+    </script>
+
+    <div id="commentContainer"></div>
 </div>
+
+
+
+
 
 
 

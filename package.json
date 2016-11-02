@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/spicedacademy/imageboard#readme",
   "dependencies": {
+    "basic-auth": "^1.0.4",
     "body-parser": "^1.15.2",
     "connect-redis": "^3.1.0",
     "cookie-parser": "^1.4.3",

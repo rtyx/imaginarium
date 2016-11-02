@@ -11,6 +11,7 @@ var hb = require('express-handlebars');
 app.use(express.static(__dirname +'/public'));
 app.use(express.static(__dirname + '/uploads'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
 var diskStorage = multer.diskStorage({
    destination: function (req, file, callback) {
@@ -67,7 +68,6 @@ app.post('/pictures',function(req,res){
 
 //Display query
 app.get('/images',function(req,res){
-   console.log("friday");
    db.query('SELECT * FROM images',[],function(err,data){
       console.log(data);
       res.json({images:data});
@@ -76,11 +76,55 @@ app.get('/images',function(req,res){
 
 app.get('/image/:id',function(req,res){
    db.query('SELECT * FROM images WHERE id=$1',[req.params.id],function(err,data){
-      console.log("friday");
       res.json(data[0]);
       console.log(data);
    });
 })
 
+
+
+app.put('/comments/:id',function(req,res){
+   var commentsForm = req.body;
+   console.log(commentsForm);
+   var param = [commentsForm.comment,commentsForm.name,req.params.id];
+   var query="INSERT INTO comments(comment,user_name,img_id) Values ($1,$2,$3) RETURNING id"
+
+
+   if(commentsForm.comment || commentsForm.name != ""){
+      db.query(query,param,function(err,results){
+         if(err){
+            console.log(err)
+         } else {
+            res.json({message:"hello angi"});
+         }
+      });
+   } else {
+      res.json({message:"no finish"})
+   };
+});
+
+
+app.get('/comments/:id',function(req,res){
+   db.query('SELECT * FROM comments WHERE img_id=$1',[req.params.id],function(err,data){
+      res.json(data);
+      console.log(data);
+   });
+})
+
+/*
+var auth = function(req,res,next) {
+var credentials = basicAuth(req);
+if(!credentials || credentials.name != 'admin' || credentials.pass != 'password'){
+res.setHeader('WWW-Authenticate', 'Basic realm=www');
+res.sendStatus(401);
+}else{
+next();
+}
+};
+
+app.use('/admin',auth);
+*/
+
 app.listen(8080,function(){
-   console.log("listen on port");});
+   console.log("listen on port");
+});
