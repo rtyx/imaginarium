@@ -2,6 +2,9 @@
 var express = require('express');
 var app = express();
 var basicAuth = require('basic-auth');
+var url = require("url");
+const path = require('path');
+
 
 var auth = function(req, res, next) {
     var creds = basicAuth(req);
@@ -22,7 +25,8 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-// var fs = require('fs');
+app.use(bodyParser.json());
+
 var diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, __dirname + '/public/uploads');
@@ -143,6 +147,75 @@ app.post('/InsertToDb', function(req, res) {
         });
     });
 });
+
+app.post('/admin/get-pic', function(req, res) {
+    var id = req.body.id;
+    var imageDetails = db.getImage(id);
+    var imageComments = db.imageComments(id);
+
+    return Promise.all([imageDetails,imageComments])
+    .then(function(results) {
+        var result = {};
+        result.image = results[0].rows;
+        result.comments = results[1].rows;
+        res.json({
+            success:true,
+            file:result
+        });
+
+    }).catch(function(err) {
+        if(err) {
+            console.log(err);
+        }
+    });
+});
+
+app.delete('/admin/deleteComment/:id', function(req,res) {
+    var commentId = path.basename(req.url);
+    console.log(commentId);
+    db.deleteComment(commentId).then(function(result) {
+        res.json({
+            success:true,
+            file:result
+        });
+    });
+});
+
+
+app.delete('/admin/deleteImage/:id', function(req, res) {
+    var image = path.basename(req.url);
+    var deleteImage = db.deleteImage(image);
+    var deleteComments = db.deleteComments(image);
+    return Promise.all([deleteImage,deleteComments])
+    .then(function(results) {
+        res.json({
+            success:true,
+            file:results
+        });
+
+    }).catch(function(err) {
+        if(err) {
+            console.log(err);
+        }
+    });
+});
+
+app.post('/admin/updateDesc', function(req, res) {
+    var id = req.body.id;
+    var desc = req.body.desc;
+    db.updateDesc(desc,id).then(function(result) {
+        res.json({
+            success:true,
+            file:result
+        });
+
+    }).catch(function(err) {
+        if(err) {
+            console.log(err);
+        }
+    });
+})
+
 
 
 app.listen(8080);

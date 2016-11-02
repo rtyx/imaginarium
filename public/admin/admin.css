@@ -1,0 +1,22 @@
+#image {
+    height: 300px;
+    width: 300px;
+}
+
+#update-title {
+    position: relative;
+    float: right;
+    right: 10%;
+    bottom: 10%;
+}
+
+#headline-area {
+    width: 470px;
+}
+
+#description {
+    text-align: left;
+    font-size: 16px;
+    /*width:290px;
+    height: 150px;*/
+}

@@ -107,6 +107,32 @@ exports.imageComments = function(id) {
     });
 };
 
+exports.deleteComment = function (commentId) {
+    return getFromDb('DELETE FROM comments WHERE id=$1', [commentId]).then(function(result) {
+        return result;
+    });
+};
+
+
+exports.deleteImage = function (image) {
+    return getFromDb('DELETE FROM images WHERE id=$1', [image]).then(function(result) {
+        return result;
+    });
+};
+
+exports.deleteComments = function(image) {
+    return getFromDb('DELETE FROM comments WHERE image_id=$1', [image]).then(function(result) {
+        return result;
+    });
+};
+
+exports.updateDesc = function(desc, id) {
+    return getFromDb('UPDATE images SET description=$1 WHERE id=$2 RETURNING id', [desc, id]).then(function(result) {
+        return result;
+    });
+};
+
+
 function getFromDb(str, params) {
     return new Promise(function(resolve, reject) {
         pool.connect(function(err, client, done) {
