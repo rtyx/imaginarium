@@ -36,7 +36,6 @@ router.get('/index/:count', function (req,res) {
             reason: error
         });
     });
-    // res.sendfile(__dirname + '/public/index.html');
 });
 
 router.get('/explore/:tag', function(req,res) {
@@ -68,15 +67,6 @@ router.post('/upload', uploader.single('file'), function(req, res){
         });
     }
 });
-//
-// router.get('/images', function(req, res){
-//     aux.getImages(SOMETHING)
-//     // client.client(query.initialImageLoad, [JSON.parse(req.query.limit)])
-//     //     .then(function(images){
-//     //         console.log(images);
-//     //         res.json(images);
-//     //     });
-// });
 
 router.get('/images/:id', function(req, res){
     var id = req.url.split('/').pop();
@@ -141,5 +131,24 @@ router.post('/save', function(req, res){
         });
     });
 });
+
+router.get('/cities', function(req, res) {
+    res.json(
+        [
+            {
+                name: "Berlin",
+                country: "Germany"
+            },
+            {
+                name: "Barcelona",
+                country: "Spain"
+            }
+        ]
+    );
+});
+
+// admin get images
+// admin update description
+// admin delete image
 
 module.exports = router;

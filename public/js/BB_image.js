@@ -1,6 +1,12 @@
 /* eslint-env node, jquery */
 
-var ImageModel = Backbone.Model.extend({
+window.BB = window.BB || {
+	Models: {},
+	Collections: {},
+	Views: {}
+};
+
+BB.Models.Image = Backbone.Model.extend({
     baseUrl: '/images',
     url: function() {
         return this.baseUrl + '/' + this.id;
@@ -11,7 +17,7 @@ var ImageModel = Backbone.Model.extend({
     }
 });
 
-var ImageView = Backbone.View.extend({
+BB.Views.Image = Backbone.View.extend({
     template: Handlebars.compile($('#imageTemplate').html()),
     className: 'selectedCard',
     el: '#content',

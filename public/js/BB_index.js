@@ -1,6 +1,12 @@
 /* eslint-env node, jquery */
 
-var IndexModel = Backbone.Model.extend({
+window.BB = window.BB || {
+	Models: {},
+	Collections: {},
+	Views: {}
+};
+
+BB.Models.Index = Backbone.Model.extend({
     url: function() {
         return this.attributes.path;
     },
@@ -24,7 +30,9 @@ var IndexModel = Backbone.Model.extend({
     },
 });
 
-var IndexView = Backbone.View.extend({
+console.log(BB.Models.Index);
+
+BB.Views.Index = Backbone.View.extend({
     template: Handlebars.compile($('#indexTemplate').html()),
     el: '#content',
     render: function() {
@@ -37,12 +45,7 @@ var IndexView = Backbone.View.extend({
         this.$el.html(html);
     },
     showMore: function() {
-        var model = this.model;
-        $(window).scroll(function(){
-            if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-                model.showMore();
-            }
-        });
+		this.model.showMore();
     },
     initialize: function() {
         console.log('New instance of Index View (' + this.model.cid + ') created...');
@@ -52,5 +55,10 @@ var IndexView = Backbone.View.extend({
             console.log("Changed!");
             view.render();
         });
-    }
+    },
+	events: {
+		'click #showMoreButton' : 'showMore'
+	}
 });
+
+// document.off.on

@@ -1,6 +1,12 @@
 /* eslint-env node, jquery */
 
-var Router = Backbone.Router.extend({
+window.BB = window.BB || {
+	Models: {},
+	Collections: {},
+	Views: {}
+};
+
+BB.Router = Backbone.Router.extend({
     routes: {
         '': 'index',
         'index': 'index',
@@ -13,8 +19,8 @@ var Router = Backbone.Router.extend({
     index: function(tag, count) {
         $('#content').off();
         console.log("You're in the index page");
-        new IndexView({
-            model: new IndexModel({
+        new BB.Views.Index({
+            model: new BB.Models.Index ({
                 tag: tag,
                 count: count
             })
@@ -23,8 +29,8 @@ var Router = Backbone.Router.extend({
     image: function(id) {
         $('#content').off();
         console.log("You're viewing an image!");
-        new ImageView({
-            model: new ImageModel({
+        new BB.Views.Image({
+            model: new BB.Models.Image({
                 id: id
             }),
         });
@@ -32,19 +38,19 @@ var Router = Backbone.Router.extend({
     upload: function() {
         $('#content').off();
         console.log("You're gonna upload an image!");
-        new UploadView({
-            model: new UploadModel
+        new BB.Views.Upload({
+            model: new BB.Models.Upload
         });
     },
     comments: function(id) {
         $('.cardtext').off();
         console.log("You're seeing the comments!");
-        new CommentsView({
-            model: new CommentsModel
+        new BB.Views.Comments({
+            model: new BB.Models.Comments
         });
     }
 });
 
-var imageRouter = new Router();
+BB.router = new BB.Router();
 
 Backbone.history.start();

@@ -1,6 +1,12 @@
 /* eslint-env node, jquery */
 
-var CommentsModel = Backbone.Model.extend({
+window.BB = window.BB || {
+	Models: {},
+	Collections: {},
+	Views: {}
+};
+
+BB.Models.Comments = Backbone.Model.extend({
     baseUrl: '/comments',
     url: function() {
         return this.baseUrl + '/' + this.id;
@@ -24,7 +30,7 @@ var CommentsModel = Backbone.Model.extend({
     }
 });
 
-var CommentsView = Backbone.View.extend({
+BB.Views.Comments = Backbone.View.extend({
     template: Handlebars.compile($('#commentsTemplate').html()),
     el: '#commentsBox',
     render: function () {

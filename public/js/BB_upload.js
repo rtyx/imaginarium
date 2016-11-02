@@ -1,6 +1,12 @@
 /* eslint-env node, jquery */
 
-var UploadModel = Backbone.Model.extend({
+window.BB = window.BB || {
+	Models: {},
+	Collections: {},
+	Views: {}
+};
+
+BB.Models.Upload = Backbone.Model.extend({
     upload: function(data) {
         console.log("Uploading...");
         var model = this;
@@ -19,7 +25,7 @@ var UploadModel = Backbone.Model.extend({
                 {
                     success: function(id) {
                         console.log("All the information saved!");
-                        imageRouter.navigate('/images/'+ id.id, true);
+                        BB.router.navigate('/images/'+ id.id, true);
                     }
                 }
             );
@@ -39,7 +45,7 @@ var UploadModel = Backbone.Model.extend({
     }
 });
 
-var UploadView = Backbone.View.extend({
+BB.Views.Upload = Backbone.View.extend({
     template: Handlebars.compile($('#uploadTemplate').html()),
     el: '#content',
     render: function () {

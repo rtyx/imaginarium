@@ -23,25 +23,30 @@
         </div>
 
         <script id="indexTemplate" type="text/x-handlebars-template">
-            {{#each this}}
-                <div class="card">
-                    <a href="#images/{{id}}">
-                        <div class="image" style="background-image: url({{url}});">
-                        </div>
-                    </a>
-                    <div class="cardtext">
-                        <div class="title">
-                            {{title}}
-                        </div>
-                        <div class="author">
-                            {{description}}
-                        </div>
-                        <div class="time">
-                            {{timestamp}}
+            <div id="index">
+                {{#each this}}
+                    <div class="card">
+                        <a href="#images/{{id}}">
+                            <div class="image" style="background-image: url({{url}});">
+                            </div>
+                        </a>
+                        <div class="cardtext">
+                            <div class="title">
+                                {{title}}
+                            </div>
+                            <div class="author">
+                                {{description}}
+                            </div>
+                            <div class="time">
+                                {{timestamp}}
+                            </div>
                         </div>
                     </div>
-                </div>
-            {{/each}}
+                {{/each}}
+            </div>
+            <div id="showMoreButton">
+                <h3>MORE</h3>
+            </div>
         </script>
 
         <script id="imageTemplate" type="text/x-handlebars-template">
@@ -97,7 +102,8 @@
                 <form class="upload">
                     <fieldset>
                         <input type="text" placeholder="Title" id="titleInput">
-                        <input type="text" placeholder="Description and #hashtags" id="descriptionInput">
+                        <input type="text" placeholder="Description" id="descriptionInput">
+                        <input type="text" placeholder="#hashtags" id="descriptionInput">
                         <input type="file">
                         <input type="button" name="submit" value="Submit" id="submit">
                     </fieldset>
