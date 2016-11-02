@@ -4,6 +4,7 @@
         <link rel="stylesheet" href="public/style.css">
     </head>
     <body>
+        <div id="overlay"></div>
         <div id="page">
             <a href="/#home"><div id="home">Home</div></a>
             <div id="main"></div>
@@ -18,7 +19,11 @@
         {{/picture}}
         </script>
         <script id="hello" type="text/handlebars">
-        <div id="upload-image">Upload Image</div>
+        <div>
+            <div class="arrow" id="prev"><img src="/public/images/arrowleft.png"></div>
+            <div id="upload-image">Upload Image</div>
+            <div class="arrow" id="next"><img src="/public/images/arrowright.png"></div>
+        </div>
         <div class="picture-container">
         {{#data}}
             <div class="picture-box">
@@ -27,7 +32,6 @@
             </div>
         {{/data}}
         </div>
-        <button id="next">NEXT</button>
         </script>
         <script id="big-pic-script" type="text/handlebars">
         {{#pic}}
@@ -38,17 +42,19 @@
         <script id="comments-script" type="text/handlebars">
         <div id="comments">
             {{#comments}}
-                <div class="comment"><img class="comment-icon" src="{{#if avatar}}avatars/{{avatar}}{{else}}public/images/placeholder.png{{/if}}"></img>{{commenter}}: {{comment}}<br></div>
+                <div class="comment"><img class="comment-icon" src="{{#if avatar}}{{avatar}}{{else}}public/images/placeholder.png{{/if}}"></img>
+                <div class="commenter">{{commenter}}:</div><div class="comment-text"> {{comment}}<br></div></div>
             {{/comments}}
         </div>
         <div id="avatar-upload-container">
-            <div id="avatar-preview"><img id="avatar-img" src="public/images/placeholder.png"></img></div>
+            <canvas id="avatar-preview" width="50" height="50"></canvas>
+            <input id="avatar-canvas-input" type="hidden" name="avatar-canvas-input"></input>
             <form>
                 Upload Avatar:
                 <input class="avatar-input" type="file"></input>
             </form>
             <form>
-                <input type="url" placeholder="enter avatar url" id="avatar-url"></input>
+                <input type="url" placeholder="enter avatar url" id="avatar-url-input"></input>
                 <button id="avatar-url">UPLOAD</button>
             </form>
             <form>

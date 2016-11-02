@@ -10,7 +10,6 @@
         Handlebars.templates[script.id] = Handlebars.compile(script.innerHTML);
     });
 
-
     var Router = Backbone.Router.extend({
         routes: {
             'home': 'home',
@@ -30,8 +29,10 @@
 
         home: function (picture) {
             if (picture == "clear"){
+                $('#overlay').css({display: 'none'});
                 console.log("CLEAR");
             } else if (picture) {
+                $('#overlay').css({display: 'block'});
                 var pictureModel = new PictureModel(
                     {picture: picture}
                 );
@@ -62,7 +63,6 @@
                 data: {picnum: this.get('picture')},
                 success: function(data){
                     console.log(data);
-                    console.log("success");
                 }
             });
         },
@@ -71,7 +71,6 @@
 
     var TagModel = Backbone.Model.extend({
         initialize: function(){
-            console.log("weeeee");
             this.fetch({
                 data: {tag: this.get('tag')},
                 success: function(data){
@@ -109,43 +108,71 @@
             $('#page').addClass('clickedbackground');
             $('#pic').addClass('big-pic-container');
             $('.picture').css({opacity: 0.2});
-            if (this.model.get('comments')){
+            if (this.model.get('comments') != false){
                 $('.comments').html(Handlebars.templates['comments-script']({
                     comments: comments
                 }));
+                updateScroll();
             } else {
-                $('.comments').html(Handlebars.templates['comments-script']({
-                    comments: 'no comments'
-                }));
+                console.log("no comments");
+                $('.comments').html(Handlebars.templates['comments-script']({}));
             }
-            $('#commenter').val(localStorage.getItem('name'));
-            console.log('avatar: ' + localStorage.getItem('avatar'));
-            if (localStorage.getItem('avatar')){
-                $('#avatar-img').attr('src', localStorage.getItem('avatar'));
+            function updateScroll(){
+                $('#comments').scrollTop($('#comments')[0].scrollHeight);
+            }
+
+            var c = document.getElementById("avatar-preview");
+            var ctx = c.getContext("2d");
+            if (localStorage.getItem('name') && localStorage.getItem('name') != "undefined"){
+                $('#commenter').val(localStorage.getItem('name'));
+            }
+            if (localStorage.getItem('avatar') && localStorage.getItem('avatar') != "undefined"){
+                var storedImg = new Image();
+                storedImg.src = localStorage.getItem('avatar');
+                ctx.clearRect(0, 0, 50, 50);
+                ctx.drawImage(storedImg, 0, 0, 50, 50);
+                var icon = c.toDataURL();
+                $('#avatar-canvas-input').val(icon);
             }
             $(".avatar-input").change(function(){
-                console.log("input changes");
+                console.log("changes");
                 var reader = new FileReader();
+                var picToScale = $('input[type="file"]').get(0).files[0];
                 reader.onload = function (){
-                    $('#avatar-preview').html("<img id='avatar-img' src=" + reader.result + "></img>");
+                    img.src = reader.result;
+                    ctx.clearRect(0, 0, 50, 50);
+                    ctx.drawImage(img, 0, 0, 50, 50);
+                    var icon = c.toDataURL();
+                    $('#avatar-canvas-input').val(icon);
                 };
-                reader.readAsDataURL($('input[type="file"]').get(0).files[0]);
+                reader.readAsDataURL(picToScale);
+                var img = new Image();
             });
         },
 
         events: {
             'click .big-pic-div': 'close',
-            'click #submit-comment' : 'submit'
-            // 'click #avatar-url': 'previewAvatar'
+            'click #submit-comment' : 'submit',
+            'click #avatar-url': 'previewAvatar'
         },
 
-        // previewAvatar: function (e){
-        //
-        // },
+        previewAvatar: function (e){
+            e.preventDefault();
+            var c = document.getElementById("avatar-preview");
+            var ctx = c.getContext("2d");
+            var img = new Image();
+            img.src = $('#avatar-url-input').val();
+            // ctx.clearRect(0, 0, 50, 50);
+            console.log(img);
+            if (img){
+                ctx.drawImage(img, 0, 0, 50, 50);
+            }
+        },
 
         close: function(){
             localStorage.setItem('name', $('#commenter').val());
-            localStorage.setItem('avatar', $('#avatar-img').attr('src'));
+            localStorage.setItem('avatar', $('#avatar-canvas-input').val());
+            console.log(localStorage);
             $('#page').removeClass('clickedbackground').addClass('unclickedbackground');
             $('.big-pic-container').empty();
             $('#pic').removeClass('big-pic-container');
@@ -157,15 +184,16 @@
         submit: function(e) {
             e.preventDefault();
             localStorage.setItem('name', $('#commenter').val());
+            localStorage.setItem('avatar', $('#avatar-canvas-input').val());
             if ($('#commenter').val() && $('#comment-string').val()){
                 var model = this.model;
                 var view = this;
-                var file = $('input[type="file"]').get(0).files[0];
+                var file = $('#avatar-canvas-input').val();
                 var formData = new FormData();
-                formData.append('file', file);
                 formData.append('commenter',  $('#commenter').val());
                 formData.append('comment',  $('#comment-string').val());
                 formData.append('picture', model.get('picture'));
+                formData.append('avatar', file);
                 $.ajax({
                     url: '/comments',
                     method: 'POST',
@@ -201,26 +229,32 @@
         render: function() {
             this.$el.empty();
             var view = this.$el;
-            var picData = this.model.get('pictureData');
-            picData.forEach(function(pic){
-                if(pic.tags) {
-                    pic.tags = pic.tags.split(", ");
-                }
-            });
-            var pictureObject = this.model.get('pictureData');
             var size = 9;
             var page = 0;
             var pictureObjectChunks = [];
-            for (var i=0; i<pictureObject.length; i+=size) {
-                var smallArray = pictureObject.slice(i,i+size);
-                pictureObjectChunks.push(smallArray);
+            var picData = this.model.get('pictureData');
+            if (Array.isArray(picData)){
+                picData.forEach(function(pic){
+                    if(pic.tags) {
+                        pic.tags = pic.tags.split(", ");
+                    }
+                });
+                for (var i=0; i<picData.length; i+=size) {
+                    var smallArray = picData.slice(i,i+size);
+                    pictureObjectChunks.push(smallArray);
+                }
+            } else {
+                if(picData.tags) {
+                    picData.tags = picData.tags.split(", ");
+                }
+                pictureObjectChunks.push(picData);
             }
             function renderImages(pageNum){
                 view.html(Handlebars.templates.hello({
                     data: pictureObjectChunks[pageNum]
                 }));
                 $('#next').click(function(){
-                    if ((page + 1) * size < pictureObject.length){
+                    if ((page + 1) * size < picData.length){
                         page += 1;
                         renderImages(page);
                     } else {
@@ -229,6 +263,16 @@
                     }
 
                 });
+                $('#prev').click(function(){
+                    console.log("prev");
+                    if (page - 1 < 1){
+                        page = Math.floor(picData.length / size);
+                        renderImages(page);
+                    } else {
+                        page -= 1;
+                        renderImages(page);
+                    }
+                });
             }
             renderImages(page);
         }
@@ -236,6 +280,7 @@
 
     var HomeView = Backbone.View.extend({
         initialize: function() {
+            checkNewPhotos();
             this.render();
             this.model.on('change', function() {
                 console.log("changed");
@@ -251,7 +296,6 @@
 
             this.model.fetch({
                 success: function() {
-                    console.log("made it here");
                     var pictureObject = JSON.parse(model.get('pictures'));
                     if (pictureObject){
                         pictures =  JSON.stringify(pictureObject);
@@ -280,6 +324,17 @@
                                     renderImages(page);
                                 }
 
+                            });
+                            $('#prev').click(function(){
+                                if (page - 1 < 1){
+                                    page = Math.floor(pictureObject.length / size);
+                                    console.log(page);
+                                    renderImages(page);
+                                } else {
+                                    page -= 1;
+                                    renderImages(page);
+                                    console.log(page);
+                                }
                             });
                         }
                         renderImages(page);
@@ -392,10 +447,23 @@
 
     });
 
-
     var router = new Router;
 
     Backbone.history.start();
 
+    function checkNewPhotos(){
+        console.log("refreshing");
+        $.ajax({
+            url: '/photos',
+            method: 'GET',
+            data: {
+                checking: true
+            },
+            success: function(data){
+                console.log(data);
+                // setTimeout(checkNewPhotos, 2000);
+            }
+        });
+    }
 
 })();

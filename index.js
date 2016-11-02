@@ -131,10 +131,8 @@ app.post('/photos', uploader.single('file'), function (req, res) {
 });
 
 app.post('/comments', avatarUploader.single('file'), function(req, res){
-    console.log(req.file);
-    console.log(req.body);
     var query = 'INSERT INTO comments (picture_id, comment, commenter, avatar) VALUES ($1, $2, $3, $4)';
-    var variables = [req.body.picture || null, req.body.comment || null, req.body.commenter || null, req.file.filename];
+    var variables = [req.body.picture || null, req.body.comment || null, req.body.commenter || null, req.body.avatar || null];
     dbconnect.query(query, variables).then(function(){
         cache.del('comments-' + req.body.picture);
         res.json({success: true});
@@ -162,7 +160,6 @@ app.post('/uploadurl', function (req, res) {
         requestS.end();
     }
     function callback(callbackResponse){
-        console.log(callbackResponse.headers);
         if (callbackResponse.headers['content-type'].split('/')[0] == 'image' && callbackResponse.headers['content-length'] < maxLen) {
             callbackResponse.pipe(fs.createWriteStream(file));
             var size;

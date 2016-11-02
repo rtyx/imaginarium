@@ -22,15 +22,15 @@
     "connect-redis": "^3.1.0",
     "cookie-parser": "^1.4.3",
     "csurf": "^1.9.0",
-    "devDependencies": {
-      "chai": "^3.5.0",
-      "mocha": "^3.1.0",
-      "rewire": "^2.5.2"
-    },
     "express": "^4.14.0",
     "express-session": "^1.14.1",
     "multer": "^1.2.0",
     "pg": "^6.1.0",
     "redis": "^2.6.2"
-  }
+    },
+    "devDependencies": {
+      "chai": "^3.5.0",
+      "mocha": "^3.1.0",
+      "rewire": "^2.5.2"
+    }
 }

@@ -1,3 +1,18 @@
+body. html {
+    height: 100%;
+    width: 100%;
+}
+
+#overlay {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    display: none;
+    top; 0;
+    left: 0;
+    z-index: 5;
+}
+
 .picture {
     width: 250px;
     height: 250px;
@@ -16,10 +31,10 @@
     justify-content: center;
     align-content: flex-start;
     width: 80%;
+    z-index: 6;
 }
 
 .comments {
-    z-index: 2;
     background-color: white;
     width: 400px;
     height: 500px;
@@ -29,7 +44,6 @@
 .big-pic-div {
     width: 500px;
     height: 500px;
-    z-index: 2;
 }
 
 .picture-container {
@@ -90,6 +104,9 @@ img {
     height: 50%;
     width: 100%;
     margin: 0px auto;
+}
+
+#page {
 }
 
 .clickedbackground {
@@ -157,15 +174,23 @@ img {
 
 #upload-image {
     width: 200px;
-    margin: 0 auto;
+    margin: 15px auto;
     background-color: midnightblue;
     border: #795548 3px solid;
     border-radius: 15px;
     color: whitesmoke;
+    display: inline-block;
+    vertical-align: top;
 }
 
-#upload-image:hover {
+#upload-image:hover, .arrow:hover{
     cursor: pointer;
+}
+
+.arrow {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
 }
 
 .tags a{
@@ -190,13 +215,12 @@ img {
 
 #avatar-upload-container {
     height: 40%;
-    overflow-y: scroll;
     background-color: powderblue;
 }
 
 #comment-string {
     width: 379px;
-    height: 85px;
+    height: 65px;
 }
 
 #avatar-preview {
@@ -205,4 +229,18 @@ img {
     float: right;
     margin-top: 25px;
     margin-right: 25px;
+}
+
+.comment {
+    border: 1px groove;
+}
+
+.commenter {
+    display: inline-block;
+    font-weight: bold;
+}
+
+.comment-text {
+    margin-left: 10px;
+    display: inline-block;
 }
