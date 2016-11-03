@@ -36,7 +36,14 @@
     {{#file}}
     {{#image}}
     <h1 id="single-image-title">{{title}}</h1>
+    <div id="pic-area">
+    <a href = "{{url}}">
+    <img id="resize" src="resize2.png">
+    </a>
+    <a href = "{{url}}">
     <img class="big-single-image" src ='{{url}}'>
+    </a>
+    </div>
     <div id="description-single">{{description}}</div>
     <h3 id='from-single-image'>From: <strong>{{user_name}}</strong></h3>
     {{/image}}

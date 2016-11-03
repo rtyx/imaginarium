@@ -60,13 +60,31 @@ body {
 
 
 .big-single-image {
+    /*border: 2px solid black;*/
     position: relative;
     text-align: center;
     left: 30%;
     height: 400px;
     width: 600px;
+    z-index: 1;
 }
 
+#resize{
+    /*border: 2px solid black;*/
+    position: relative;
+    z-index: 5;
+    height: 50px;
+    width: 50px;
+    float: right;
+    right: 28%;
+    top: 350px;
+}
+
+#pic-area {
+    /*border: 2px solid black;*/
+    /*height: 400px;
+    width: 600px;*/
+}
 
 #single-image-title {
     text-align: center;
@@ -130,12 +148,14 @@ body {
 }
 
 #description-single {
+    position: relative;
     float: right;
     margin-right: 20px;
     font-family: Arial;
     width: 350px;
     font-size: 18px;
     line-height: 150%;
+    bottom:400px;
 
 }
 

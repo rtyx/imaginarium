@@ -98,7 +98,6 @@ app.post('/insert-tags', function(req,res) {
     var image_id = req.body.image_id;
     db.insertTags(tags,image_id)
     .then(function(result) {
-        console.log(result);
         res.json({
             success:true,
             file:result
@@ -220,7 +219,6 @@ app.post('/admin/updateTitle', function (req, res){
     var id = req.body.id;
     var title = req.body.title;
     db.updateTitle(title,id).then(function(result) {
-        console.log(result);
         res.json({
             success:true,
             file:result

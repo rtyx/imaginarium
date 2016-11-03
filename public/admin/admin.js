@@ -50,12 +50,10 @@
         $scope.updateTitle = function(e) {
             var id = e.target.id;
             var title = $('#title')[0].value.toUpperCase();
-            console.log(title);
             var obj = {
                 'id':id,
                 'title':title
             };
-            console.log(obj);
             $http.post('/admin/updateTitle', obj).then(function(result) {
                 console.log(title);
                 $('#title')[0].value = title;
