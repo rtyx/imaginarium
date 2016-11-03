@@ -1,8 +1,5 @@
 (function() {
-
     var myApp = angular.module('myApp', []);
-    // var url = $("#image-url").val();
-
     myApp.controller('admin', ['$scope', '$http', function($scope,$http) {
 
         $scope.submit = function() {
@@ -58,10 +55,7 @@
                 console.log(title);
                 $('#title')[0].value = title;
             });
-
-        }
+        };
 
     }]);
-
-
 })();
