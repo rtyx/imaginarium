@@ -214,8 +214,23 @@ app.post('/admin/updateDesc', function(req, res) {
             console.log(err);
         }
     });
-})
+});
 
+app.post('/admin/updateTitle', function (req, res){
+    var id = req.body.id;
+    var title = req.body.title;
+    db.updateTitle(title,id).then(function(result) {
+        console.log(result);
+        res.json({
+            success:true,
+            file:result
+        });
 
+    }).catch(function(err) {
+        if(err) {
+            console.log(err);
+        }
+    });
+});
 
 app.listen(8080);

@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 </head>
 <body ng-app="myApp">
-    <h1>Admin</h1>
+    <h1>Welcome Admin</h1>
     <div ng-controller="admin">
 
         <form ng-submit="submit()">
@@ -15,7 +15,8 @@
             <input id='image-url' type="text" ng-model="text" name="text" />
             <input type="submit" id="submit" value="Submit"/>
             <div id="headline-area">
-                <h2 id="title">{{image.title}}</h2>
+
+                <input id='title' type="text" name="title" value = "{{image.title}}"/>
 
                 <button ng-click="updateTitle($event)" id='{{image.id}}'>update title</button>
 
@@ -23,7 +24,7 @@
             <div>
                 <img id="image" src ='{{image.url}}'>
 
-                <button ng-click="deleteImage($event)" id='{{image.id}}'>delete image</button>
+                <button ng-click="deleteImage($event)" id='{{image.id}}' class="delete-button">DELETE IMAGE</button>
             </div>
             <div>
                 <textarea id="description" rows="7" cols="30" wrap="hard"> {{image.description}}

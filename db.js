@@ -132,6 +132,11 @@ exports.updateDesc = function(desc, id) {
     });
 };
 
+exports.updateTitle = function(title, id) {
+    return getFromDb('UPDATE images SET title=$1 WHERE id=$2 RETURNING id', [title, id]).then(function(result) {
+        return result;
+    });
+};
 
 function getFromDb(str, params) {
     return new Promise(function(resolve, reject) {

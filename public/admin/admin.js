@@ -8,27 +8,31 @@
         $scope.submit = function() {
             var url = $scope.text;
             var id = url.slice(url.lastIndexOf('/')+1);
-            var obj = {'id':id}
+            var obj = {'id':id};
             $http.post('/admin/get-pic', obj).then(function(result) {
                 $scope.image = result.data.file.image[0];
                 $scope.comments = result.data.file.comments;
             });
-        }
+        };
 
         $scope.deleteComment = function(e) {
             var id = e.target.id;
             $http.delete('/admin/deleteComment/' + id).then(function(result) {
-                console.log(result);
-                // $scope.$apply();
+                $scope.comments = $scope.comments.filter(function(obj) {
+                    return obj.id!==id;
+                });
             });
         };
 
         $scope.deleteImage = function(e) {
             var id = e.target.id;
-            $http.delete('/admin/deleteImage/' + id).then(function(result) {
-                //  $window.location.reload();
+            $http.delete('/admin/deleteImage/' + id).then(function(result){
+                $scope.image = {};
+                $scope.comments = {};
+                $('#image-url')[0].value = '';
+                alert('picture is deleted');
             });
-        }
+        };
 
         $scope.updateDescription = function(e) {
             var id = e.target.id;
@@ -37,47 +41,29 @@
             var obj = {
                 'id':id,
                 'desc':desc
-            }
+            };
             $http.post('/admin/updateDesc', obj).then(function(result) {
                 console.log(result);
-                // $scope.image = result.data.file.image[0];
-                // $scope.comments = result.data.file.comments;
+            });
+        };
+
+        $scope.updateTitle = function(e) {
+            var id = e.target.id;
+            var title = $('#title')[0].value.toUpperCase();
+            console.log(title);
+            var obj = {
+                'id':id,
+                'title':title
+            };
+            console.log(obj);
+            $http.post('/admin/updateTitle', obj).then(function(result) {
+                console.log(title);
+                $('#title')[0].value = title;
             });
 
         }
 
-
-
-    }])
+    }]);
 
 
 })();
-
-
-// $http.post('/someUrl', data, config).then(successCallback, errorCallback);
-//
-//
-// app.post('/admin/image')
-
-// <form ng-submit="submit()" ng-controller="ExampleController">
-//   Enter text and hit enter:
-//   <input type="text" ng-model="text" name="text" />
-//   <input type="submit" id="submit" value="Submit" />
-//   <pre>list={{list}}</pre>
-// </form>
-//
-
-
-
-// angular.module('submitExample', [])
-// .controller('ExampleController', ['$scope', function($scope) {
-//     $scope.list = [];
-//     $scope.text = 'hello';
-//     $scope.submit = function() {
-//         if ($scope.text) {
-//             $scope.list.push(this.text);
-//             $scope.text = '';
-//         }
-//     };
-// }]);
-// </script>
