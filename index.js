@@ -59,35 +59,62 @@ var  auth = function(req,res,next){
         next();
     }
 };
-app.use('/admin', auth);
 
 var staticURL = path.join(__dirname, 'public');
 app.use(express.static(staticURL));
 var staticURL2 = path.join(__dirname, 'uploads');
 app.use(express.static(staticURL2));
 
-app.get('/grid/*', function(req,res){
-    var count = path.basename(req.url);
-    var call = 'SELECT * FROM images LIMIT $1;';
-    db.pgConnect(call, [count]).then(function(data){
-        res.json(data);
+app.use('/admin', auth);
+app.post('/admin/edit', function(req){
+    var description = req.query.description;
+    var title = req.query.title;
+    var id = req.query.id;
+    var call = 'UPDATE images SET Title = $1, Description = $2 WHERE ID = $3;';
+    db.pgConnect(call, [title,description,id]);
+});
+app.post('/admin/delete', function(req){
+    var id = req.query.id;
+    var call = 'DELETE FROM images WHERE ID=$1;';
+    db.pgConnect(call,[id]);
+});
+
+app.get('/grid', function(req,res){
+    var count = req.query.count;
+    var offset = req.query.offset;
+    var call = 'SELECT * FROM images ORDER BY Created DESC LIMIT $1 OFFSET $2;';
+    db.pgConnect(call, [count,offset]).then(function(data){
+        res.json({
+            success: true,
+            "data": data
+        });
     });
 });
 app.get('/tag/*', function(req,res){
-    var tag = path.basename(req.url);
-    var call = 'SELECT * FROM images WHERE $1 = ANY(Tags);';
-    db.pgConnect(call,[tag]).then(function(data){
-        res.json(data);
+    var tag = path.basename(url.parse(req.url).pathname);
+    var count = req.query.count;
+    var offset = req.query.offset;
+    var call = "SELECT * FROM images WHERE tags && ARRAY[$1] ORDER BY Created DESC LIMIT $2 OFFSET $3;";
+    db.pgConnect(call, [tag,count,offset]).then(function(data){
+        if (data.rows.length != 0) {
+            data.rows[0].tagcalled = tag;
+        }
+        res.json({
+            success: true,
+            "data": data
+        });
     });
 });
 
 app.get('/image/*', function(req,res){
     var parsed = url.parse(req.url);
     var id = path.basename(parsed.pathname);
+    var count = req.query.count;
+    var offset = req.query.offset;
     var call = 'SELECT * FROM images WHERE images.id=$1;';
     db.pgConnect(call, [id]).then(function(data){
-        var callcomments = 'SELECT * FROM comments WHERE ImageID=$1 ORDER BY created DESC LIMIT $2;';
-        db.pgConnect(callcomments, [id, req.query.count]).then(function(comments){
+        var callcomments = 'SELECT * FROM comments WHERE ImageID=$1 ORDER BY created DESC LIMIT $2 OFFSET $3;';
+        db.pgConnect(callcomments, [id, count, offset]).then(function(comments){
             data.rows[0].comments = comments.rows;
             res.json(data.rows[0]);
         });
@@ -95,11 +122,18 @@ app.get('/image/*', function(req,res){
 });
 
 app.post('/comments', function(req,res){
-    console.log(req.body);
     var call = 'INSERT INTO comments (ImageID, Username, Comment) VALUES ($1,$2,$3);';
     var params = [req.body.id, req.body.username, req.body.text];
     db.pgConnect(call, params).then(function(){
-        console.log("success");
+        console.log("saved");
+        res.json({success:true});
+    });
+});
+
+app.post('/like/*', function(req,res){
+    var id = path.basename(req.url);
+    var call = 'UPDATE images SET likes = likes+1 WHERE id=$1';
+    db.pgConnect(call, [id]).then(function(){
         res.json({success:true});
     });
 });
@@ -144,8 +178,22 @@ app.post('/upload', uploader.single('file'), function(req,res){
     }
 });
 app.post('/insert', function(req,res){
+    var inputs = req.body;
+    var tags = inputs.tags;
+    if (tags != '') {
+        if (tags.search(",") == -1) {
+            tags = [tags];
+        } else {
+            tags = tags.split(",");
+            tags = tags.map(function(elem){
+                return elem.trim();
+            });
+        }
+    } else {
+        tags = [];
+    }
     var call = 'INSERT INTO images (Username, URL, Title, Description, Tags) VALUES ($1,$2,$3,$4,$5) RETURNING ID;';
-    var params = [req.body.username, req.body.path, req.body.title, req.body.description, req.body['tags[]']];
+    var params = [inputs.username, inputs.path, inputs.title, inputs.description, tags];
     db.pgConnect(call, params).then(function(data){
         res.json({
             success: true,

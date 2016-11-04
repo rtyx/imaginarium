@@ -6,26 +6,50 @@
 </head>
 <body>
     <div id="header">
-        <a href="#"><h1>ImageBoard</h1></a>
-        <a href="/admin" id="adminbutton">Admin</a>
+        <div id="postit">
+            <img class="thumb" src="Media/thumbtack.png"/>
+            <div id="headertext">
+                <a href="#"><h1>ImageBoard</h1></a>
+            </div>
+        </div>
+        <div id="headerbuttons">
+            <img class="thumb" src="Media/thumbtack.png"/>
+            <a href="/admin" id="adminbutton">Admin</a>
+            <br>
+            <a href="#upload" id="uploadbutton">Upload</a>
+        </div>
     </div>
 <div id="body">
     <script id="imageGrid" type="text/x-handlebars-template">
-        <div>
-            <button id="uploadbutton">Upload</button>
-        </div>
         <div id="resultsContainer">
-            <h3 id="message">{{message}}</h3>
+            {{#if message}}
+                {{#unless done}}
+                    <h3 id="message">{{message}}</h3>
+                {{/unless}}
+            {{else if tag}}
+                <h3 id="message">Images tagged as {{tag}}</h3>
+            {{/if}}
             <ul id="results">
-                {{#each this}}
+                {{#each this.images}}
                     <div id="resultItem">
-                        <img class="picture" src='{{url}}'/>
-                        <a href="#image/{{id}}"><div class="transparency"></div></a>
-                        <div class="name">{{title}}</div>
+                        <a href="#image/{{id}}">
+                            <img class="picture" src='{{url}}'/>
+                        </a>
+                        <div class="name">
+                            <p id="title"><a href="#image/{{id}}">{{title}}</a></p>
+                            <div class="likes">
+                                <p>{{likes}}</p>
+                                <button class="like" id="{{id}}"></button>
+                            </div>
+                        </div>
                     </div>
                 {{/each}}
             </ul>
-            <button id="more">More</button>
+            {{#if done}}
+                <h3 id="message">{{message}}</h3>
+            {{else}}
+                <button id="more">More Images</button>
+            {{/if}}
         </div>
     </script>
     <script id="uploadcontainer" type="text/x-handlebars-template">
@@ -44,30 +68,39 @@
     </script>
     <script id="singleimage" type="text/x-handlebars-template">
         <div id="image">
-            <p>{{message}}</p>
-            <img id="single" src="{{url}}"/>
+            <p>{{image.message}}</p>
+            <img id="single" src="{{image.url}}"/>
             <div id="text">
-                <h3>{{title}}</h3>
-                <p>{{description}}</p>
-                <p>Added by: {{username}} on {{created}}</p>
-                <p>Likes: {{likes}}</p>
-                <p>{{#each tags}}<a href='#tag/{{this}}'>{{this}}</a>  {{/each}}<p>
+                <h3>{{image.title}}</h3>
+                <p>{{image.description}}</p>
+                <p>Added by: {{image.username}} on {{image.created}}</p>
+                <p>Likes: {{image.likes}}</p>
+                <p>{{#each image.tags}}<a href='#tag/{{this}}'>{{this}}</a>  {{/each}}<p>
+                {{#if image.liked}}
+                    <p>You've liked this picture!</p>
+                {{else}}
+                    <button id="like">Like</button>
+                {{/if}}
             </div>
         </div>
         <div id="comments">
             <form class="addcomment">
-                <input type="hidden" name="id" value="{{id}}"></input>
+                <input type="hidden" name="id" value="{{image.id}}"></input>
                 <input type="text" name="text" placeholder="comment but dont be a dick"></input>
                 <input type="text" name="username" placeholder="username"></input>
                 <input type="submit" id="commentsubmit">
             </form>
-            {{#each this.comments}}
+            {{#each image.comments}}
                 <div class="comment">
                     <p>{{comment}}</p>
                     <p>By {{username}} on {{created}}</p>
                 </div>
             {{/each}}
-            <button id="morecomments">More</button>
+            {{#if done}}
+                <h3 id="message">{{message}}</h3>
+            {{else}}
+                <button id="morecomments">More Comments</button>
+            {{/if}}>
         </div>
     </script>
 </div>

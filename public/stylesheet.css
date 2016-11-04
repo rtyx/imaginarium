@@ -1,117 +1,150 @@
 body {
-    background-color: #1c1c1f;
-    font-family: "Montserrat";
+    background-image: url('Media/cork.jpg');
+    background-size: cover;
+    font-family: "header";
 }
 @font-face{
-    font-family: "Montserrat";
-    src: 'https://fonts.googleapis.com/css?family=Montserrat';
+    font-family: "header";
+    src: 'Media/header.ttf';
 }
-
-#header{
+#header {
     width: 100%;
     text-align: center;
-    color: #84bd00;
+    font-family: "header";
 }
-#default{
-    width: 200px;
-    height: 200px;
+#postit {
+    margin-left: 10%;
+    width: 300px;
+    height: 100px;
+    transform: rotate(-10deg);
+    background-color: #297ed8;
 }
-#header button{
-    color: #84bd00;
+.thumb {
+    width: 30px;
+    margin-top: 5px;
+    left: 15px;
+    clear: both;
+    position: absolute;
+    float: left:
 }
-#message {
-    color: pink;
+#headertext {
+    width: 250px;
+    margin-left: 55px;
+    margin-top: 4px;
+    clear: both;
+    position: absolute;
+    float: right;
 }
-
-#searchTerm{
-    background: white url("search.png") left no-repeat;
-    background-size: 15%;
-    text-indent: 20px;
-    border-radius: 10px;
+#header a {
+    text-decoration: none;
 }
-
-#message{
+#header h1 {
+    color: black;
+    font-size: 2.25em;
+}
+#headerbuttons {
+    position: absolute;
+    float: right;
+    right: 20px;
+    top: 20px;
     text-align: center;
-    width: 100%;
+    background-color: #f2ff3d;
+    padding: 15px 20px 15px 60px;
 }
-
+#headerbuttons a {
+    font-size: 1.25em;
+    color: black;
+    font-weight: bold;
+    display: inline-block;
+}
+#adminbutton{
+    margin-bottom: 10px;
+}
+#headerbuttons img {
+    margin-top: -15px;
+    margin-left: -5px;
+}
+/*Home Page*/
 #resultsContainer{
-    background-color: black;
-    color: white;
+    color: black;
     width: 100%;
     position: relative;
-    border: 2px solid black;
     margin-top: 2em;
     height: auto;
     overflow: hidden;
     text-align: center;
 }
+#message {
+    display: inline-block;
+    padding: 15px 60px 15px 60px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    background-color: #f9b1cf;
+}
 #results {
     width: 100%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
     height: 100%;
     list-style: none;
     position: relative;
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-}
-
-#resultItem{
-    width: 200px;
-    height: 200px;
-    display: inline-flex;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-around;
-    margin: 1em;
-    position: relative;
+    justify-content: center;
+    padding: 0;
 }
-#image {
-    color: white
-}
-.comment{
-    color: white
-}
-#single{
-    width: 300px;
+#resultItem {
+    width: 220px;
     height: 300px;
+    margin: 20px 50px 20px 50px;
+    background-color: white;
 }
 .picture {
-    width: 100%;
-    height: 100%;
+    width: 200px;
+    height: 200px;
+    border: 2px solid black;
     position: relative;
-}
-
-.transparency{
-    width: 101%;
-    cursor: pointer;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    background-color: black;
-    opacity: 0.5;
+    margin-top: 10px;
 }
 .name {
-    cursor: pointer;
-    color: white;
-    position: absolute;
-    z-index: 15;
-    font-family: "Montserrat", sans-serif;
+    position: relative;
 }
-
-#moreResults {
-    padding-top: 0;
-    margin: 1em;
-}
-#div {
-    display: block;
-}
-#uploadform input{
+#resultItem a {
     display: inline-block;
-    width: 200px;
+    text-decoration: none;
+    color: black;
+}
+#title {
+    width: 100%;
+    margin: 0;
+    margin-top: 10px;
+}
+.likes{
+    position: relative;
+    width: 100px;
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.like {
+    background-image: url('Media/like.png');
+    background-size: contain;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    width: 30px;
     height: 30px;
+    cursor:pointer;
 }
-#file {
-    color: white;
+#more {
+    background-color: #b9e356;
+    border: none;
+    width: 250px;
+    height: 40px;
+    font-size: 1.5em;
+    font-weight: bold;
+    font-family: "header";
 }
+/*Upload Page*/

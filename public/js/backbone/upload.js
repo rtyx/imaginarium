@@ -39,12 +39,7 @@ site.views.upload = Backbone.View.extend({
                 inputs[elements[i].name] = elements[i].value;
             }
         }
-        if (elements[5].value != '') {
-            inputs.tags = elements[5].value.split(",");
-            inputs.tags = inputs.tags.map(function(elem){
-                return elem.trim();
-            });
-        }
+        inputs.tags = elements[5].value;
         var view = this;
     //Deal with files uploaded
         if ($('input[type="file"]').get(0).files.length != 0){

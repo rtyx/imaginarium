@@ -1,1 +1,30 @@
-<h1>Admin</h1>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin Portal</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+        <script src="admin.js"></script>
+    </head>
+    <body ng-app="imageboard">
+        <div id="header">
+            <h1><a href="/">Imageboard</a> Admin Portal</h1>
+        </div>
+        <div ng-controller="imageContainer" id="resultsContainer">
+            <ul  ng-if="images.length > 0" id="results">
+                    <div ng-repeat="image in images" id="resultItem">
+                        <img class="picture" src='../{{image.url}}'/>
+                        <p>ID: {{image.id}}</p>
+                        <div id="edit">
+                            <form ng-submit="edit()">
+                                <input type="text" ng-model="image.title" name="title">
+                                <input type="text" ng-model="image.description" name="description">
+                                <input type="submit" id="submit" value="Submit">
+                            </form>
+                        </div>
+                        <button ng-click="erase()">Delete</button>
+                    </div>
+            </ul>
+            <button ng-if="done == undefined" ng-click="getmore()" id="more">More Images</button>
+        </div>
+    </body>
+</html>

@@ -8,8 +8,8 @@ CREATE TABLE images (
     URL TEXT not null,
     Title VARCHAR(225) not null,
     Description TEXT,
-    Tags TEXT[] not null,
-    Likes INT
+    Tags TEXT[],
+    Likes INT DEFAULT 0
 );
 CREATE TABLE comments (
     ID SERIAL primary key,
