@@ -134,7 +134,7 @@ body {
 
 #comments {
     position: relative;
-    bottom: 590px;
+    bottom: 630px;
     width: 350px;
     left: 50px;
 }
@@ -274,4 +274,29 @@ body {
 #existing-tags {
     text-decoration: none;
     margin-right: 8px;
+}
+
+#error-message {
+    text-align: center;
+    color: red;
+}
+
+#heart {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    float: left;
+    left: 25%;
+    bottom: 70px;
+    /*right: 28%;*/
+    /*top: 350px;*/
+}
+
+#like{
+    height:50px;
+    width:50px;
+}
+
+#num-likes {
+    position: absolute;
 }

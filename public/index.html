@@ -7,112 +7,119 @@
     <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
-<h1 id="flickr">FLICKR</h1>
+    <h1 id="flickr">FLICKR</h1>
 
-<div id="main">
-    <script id="showImages" type="text/handlebars">
-    {{#button}}
-    {{#if button}}
-    <button id="home-button">Home</button>
-    {{/if}}
-    {{/button}}
-    <button id="upload-button">Upload A Photo</button>
-    <div id="main-images">
-    {{#each file}}
-    <div class="main-image-area">
-    <h3 id="images-title">{{title}}</h3>
-    <a href="/#image/{{id}}"><img class="main-just-image" src ='{{url}}'></a>
-    <h4 id="from-images">From: {{user_name}}</h4>
-    <a href="/#image/{{id}}" id="learn-more"><h4>Learn more</h4></a>
+    <div id="main">
+        <script id="showImages" type="text/handlebars">
+        {{#button}}
+        {{#if button}}
+        <button id="home-button">Home</button>
+        {{/if}}
+        {{/button}}
+        <button id="upload-button">Upload A Photo</button>
+        <div id="main-images">
+        {{#each file}}
+        <div class="main-image-area">
+        <h3 id="images-title">{{title}}</h3>
+        <a href="/#image/{{id}}"><img class="main-just-image" src ='{{url}}'></a>
+        <h4 id="from-images">From: {{user_name}}</h4>
+        <a href="/#image/{{id}}" id="learn-more"><h4>Learn more</h4></a>
+        </div>
+        {{/each}}
+        </div>
+        </script>
+
+        <script id="showImage" type="text/handlebars">
+        <button id="home-button">Home</button>
+        <button id="upload-button">Upload A Photo</button>
+        <div id="single-image-area">
+        {{#file}}
+        {{#image}}
+        <h1 id="single-image-title">{{title}}</h1>
+        <div id="pic-area">
+        <a href = "{{url}}">
+        <img id="resize" src="resize2.png">
+        </a>
+        <a href = "{{url}}">
+        <img class="big-single-image" src ='{{url}}'>
+        </a>
+
+
+
+        <div id="description-single">{{description}}</div>
+        <h3 id='from-single-image'>From: <strong>{{user_name}}</strong></h3>
+        {{/image}}
+        {{/file}}
+        <div id="existing-tags-area">
+        <h3 id="existing-tags-headline">Tags:</h3>
+        {{#file}}
+        {{#tags}}
+        <a href="/#images/{{tag}}" id="existing-tags">#{{tag}}</a>
+        {{/tags}}
+        {{/file}}
+        </div>
+        <div id="adding-tags-area">
+        <h3 id="add-tags-title">Add Tags:</h3>
+        <textarea id="tags-area"></textarea>
+        <button id="submit-tags">Submit</button>
+        </div>
+
+
+        <div id="add-comment">
+        <h3 id="add-comment-text">Add a Comment:</h3>
+        <textarea id="user_comment" placeholder="username"></textarea>
+        <textarea id="comment-area" placeholder="comment"></textarea>
+        <button id="submit-comment">Submit</button>
+        </div>
+        <div id="comments">
+        {{#file}}
+        <h3 id="comments-title">{{comments.length}} Comments:</h3>
+        {{#comments}}
+        <h4 id="comment-text">{{username_comment}}: {{comment}}</h4>
+        {{/comments}}
+        {{/file}}
+        </div>
+        </script>
+
+
+        <script id="upload" type="text/handlebars">
+        <button id="home-button">Home</button>
+        <div id="upload">
+        <form id='upload-form' method="POST">
+        <h3 class="upload-headline">Upload an image:</h3>
+        <br>
+        <input id="choose-a-file" type="file" name="pic" accept="image/*">
+        <br>
+        <h3 class="upload-headline">Username:</h3>
+        <br>
+        <input class="field" id="username" type="text" name="username" required="require"/>
+        <br>
+        <h3 class="upload-headline">Title:</h3>
+        <br>
+        <input class="field" id="title" type="text" name="title">
+        <br>
+        <h3 class="upload-headline">Description:</h3>
+        <br>
+        <input class="field" id="description" type="text" name="description">
+        <br>
+        <input id='submit-photo' type="button" value="submit">
+        </form>
+        </div>
+        </script>
+        <script id="error" type="text/handlebars">
+        <div id="error-message">
+        <h2>No such picture, please try again</h2>
+        <button id="home-button">Home</button>
+        </div>
+        </script>
     </div>
-    {{/each}}
-    </div>
-    </script>
 
-    <script id="showImage" type="text/handlebars">
-    <button id="home-button">Home</button>
-    <button id="upload-button">Upload A Photo</button>
-    <div id="single-image-area">
-    {{#file}}
-    {{#image}}
-    <h1 id="single-image-title">{{title}}</h1>
-    <div id="pic-area">
-    <a href = "{{url}}">
-    <img id="resize" src="resize2.png">
-    </a>
-    <a href = "{{url}}">
-    <img class="big-single-image" src ='{{url}}'>
-    </a>
-    </div>
-    <div id="description-single">{{description}}</div>
-    <h3 id='from-single-image'>From: <strong>{{user_name}}</strong></h3>
-    {{/image}}
-    {{/file}}
-    <div id="existing-tags-area">
-    <h3 id="existing-tags-headline">Tags:</h3>
-    {{#file}}
-    {{#tags}}
-    <a href="/#images/{{tag}}" id="existing-tags">#{{tag}}</a>
-    {{/tags}}
-    {{/file}}
-    </div>
-    <div id="adding-tags-area">
-    <h3 id="add-tags-title">Add Tags:</h3>
-    <textarea id="tags-area"></textarea>
-    <button id="submit-tags">Submit</button>
-    </div>
+    </body>
+    </html>
 
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/underscore-min.js"></script>
+    <script src="js/backbone-min.js"></script>
+    <script src="js/handlebars.min.js"></script>
 
-    <div id="add-comment">
-    <h3 id="add-comment-text">Add a Comment:</h3>
-    <textarea id="user_comment" placeholder="username"></textarea>
-    <textarea id="comment-area"></textarea>
-    <button id="submit-comment">Submit</button>
-    </div>
-    <div id="comments">
-    {{#file}}
-    <h3 id="comments-title">{{comments.length}} Comments:</h3>
-    {{#comments}}
-    <h4 id="comment-text">{{username_comment}}: {{comment}}</h4>
-    {{/comments}}
-    {{/file}}
-    </div>
-    </script>
-
-
-<script id="upload" type="text/handlebars">
-<button id="home-button">Home</button>
-<div id="upload">
-<form id='upload-form' method="POST">
-<h3 class="upload-headline">Upload an image:</h3>
-<br>
-<input id="choose-a-file" type="file" name="pic" accept="image/*">
-<br>
-<h3 class="upload-headline">Username:</h3>
-<br>
-<input class="field" id="username" type="text" name="username" required="require"/>
-<br>
-<h3 class="upload-headline">Title:</h3>
-<br>
-<input class="field" id="title" type="text" name="title">
-<br>
-<h3 class="upload-headline">Description:</h3>
-<br>
-<input class="field" id="description" type="text" name="description">
-<br>
-<input id='submit-photo' type="button" value="submit">
-</form>
-</div>
-</script>
-
-
-
-</body>
-</html>
-
-<script src="js/jquery-3.1.1.min.js"></script>
-<script src="js/underscore-min.js"></script>
-<script src="js/backbone-min.js"></script>
-<script src="js/handlebars.min.js"></script>
-
-<script src="client.js"></script>
+    <script src="client.js"></script>

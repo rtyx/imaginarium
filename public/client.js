@@ -11,7 +11,8 @@
             'images': 'images',
             'image/:id': 'image',
             'upload': 'upload',
-            'images/:tag': 'tags'
+            'images/:tag': 'tags',
+            'error':'error'
         },
         upload: function() {
             $('#main').off();
@@ -40,10 +41,31 @@
                 el:"#main",
                 model: new TagModel({tag:tag})
             });
+        },
+        error: function() {
+            $('#main').off();
+            new ErrorView({
+                el:"#main"
+            });
         }
+
     });
 
+    var ErrorView = Backbone.View.extend({
+        initialize: function() {
+            this.render();
+        },
+        render: function() {
+            this.$el.html(Handlebars.templates.error())
+        },
+        events: {
+            'click #home-button': function() {
+                router.navigate('/images', {trigger:true});
+            }
+        }
 
+
+    })
 
     var ImagesModel = Backbone.Model.extend({
         initialize: function() {
@@ -85,7 +107,15 @@
             var newImageModel = this;
             this.fetch({
                 success: function(data) {
-                    newImageModel.trigger('showImage');
+                    console.log(data);
+                    if(data.attributes.file.image.length>0) {
+                        newImageModel.trigger('showImage');
+                    }
+                    else {
+                        console.log('navigating');
+                        router.navigate('/error', {trigger:true});
+
+                    }
                 }
             });
         },
