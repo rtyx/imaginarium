@@ -4,7 +4,7 @@ const db = require('./SQL/db.js');
 module.exports = {
     saveImage: function (data) {
         console.log(chalk.blue("Saving image..."));
-        return db.usedb('INSERT INTO images (url, title, description, hashtags) VALUES ($1, $2, $3, $4) RETURNING id;', [data.url, data.title, data.description, data.hashtags]);
+        return db.usedb('INSERT INTO images (url, author, title, description, hashtags) VALUES ($1, $2, $3, $4, $5) RETURNING id;', [data.url, data.author, data.title, data.description, data.hashtags]);
     },
     getImage: function(id) {
         console.log(chalk.blue("Getting image (" + id + ") from the server..."));
@@ -22,9 +22,9 @@ module.exports = {
         console.log(chalk.blue("Getting the images from the server..."));
         return db.usedb('SELECT * FROM images ORDER BY timestamp DESC LIMIT $1;', [count]);
     },
-    getImagesByTag: function(tag) {
+    getImagesByTag: function(tag, count) {
         console.log(chalk.blue("Getting the images tagged as " + tag + " from the server..."));
-        return db.usedb('SELECT * FROM images WHERE $1 = ANY(hashtags) ORDER BY timestamp DESC LIMIT 12;', [tag]);
+        return db.usedb('SELECT * FROM images WHERE $1 = ANY(hashtags) ORDER BY timestamp DESC LIMIT $2;', [tag, count]);
     },
     getComments: function(id) {
         console.log(chalk.blue("Getting comments from the server..."));

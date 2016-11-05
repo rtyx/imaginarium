@@ -4,6 +4,7 @@
     <head>
         <title>Admin</title>
         <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
         <script src="admin.js"></script>
@@ -11,37 +12,39 @@
 
     <body ng-app="myApp">
         <a href="/admin/index.html">
-            <h1>Admin Board</h1>
+            <h1>ADMIN BOARD</h1>
         </a>
         <div ng-controller="index">
-            <div ng-repeat="image in index">
-                <div class="adminImageBox">
-                    <div class="adminImage">
-                        <img src="{{image.url}}" alt="" />
-                    </div>
-                    <div class="adminInfo">
-                        Imagen
-                        <div class="adminId">
-                            {{image.id}}
+            <div class="content">
+                <div ng-repeat="image in index">
+                    <div class="adminImageBox">
+                        <div class="adminImage">
+                            <img src="{{image.url}}" alt="" />
                         </div>
-                        <div class="adminTitle">
-                            {{image.title}}
+                        <div class="adminInfo">
+                            <div class="adminId">
+                                <h2>{{image.id}}</h2>
+                            </div>
+                            <div class="adminAuthor">
+                                Author: <b>{{image.author}}</b>
+                            </div>
+                            <div class="adminTitle">
+                                Title: <i>{{image.title}}</i>
+                            </div>
+                            <fieldset>
+                                <div class="adminDescription">
+                                    <input type="text" ng-model="image.description">
+                                </div>
+                                <div class="adminHashtags">
+                                    <input type="text" ng-model="image.hashtags">
+                                </div>
+                                <button class="button" id="updateButton" ng-click="update()">UPDATE {{image.id}}</button>
+                                <button class="button" id="deleteButton" ng-click="delete()">DELETE {{image.id}}</button>
+                            </fieldset>
                         </div>
-                        <div class="adminDescription">
-                            <input type="text" ng-model="image.description">
-                        </div>
-                        <div class="adminHashtags">
-                            <input type="text" ng-model="image.hashtags">
-                        </div>
-                        <button ng-click="update()">UPDATE {{image.id}}</button>
-                        <button ng-click="delete()">DELETE {{image.id}}</button>
                     </div>
                 </div>
             </div>
-            <!-- <li ng-repeat="image in index">
-                <input type="text" ng-model="city.name">
-                <input type="text" ng-model="city.country">
-            </li> -->
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>

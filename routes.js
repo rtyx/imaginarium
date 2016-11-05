@@ -23,11 +23,13 @@ var uploader = multer({
 
 //HOME
 
-router.get('/index/:count', function (req,res) {
-    var count = req.url.split('/').pop();
+router.get('/index', function (req,res) {
+    var count = req.query.count;
     aux.getImages(count)
     .then(function(response){
-        res.json(response.rows);
+        res.json({
+            images: response.rows
+        });
     })
     .catch(function(error){
         console.log(error(error));
@@ -38,11 +40,12 @@ router.get('/index/:count', function (req,res) {
     });
 });
 
-router.get('/explore/:tag', function(req,res) {
-    var tag = req.url.split('/').pop();
-    aux.getImagesByTag(tag)
+router.get('/explore/', function(req,res) {
+    var tag = req.query.tag;
+    var count = req.query.count;
+    aux.getImagesByTag(tag, count)
     .then(function(response){
-        res.json(response.rows);
+        res.json({images: response.rows});
     })
     .catch(function(error){
         console.log(error(error));
@@ -132,20 +135,7 @@ router.post('/save', function(req, res){
     });
 });
 
-router.get('/cities', function(req, res) {
-    res.json(
-        [
-            {
-                name: "Berlin",
-                country: "Germany"
-            },
-            {
-                name: "Barcelona",
-                country: "Spain"
-            }
-        ]
-    );
-});
+//ADMIN
 
 router.get('/admin/index', function(req, res) {
     aux.getImages(100)

@@ -17,14 +17,16 @@ BB.Router = Backbone.Router.extend({
         'images/:id/comments': 'comments'
     },
     index: function(tag, count) {
-        $('#content').off();
         console.log("You're in the index page");
-        new BB.Views.Index({
-            model: new BB.Models.Index ({
-                tag: tag,
-                count: count
-            })
-        });
+		$('#content').off();
+		this.loadView(
+			new BB.Views.Index({
+				model: new BB.Models.Index ({
+					tag: tag,
+					count: count
+				})
+			})
+		);
     },
     image: function(id) {
         $('#content').off();
@@ -48,7 +50,11 @@ BB.Router = Backbone.Router.extend({
         new BB.Views.Comments({
             model: new BB.Models.Comments
         });
-    }
+    },
+	loadView: function(view) {
+		this.view && this.view.undelegateEvents();
+		this.view = view;
+	}
 });
 
 BB.router = new BB.Router();

@@ -10,23 +10,30 @@ BB.Models.Index = Backbone.Model.extend({
     url: function() {
         return this.attributes.path;
     },
+	count: 0,
     initialize: function() {
         console.log("Instance of Index Model (" + this.cid + ") created!");
         if (this.attributes.count){
-            this.attributes.path = '/index/' + this.attributes.count;
+            this.attributes.path = '/index'
         } else if (this.attributes.tag){
-            this.attributes.path = '/explore/' + this.attributes.tag;
+            this.attributes.path = '/explore/';
+			var tag = this.attributes.tag;
         } else {
-            this.attributes.count = 6;
-            this.attributes.path = '/index/' + this.attributes.count;
-        }
-        console.log(this.attributes.path);
-        this.fetch();
+			this.attributes.path = '/index';
+			var tag = null;
+		}
+        this.fetch({data : $.param({
+			'tag': tag,
+			'count': this.count
+		})});
     },
     showMore: function() {
-        this.attributes.count += 6;
-        this.attributes.path = '/index/' + this.attributes.count;
-        this.fetch();
+        this.count += 6;
+        // this.attributes.path = '/index/' + this.attributes.count;
+		this.fetch({data : $.param({
+			'tag': this.attributes.tag,
+			'count': this.count
+		})});
     },
 });
 
@@ -34,7 +41,15 @@ BB.Views.Index = Backbone.View.extend({
     template: Handlebars.compile($('#indexTemplate').html()),
     el: '#content',
     render: function() {
-        var images = this.model.attributes;
+		console.log("Rendering...");
+		var model = this.model;
+		setInterval(function() {
+			if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+				model.showMore();
+			}
+		}, 250);
+		this.enableScroll();
+        var images = this.model.get('images');
         if (!images) {
             this.$el.html('no images found!');
             return;
@@ -42,21 +57,34 @@ BB.Views.Index = Backbone.View.extend({
         var html = this.template(this.model.toJSON());
         this.$el.html(html);
     },
+	enableScroll: function() {
+		if (window.removeEventListener)
+			window.removeEventListener('DOMMouseScroll', this.preventDefault, false);
+			window.onmousewheel = document.onmousewheel = null;
+			window.onwheel = null;
+			window.ontouchmove = null;
+			document.onkeydown = null;
+	},
     showMore: function() {
 		this.model.showMore();
     },
     initialize: function() {
         console.log('New instance of Index View (' + this.model.cid + ') created...');
+		var view = this;
+		$(document).off('click', '#uploadButton').on('click', '#uploadButton', function(e) {
+			$('#content').off();
+	        console.log("You're gonna upload an image!");
+	        new BB.Views.Upload({
+	            model: new BB.Models.Upload
+	        });
+		});
         this.showMore();
-        var view = this;
         this.model.on('change', function() {
             console.log("Changed!");
             view.render();
         });
     },
 	events: {
-		'click #showMoreButton' : 'showMore'
+		'click #showMoreButton' : 'showMore',
 	}
 });
-
-// document.off.on

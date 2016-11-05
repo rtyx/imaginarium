@@ -23,7 +23,7 @@ a {
 }
 
 .hashtag {
-    color: blue;
+    color: #194877;
 }
 
 body {
@@ -54,27 +54,33 @@ body {
 }
 
 #uploadButton {
+    cursor: pointer;
     position: fixed;
     top: 10px;
     right: 10px;
     height: 40px;
     width: 100px;
-    border: 1px solid #EFEFEF;
     border-radius: 30px;
     font-family: 'Rubik', sans-serif;
-    color: #DBDBDB;
+    color: #white;
     font-size: 15px;
-    background-color: #FFFFFF;
+    background-color: #4CAF50;
     display: flex;
     align-content: center;
     justify-content: center;
 }
 
+#uploadText {
+    color: white;
+    transform: translateY(25%);
+}
+
 #uploadButton:hover {
-    background-color: #FAFAFA;
+    background-color: #43A047;
 }
 
 #uploadCancel {
+    cursor: pointer;
 }
 
 #background {
@@ -92,7 +98,116 @@ body {
     width: 1000px;
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-around
+    justify-content: space-around;
+}
+
+.selectedCard {
+    position: fixed;
+    top: 30px;
+    padding: 5px;
+    height: 90%;
+    width: auto;
+    background-color: #FFFFFF;
+    border: 1px solid #EFEFEF;
+    border-radius: 5px;
+    margin: 5px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05), 0 5px 5px 0 rgba(0, 0, 0, 0.1);
+}
+
+.selectedCardText {
+    float: right;
+    border-left: 1px solid #EFEFEF;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 300px;
+    font-size: 15px;
+    font-family: 'Rubik', sans-serif;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.selectedImage {
+    float: left;
+    display: inline-block;
+    border: 1px solid #EFEFEF;
+    border-radius: 3px;
+    height: 100%;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #EFEFEF;
+}
+
+img {
+    object-fit: cover;
+    height: 100%;
+}
+
+.imageInfo {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-bottom: 1px solid #EFEFEF;
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+}
+
+#commentsBox {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.comments {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.newCommentBox {
+    height: 130px;
+    padding-top: 5px;
+    width: 100s%;
+    border-top: 1px solid #EFEFEF;
+    align-content: flex-end;
+}
+
+.comment {
+    margin-bottom: 2px;
+}
+
+fieldset {
+    width: 100%;
+}
+
+.selectedAuthorBox {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-bottom: 1px solid #EFEFEF;
+    margin-bottom: 5px;
+}
+
+.selectedAuthor {
+    transform: translateY(-30%);
+    display: inline-block;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.selectedAvatar {
+    display: inline-block;
+    height: 30px;
+    /*width: 30px;*/
+    border-radius: 15px;
 }
 
 .card {
@@ -106,18 +221,6 @@ body {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.02);
 }
 
-.selectedCard {
-    height: 90%;
-    width: auto;
-    background-color: #FFFFFF;
-    border: 1px solid #EFEFEF;
-    border-radius: 5px;
-    margin: 15px;
-    display: flex;
-    align-content: center;
-    justify-content: center;
-}
-
 .card:hover {
     border: 1px solid #DBDBDB;
 }
@@ -128,34 +231,15 @@ body {
     font-family: 'Rubik', sans-serif;
 }
 
-.selectedCardText {
-    position: relative;
-    border-left: 1px solid #EFEFEF;
-    padding-left: 10px;
-    width: 300px;
-    margin: 5px;
-    font-size: 15px;
-    font-family: 'Rubik', sans-serif;
-}
-
-.imageInfo {
-    border-bottom: 1px solid #EFEFEF;
-}
-
-.newCommentBox {
-    position: absolute;
-    bottom: 5px;
-    padding-top: 5px;
-    width: 95%;
-    border-top: 1px solid #EFEFEF;
-}
-
 .title {
     font-weight: bold;
 }
 
 .description {
+    line-height: 1.5em;
+    height: 1.5em;
     font-style: italic;
+    overflow: hidden;
 }
 
 .time {
@@ -176,30 +260,17 @@ body {
     opacity: 1;
 }
 
-.selectedImage {
-    border: 1px solid #EFEFEF;
-    border-radius: 3px;
-    width: auto;
-    height: auto;
-    margin: 5px;
-}
-
-img {
-    height: 100%;
-    width: auto;
-    border-radius: 3px;
-}
-
 #uploadBox {
     background: #F9F9F9;
     padding: 25px;
     margin: 150px 0;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05), 0 5px 5px 0 rgba(0, 0, 0, 0.1);
-    height: 300px;
+    height: 330px;
     width: 50%;
     border: 1px solid #DBDBDB;
     border-radius: 10px;
     position: fixed;
+    top: 0px;
     text-align: center;
 }
 
@@ -279,4 +350,21 @@ form {
     display: flex;
     align-content: center;
     justify-content: center;
+}
+
+.cancel {
+    color: #DBDBDB;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.newBackground {
+    background-color: #000000;
+    position: fixed;
+    opacity: 0.8;
+    top: 0;
+    height: 100%;
+    width: 100%;
 }

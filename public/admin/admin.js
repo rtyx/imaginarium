@@ -9,11 +9,17 @@
         $scope.update = function() {
             console.log("Updating...");
             var tags = this.image.hashtags;
+            var newTags;
+            if (typeof tags == "object") {
+                newTags = tags;
+            } else {
+                newTags = tags.split(',');
+            }
             var url = '/admin/update/';
             var data = {
                 id: this.image.id,
                 description: this.image.description,
-                hashtags: tags.split(', ')
+                hashtags: newTags
             };
             $http.post(url, data).then(function() {
                 alert("Updated!");

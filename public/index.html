@@ -12,7 +12,8 @@
         <div id="header">
             <a href="/">IMAGINARIUM</a>
             <div id="uploadButton">
-                <a href="/#upload">UPLOAD</a>
+                <p id="uploadText">UPLOAD</p>
+                <!-- <a id="uploadText" href="/#upload">UPLOAD</a> -->
             </div>
         </div>
 
@@ -24,22 +25,25 @@
 
         <script id="indexTemplate" type="text/x-handlebars-template">
             <div id="index">
-                {{#each this}}
+                {{#each images}}
                     <div class="card">
                         <a href="#images/{{id}}">
                             <div class="image" style="background-image: url({{url}});">
                             </div>
                         </a>
                         <div class="cardtext">
+                            <div class="author">
+                                {{author}}
+                            </div>
                             <div class="title">
                                 {{title}}
                             </div>
-                            <div class="author">
+                            <div class="description">
                                 {{description}}
                             </div>
-                            <div class="time">
+                            <!-- <div class="time">
                                 {{timestamp}}
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 {{/each}}
@@ -50,12 +54,24 @@
         </script>
 
         <script id="imageTemplate" type="text/x-handlebars-template">
+            <div class="newBackground"></div>
+            <div class="cancel">
+                <a href="/"><b class="cancel">X</b></a>
+            </div>
             <div class="selectedCard">
                 <div class="selectedImage">
                     <img src="{{url}}" alt="" />
                 </div>
                 <div class="selectedCardText" id="selectedCardText">
                     <div class="imageInfo">
+                        <div class="selectedAuthorBox">
+                            <div class="selectedAvatar">
+                            </div>
+                            <div class="selectedAuthor">
+                                {{author}}
+                            </div>
+
+                        </div>
                         <div class="title">
                             {{title}}
                         </div>
@@ -79,40 +95,39 @@
         </script>
 
         <script id="commentsTemplate" type="text/x-handlebars-template">
-            <div class="commentsBox">
-                <div class="comments">
-                    {{#each this}}
-                        <div class="comment">
-                            <h4>{{author}}</h4>
-                            <p>{{comment}}</p>
-                        </div>
-                        </br>
-                    {{/each}}
-                </div>
-                <div class="newCommentBox">
-                    <form class="postComment">
-                        <fieldset>
-                            <input type="text" placeholder="Leave a comment..." id="commentInput">
-                            <input type="text" placeholder="Your name" id="commentAuthorInput">
-                            <input type="button" name="submit" value="Submit comment" id="submit">
-                        </fieldset>
-                    </form>
-                </div>
+            <div class="comments">
+                {{#each this}}
+                    <div class="comment">
+                        <h4>{{author}}</h4>
+                        {{comment}}
+                    </div>
+                {{/each}}
+            </div>
+            <div class="newCommentBox">
+                <form class="postComment">
+                    <fieldset>
+                        <input type="text" placeholder="Leave a comment..." id="commentInput">
+                        <input type="text" placeholder="Your name" id="commentAuthorInput">
+                        <input type="button" name="submit" value="Submit comment" id="submit">
+                    </fieldset>
+                </form>
             </div>
         </script>
 
         <script id="uploadTemplate" type="text/x-handlebars-template">
+            <div class="newBackground"></div>
             <div id="uploadBox">
                 <h3>Upload an image</h3>
                 <form class="upload">
                     <fieldset>
+                        <input type="text" placeholder="Author" id="authorInput">
                         <input type="text" placeholder="Title" id="titleInput">
                         <input type="text" placeholder="Description and #hashtags" id="descriptionInput">
                         <input type="file">
                         <input type="button" name="submit" value="Submit" id="submit">
                     </fieldset>
                 </form>
-                <a id="uploadCancel" href="/">Cancel</a>
+                <p id="uploadCancel">Cancel</p>
             </div>
         </script>
 
