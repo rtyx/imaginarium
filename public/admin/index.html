@@ -1,4 +1,29 @@
 <!DOCTYPE html>
 <html>
-<h1>Admin</h1>
+<head>
+	<title>Angular</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/index.css">
+
+</head>
+<body  ng-app="myApp">
+	<h1>Administrative access</h1>
+	<div ng-controller="imageList">
+
+			<div id="test" ng-repeat="image in images">
+				<img id="images" src="../{{image.url}}"></img>
+				<form id=infoUpdate>
+					<input id="updateName" value="{{image.user_name}}">
+					<input id="updateTitle" value="{{image.title}} ">
+					<input id="updateTitle" value="{{image.description}}">
+					<button class='update' id="{{image.id}}" type="button" ng-click="updateRequest($event)">Update</button>
+				</form>
+				<button class='delete' id="{{image.id}}" type="button" ng-click="deleteRequest($event)">Delete All!</button>
+			</div>
+
+		</div>
+		<script src="../js/libs/jquery-3.1.1.min.js"></script>
+		<script src="admin.js"></script>
+	</body>
+
 </html>

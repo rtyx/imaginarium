@@ -44,6 +44,8 @@
     loadNewView:function(view){
       if(this.view){
         this.view.undelegateEvents();
+        $('#displayContainer').empty();
+        $('#commentContainer').empty();
       }
       this.view = view;
     }
@@ -62,7 +64,7 @@
       this.$el.html(Handlebars.templates.home(this.model.toJSON()));
     },
     events:{
-      'submit #upload': function(){
+      'submit .upload': function(){
         event.preventDefault();
         var file = $('input[type="file"]').get(0).files[0];
         var formData = new FormData();
@@ -80,7 +82,6 @@
               title: $('#title').val(),
               description: $('#description').val()
             };
-            console.log(imageData);
             new ImageRecord(imageData);
             new AllImagesView({
               el: '#displayContainer',
@@ -122,7 +123,6 @@
     render: function(){
       var data = turnObjectinArray(this.model.attributes);
       this.$el.html(Handlebars.templates.comments(data));
-      console.log(data);
     },
     events:{
       'submit #commentsForm': function(e) {
@@ -141,7 +141,6 @@
   var CommentsModel= Backbone.Model.extend({
     initialize: function(id) {
       this.set({id:id});
-      console.log(this);
       this.fetch();
     },
     addComment: function(comment){
@@ -153,7 +152,7 @@
         success: function(){
           model.fetch();
         }
-      })
+      });
     },
     urlRoot:'/comments'
   });
@@ -191,13 +190,13 @@
   var imageListModel=new ImageList();
 
 
-function turnObjectinArray(obj){
-  var array = [];
-  for(var key in obj){
-    array.push(obj[key]);
+  function turnObjectinArray(obj){
+    var array = [];
+    for(var key in obj){
+      array.push(obj[key]);
+    }
+    return array;
   }
-  return array;
-}
 
   new Router;
   Backbone.history.start();

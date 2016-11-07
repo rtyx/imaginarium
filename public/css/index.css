@@ -1,42 +1,163 @@
 body{
   overflow-x:hidden;
+  margin:0%;
+
 }
 
 .titleContainer{
   position:relative;
-  text-align:center;
-  height:75px;
+  height:800px;
   width:auto;
-  border:3px dotted black;
+}
+
+#Title{
+  position:absolute;
+  background-color:black;
+  width:100%;
+  height:200px;
+  margin-top:0%;
+  margin-left:0%;
+}
+
+#pictere{
+  position:absolute;
+  left:26%;
+}
+
+
+#mar{
+  position:absolute;
+  height:70%;
+  bottom:-2%;
+}
+
+#camara{
+  position:absolute;
+  top:35%;
+  left:20%;
+}
+
+#backInfo{
+  position:absolute;
+  right:12%;
+  top:30%;
+  height:400px;
+  width:350px;
+  border:0.3px solid lightgrey;
+  -ms-transform: rotate(7deg);
+  -webkit-transform: rotate(7deg);
+  background-size: 100%;
+  transform: rotate(7deg);
+  box-shadow: 15px 10px 5px grey;
+}
+
+#frontInfo{
+  position:absolute;
+  right:15%;
+  top:35%;
+  height:300px;
+  width:260px;
+  -ms-transform: rotate(7deg);
+  -webkit-transform: rotate(7deg);
+  transform: rotate(7deg);
+  background-color: white;
+  box-shadow: 10px 10px 40px grey;
+}
+
+#text h{
+  position:absolute;
+  top:25px;
+  font-family:Nightingale;
+}
+
+#text p{
+  position:absolute;
+  top:50px;
+  width:200px;
+  height:auto;
+  font-family:Modesty;
+  font-size:20px;
+  text-align:justify;
+}
+#flecha{
+  position:absolute;
+  top:65%;
+  left:36%;
+  height:15%;
+  width:30%;
 }
 
 .uploadContainer{
   position:relative;
-  text-align: center;
-  width:auto;
-  height:200px;
-  background-color:white;
+  width:100%;
+  height:400px;
+  top:-20%;
+  left:0%;
+  background-color:black;
 }
 
-#upload{
+.upload{
   position:relative;
-  border:2px solid black;
-  top:50px;
-  width:auto;
-  height:auto;
+  width:600px;
+  top:10%;
+  margin-left:10%;
 }
 
+form p{
+  font-family: Nightingale;
+  font-size: 10px;
+  color:white;
+}
+
+span{
+  display:block;
+}
+
+
+#description{
+  position:relative;
+  height:150px;
+  width:310px;
+}
+
+
+#file{
+  position:relative;
+  background-color:white;
+  width:316px;
+  margin-top:0%;
+}
+
+#buttonSubmit{
+   position:absolute;
+   background-color:transparent;
+   border:none;
+   color:#94D9F5;
+   top:45%;
+   left:85%;
+   font-family: Nightingale;
+   text-decoration:none;
+   font-size:30px;
+
+}
+
+#plants{
+  position:absolute;
+  left:80%;
+  top:20%;
+}
 .imagesContainer{
   position:relative;
   background-color:white;
   height:auto;
   width:auto;
+  margin-top:-4%;
+  margin-bottom: 10%;
 }
 
 .boxesContainer{
     position:relative;
     display:flex;
-    border:3px dotted black;
     width:auto;
     height:auto;
     flex-direction:row;
@@ -46,51 +167,220 @@ body{
 }
 
 .boxesItem{
-  margin-top:30px;
+  margin-top:10%;
   position:relative;
-  border:2px solid black;
-  background:white;
   padding:0px;
   width:350px;
-  height:350px;
+  height:400px;
+
 
 }
 
 #images{
-  margin-top:40px;
-  margin-left:35px;
-  border:2px dotted black;
-  border-radius: 20%;
-  height:200px;
-  width:275px
+  margin-top:10px;
+  margin-left:10px;
+  height:325px;
+  width:275px;
+
+}
+#imagesBorder{
+height:345px;
+width:295px;
+box-shadow: 3px 3px 4px lightgrey;
 }
 
 #text{
-  border:2px dotted black;
-  margin-left:35px;
-  height:75px;
-  width:275px;
+    text-align:center;
 }
+#des{
 
-#more{
-  position:relative;
-  align-items: center;
-  margin-left: 50%;
+  font-family:linealsimplesst;
+  font-size:10px;
+  margin-top:2%;
 }
 
 #ti{
-  text-align: center;
-  font-size: 20px;
-  text-decoration: underline;
-}
-
-#des{
-  text-align: center;
-  font-size:10px;
+  font-size:50px;
+  font-family:sophia;
+  text-decoration:underline;
 }
 
 #us{
-  text-align: center;
-  font-size:15px;
+  font-family:sophia;
+  font-size:18px;
+  margin-top:2%;
+  color:#94D9F5;
+}
 
+
+
+#displayImage{
+height:auto;
+width:100%;
+}
+
+#titleBigImage{
+  position:relative;
+  background-color:black;
+  width:100%;
+  height:100px;
+  margin-top:0%;
+  margin-left:0%;
+}
+
+#pictereBigImage{
+  position:absolute;
+  top:-25%;
+  margin-left:5%;
+}
+
+
+
+#borderBigImage{
+  position:relative;
+  top:20%;
+  margin-left:8%;
+  margin-right:10%;
+  height:695px;
+  width:795px;
+  box-shadow: 3px 3px 4px lightgrey;
+}
+
+#bigImages{
+  position:relative;
+  margin-top:10px;
+  margin-left:10px;
+  height:675px;
+  width:775px;
+}
+
+
+#textBigImage{
+  position:relative;
+  margin-top:5%;
+  margin-left:10%;
+  width:auto;
+}
+
+#back{
+  position:relative;
+  right:0%;
+}
+
+
+#commentContainer{
+  width:auto;
+  height:auto;
+
+}
+#commentsForm{
+  position:relative;
+  border-radius:25px 25px 25px 25px;
+  border:1px solid black;
+  width:400px;
+  height:150px;
+  margin-top:10%;
+  left:30%;
+}
+
+#add{
+  position: relative;
+  top:-15px;
+  background-color:black;
+  border-radius: 25px 25px 0px 0px;
+  height:40px;
+  width:400px;
+}
+
+#add p{
+  position:relative;
+  margin-left: 40%;
+}
+
+#inputComment{
+  margin-left: 10%;
+}
+
+
+#comment{
+  width:250px;
+  height:50px;
+}
+
+
+#submitComment{
+  position:absolute;
+  background-color: black;
+  border-radius:25px 25px 25px 25px;
+  border:none;
+  color:white;
+  height:50px;
+  font-family:Nightingale;
+  font-size:8px;
+  margin-left:80%;
+  margin-top:-15%;
+}
+
+
+.commentContent{
+  height:auto;
+  width:700px;
+  border:2px solid black;
+  margin-left:20%;
+  margin-top:15%;
+  margin-bottom:20%;
+  background-color:white;
+}
+
+#headComment{
+  position:relative;
+  text-align: center;
+  width:700px;
+  height:40px;
+  background-color: black;
+  color:white;
+  font-family:Nightingale;
+ }
+
+ #headComment p{
+   top: 30%;
+  }
+
+
+
+#eachComment{
+  background-color:white;
+  border:1px solid black;
+}
+#ua{
+
+  text-align: center;
+  font-family:sophia;
+  font-size: 50px;
+  left:50%;
+}
+
+#date{
+  text-align: center;
+  font-family:times;
+  font-size: 10px;
+  left:50%;
+}
+#co{
+  text-align: center;
+  font-family:times;
+  font-size:12px;
+  left:50%;
+}
+
+.footer {
+  position:relative;
+  right: 0;
+  margin-top:-2%;
+  margin-bottom:-2%;
+  margin-left: 0;
+  padding: 1rem;
+  background-color:black;
+  text-align: center;
+  color:white;
 }

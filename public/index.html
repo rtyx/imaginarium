@@ -5,79 +5,133 @@
     <link rel="stylesheet" type="text/css" href="./css/index.css">
 </head>
 <body>
-    <div class="titleContainer">
-        <h1>Pictures</h1>
-    </div>
-<div id="displayContainer">
+
+    <div id="displayContainer">
 
 
-    <script id="home" type="text/handlebars">
-    <div class="uploadContainer">
-        <form id="upload">
-            <input id="user_name" type="text" name="userName" placeholder="Name">
-            <br />
-            <input id="title" type="text" name="title" placeholder="Title">
-            <br />
-            <input id="description" type="text" name="description" placeholder="Description">
-            <br />
-            <input id="picture" type="file" name="picture">
-            <br />
-            <button type="submit" name="submit"> Submit </button>
-        </form>
-    </div>
+        <script id="home" type="text/handlebars">
+        <div class="titleContainer">
+        <div id="Title">
+        <img id="pictere" src="css/title-01-01.png" height="400px" width="600px"></img>
+        </div>
+        <img id="mar" src="/css/mar-01.png" height="100%" width="100%" ></img>
+        <div id="info">
+        <div id="backInfo"></div>
+        <div id="frontInfo">
+            <div id="text">
+                <h>Dear you,</h>
+                <br>
+                <p>
+                We love nature, beautiful sunsets, and daulphins jumping. This app allows you to save and share all the pictures about your amazing travels. Upload your image just below, and dont forget to leave a nice comment to others images.
+                </p>
+            </div>
+        </div>
+        </div>
 
-<div class="imagesContainer">
-    <ul  class="boxesContainer">
-    {{#images}}
+        <img id="camara" src="/css/camara.png" height="400px" width="600px"></img>
 
-            <li class="boxesItem">
-            <a href='#picture/{{id}}'>
-            <img id="images" src="{{url}}">
-            </a>
+        <img id="flecha" src="/css/flecha.png"></img>
+
+
+        </div>
+
+        <div class="uploadContainer">
+                <form class="upload">
+                <span>
+                <p>Your Name</p>
+                <input  id="user_name" type="text" name="userName">
+                <p>Title of your Picture</p>
+                <input id="title" type="text" name="title">
+                </span>
+                <p>Add your picture</p>
+                <input id="file" type=file>
+                <br>
+                <p>Description</p>
+                <textarea id="description" type="text" name="description"></textarea>
+                </br>
+                <button id="buttonSubmit" type="submit" name="submit"> Submit </button>
+                </form>
+
+                <img id="plants" src="/css/plantas-01.png" height="80%"></img>
+        </div>
+
+        <div class="imagesContainer">
+        <ul  class="boxesContainer">
+        {{#images}}
+
+        <li class="boxesItem">
+        <a href='#picture/{{id}}'>
+        <div id="imagesBorder">
+        <img id="images" src="{{url}}">
+        </a>
+        </div>
         <div id="text">
         <div id="ti">{{title}}</div>
         <div id="des">{{description}}</div>
-        <div id="us"> By {{user_name}}</div>
+        <div id="us"> Produced by {{user_name}}</div>
         </div>
-           </li>
-    {{/images}}
-    </ul>
-</div>
-    </script>
-</div>
-
-<div id="displayImage">
-    <script id="bigImage" type="text/handlebars">
-
-    <img id="images" src="{{url}}"></a>
-                   <div id="text">
-                   <div id="ti">{{title}}</div>
-                   <div id="des">{{description}}</div>
-                   <div id="us"> By {{user_name}}</div>
-                   </div>
-
-    </script>
-
-    <script id="comments" type="text/handlebars">
-    <div class="displayComments">
-        <form id="commentsForm">
-            <h1>Comments</h1>
-            <input id="comment" type="text"><br />
-            <input id="user_name" type="text"  placeholder="Name">
-            <button type="submit" name="submit"> Submit </button>
-        </form>
-
-        {{#.}}
-            <div id="co">{{comment}} By {{user_name}}</div>
-        {{/.}}
-
+        </li>
+        {{/images}}
+        </ul>
+        </div>
+        <div class="footer"><strong>All rights reserved by Pictere.</strong></div>
+        </script>
     </div>
 
-    <button id="more">More</button>
-    </script>
+    <div id="displayImage">
 
-    <div id="commentContainer"></div>
-</div>
+        <script id="bigImage" type="text/handlebars">
+
+        <div id="titleBigImage">
+            <img id="pictereBigImage" src="css/title-01-01.png" height="300px" width="300px"></img>
+        </div>
+
+
+        <div id="textBigImage">
+            <div id="ti">{{title}}</div>
+            <div id="des">{{description}}</div>
+            <div id="us"> By {{user_name}}</div>
+        </div>
+
+
+        <div id="borderBigImage">
+        <img id="bigImages" src="{{url}}"></a>
+        </div>
+
+        </script>
+    </div>
+
+    <div id="commentContainer">
+        <script id="comments" type="text/handlebars">
+        <div class="displayComments">
+
+        <form id="commentsForm">
+            <div id="add">
+                <p>Add a comment<p>
+            </div>
+            <div id="inputComment">
+                <input id="user_name" type="text"  placeholder="Name">
+                <input id="comment" type="text" placeholder="Comment"><br />
+            </div>
+            <button id="submitComment"type="submit" name="submit"> Submit </button>
+        </form>
+        </div>
+        <div class="commentContent">
+            <div id='headComment'>Comments</div>
+        {{#.}}
+        <div id="eachComment">
+            <div id="ua">{{user_name}}</div>
+            <div id="date"> {{createdate}}</div>
+            <div id="co">{{comment}}</div>
+        </div>
+        {{/.}}
+        </div>
+
+
+        <div class="footer"><strong>All rights reserved by Pictere</strong></div>
+        </script>
+
+    </div>
 
 
 
