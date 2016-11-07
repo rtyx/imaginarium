@@ -54,7 +54,7 @@
     </script>
     <script id="uploadcontainer" type="text/x-handlebars-template">
         <div id="form">
-            <p color="white" id="message"></p>
+            <p id="message2"></p>
             <form id="uploadform">
                 <input type="text" name="imgurl" placeholder="url">
                 <input type="file" name="pic" accept="image/*" id="file">
@@ -68,21 +68,23 @@
     </script>
     <script id="singleimage" type="text/x-handlebars-template">
         <div id="image">
-            <p>{{image.message}}</p>
-            <img id="single" src="{{image.url}}"/>
-            <div id="text">
-                <h3>{{image.title}}</h3>
-                <p>{{image.description}}</p>
-                <p>Added by: {{image.username}} on {{image.created}}</p>
-                <p>Likes: {{image.likes}}</p>
-                <p>{{#each image.tags}}<a href='#tag/{{this}}'>{{this}}</a>  {{/each}}<p>
-                {{#if image.liked}}
-                    <p>You've liked this picture!</p>
-                {{else}}
-                    <button id="like">Like</button>
-                {{/if}}
-            </div>
-        </div>
+            <p id="message">{{message}}</p>
+            <div id="other">
+                <div id="imagecontainer">
+                <img id="single" src="{{image.url}}"/>
+                <div id="text">
+                    <h3>{{image.title}}</h3>
+                    <p>{{image.description}}</p>
+                    <p>Added by: {{image.username}} on {{image.created}}</p>
+                    <p>Likes: {{image.likes}}</p>
+                    <p>{{#each image.tags}}<a href='#tag/{{this}}'>{{this}}</a>  {{/each}}<p>
+                    {{#if image.liked}}
+                        <p>You've liked this picture!</p>
+                    {{else}}
+                        <button id="like">Like</button>
+                    {{/if}}
+                </div>
+                </div>
         <div id="comments">
             <form class="addcomment">
                 <input type="hidden" name="id" value="{{image.id}}"></input>
@@ -102,6 +104,8 @@
                 <button id="morecomments">More Comments</button>
             {{/if}}>
         </div>
+    </div>
+    </div>
     </script>
 </div>
 <script src="js/libraries/handlebars.min.js"></script>

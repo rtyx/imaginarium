@@ -148,3 +148,59 @@ body {
     font-family: "header";
 }
 /*Upload Page*/
+#uploadcontainer {
+    background-color: white;
+    border: none;
+    width: 700px;
+    height: 1000px;
+    color: black;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#uploadform {
+    width: 100%;
+    padding-top: 5%;
+    background-color: white;
+    margin-top: 5%;
+}
+#message2{
+    width: 700px;
+}
+#uploadform input{
+    display: inline-block;
+    margin-left: 5%;
+    margin-top: 10px;
+    width: 90%;
+    height: 50px;
+}
+#image {
+    margin-top: 5%;
+    color: black;
+}
+#other {
+    width: 100%;
+}
+#imagecontainer {
+    margin-left: 3%;
+    position: absolute;
+    background-color: white;
+    width: 45%;
+}
+#imagecontainer img {
+    margin-top: 5%;
+    width: 600px;
+    height: auto;
+}
+#comments {
+    position: absolute;
+    background-color: white;
+    width: 45%;
+    left: 50%;
+}
+.addcomment {
+    margin-top: 5%;
+}
+.addcomment input {
+    margin: 5px;
+}

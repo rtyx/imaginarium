@@ -66,15 +66,12 @@ site.views.Home = Backbone.View.extend({
     template: Handlebars.compile($('#imageGrid').html()),
     el: '#body',
     render: function () {
-        console.log("rendered");
         var images = this.model.attributes.data;
         if (!images) {
             this.$el.html(this.template({"message": "Hold Up"}));
         } else if (this.model.attributes.done){
             this.$el.html(this.template({"message": "No More Images to Load", "done": true, "images": images.rows}));
         } else {
-            console.log(this.model.attributes.data.rows);
-            console.log(images.rows);
             this.$el.html(this.template({"images": images.rows}));
         }
     },
@@ -82,6 +79,7 @@ site.views.Home = Backbone.View.extend({
         this.render();
         var view = this;
         this.model.on('change', function() {
+            console.log("hey gurl");
             view.render();
         });
     },
