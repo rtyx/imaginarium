@@ -6,6 +6,8 @@ window.BB = window.BB || {
 	Views: {}
 };
 
+var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
 BB.Models.Image = Backbone.Model.extend({
 	baseUrl: '/images',
 	url: function() {

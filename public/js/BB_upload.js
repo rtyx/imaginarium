@@ -6,6 +6,8 @@ window.BB = window.BB || {
 	Views: {}
 };
 
+var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
 BB.Models.Upload = Backbone.Model.extend({
     upload: function(data) {
         console.log("Uploading...");
@@ -25,7 +27,8 @@ BB.Models.Upload = Backbone.Model.extend({
                 {
                     success: function(id) {
                         console.log("All the information saved!");
-						BB.router.navigate('/', true);
+						window.location.reload();
+						// BB.router.navigate('/', true);
                         // BB.router.navigate('/images/'+ id.id, true);
                     }
                 }

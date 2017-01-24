@@ -37,18 +37,18 @@ BB.Models.Index = Backbone.Model.extend({
     },
 });
 
+setInterval(function() {
+	if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+		console.log("Scrolled!");
+		$(document).trigger("scrollEvent");
+	}
+}, 1000);
+
 BB.Views.Index = Backbone.View.extend({
     template: Handlebars.compile($('#indexTemplate').html()),
     el: '#content',
     render: function() {
 		console.log("Rendering...");
-		var model = this.model;
-		setInterval(function() {
-			if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-				model.showMore();
-			}
-		}, 250);
-		this.enableScroll();
         var images = this.model.get('images');
         if (!images) {
             this.$el.html('no images found!');
@@ -70,8 +70,13 @@ BB.Views.Index = Backbone.View.extend({
     },
     initialize: function() {
         console.log('New instance of Index View (' + this.model.cid + ') created...');
+		this.enableScroll();
+		var model = this.model;
+		$(document).off('scrollEvent').on('scrollEvent', function() {
+			model.showMore();
+		});
 		var view = this;
-		$(document).off('click', '#uploadButton').on('click', '#uploadButton', function(e) {
+		$(document).off('click', '#uploadButton').on('click', '#uploadButton', function() {
 			$('#content').off();
 	        console.log("You're gonna upload an image!");
 	        new BB.Views.Upload({
