@@ -1,0 +1,370 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+    margin: 0;
+    font-family: 'Rubik', sans-serif;
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.hashtag {
+    color: #194877;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    background-color: #FAFAFA;
+}
+
+#index {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around
+}
+
+#header {
+    height: 60px;
+    width: 100%;
+    background: #F9F9F9;
+    border-bottom: 1px solid #DBDBDB;
+    font-size: 40px;
+    font-family: 'Monoton', cursive;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.02), 0 5px 5px 0 rgba(0, 0, 0, 0.02);
+}
+
+#uploadButton {
+    cursor: pointer;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    height: 40px;
+    width: 100px;
+    border-radius: 30px;
+    font-family: 'Rubik', sans-serif;
+    color: #white;
+    font-size: 15px;
+    background-color: #4CAF50;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#uploadText {
+    color: white;
+    transform: translateY(25%);
+}
+
+#uploadButton:hover {
+    background-color: #43A047;
+}
+
+#uploadCancel {
+    cursor: pointer;
+}
+
+#background {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#content {
+    height: auto;
+    width: 1000px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.selectedCard {
+    position: fixed;
+    top: 30px;
+    padding: 5px;
+    height: 90%;
+    width: auto;
+    background-color: #FFFFFF;
+    border: 1px solid #EFEFEF;
+    border-radius: 5px;
+    margin: 5px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05), 0 5px 5px 0 rgba(0, 0, 0, 0.1);
+}
+
+.selectedCardText {
+    float: right;
+    border-left: 1px solid #EFEFEF;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 300px;
+    font-size: 15px;
+    font-family: 'Rubik', sans-serif;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.selectedImage {
+    float: left;
+    display: inline-block;
+    border: 1px solid #EFEFEF;
+    border-radius: 3px;
+    height: 100%;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #EFEFEF;
+}
+
+img {
+    object-fit: cover;
+    height: 100%;
+}
+
+.imageInfo {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-bottom: 1px solid #EFEFEF;
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+}
+
+#commentsBox {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.comments {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.newCommentBox {
+    height: 130px;
+    padding-top: 5px;
+    width: 100s%;
+    border-top: 1px solid #EFEFEF;
+    align-content: flex-end;
+}
+
+.comment {
+    margin-bottom: 2px;
+}
+
+fieldset {
+    width: 100%;
+}
+
+.selectedAuthorBox {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-bottom: 1px solid #EFEFEF;
+    margin-bottom: 5px;
+}
+
+.selectedAuthor {
+    transform: translateY(-30%);
+    display: inline-block;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.selectedAvatar {
+    display: inline-block;
+    height: 30px;
+    /*width: 30px;*/
+    border-radius: 15px;
+}
+
+.card {
+    height: 320px;
+    width: 320px;
+    background-color: #FFFFFF;
+    border: 1px solid #EFEFEF;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.02);
+}
+
+.card:hover {
+    border: 1px solid #DBDBDB;
+}
+
+.cardtext {
+    margin: 5px;
+    font-size: 15px;
+    font-family: 'Rubik', sans-serif;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.description {
+    line-height: 1.5em;
+    height: 1.5em;
+    font-style: italic;
+    overflow: hidden;
+}
+
+.time {
+    color: #c6c6c6
+}
+
+.image {
+    border: 1px solid #EFEFEF;
+    border-radius: 3px;
+    width: auto;
+    height: 80%;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.8;
+}
+
+.image:hover {
+    opacity: 1;
+}
+
+#uploadBox {
+    background: #F9F9F9;
+    padding: 25px;
+    margin: 150px 0;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05), 0 5px 5px 0 rgba(0, 0, 0, 0.1);
+    height: 330px;
+    width: 50%;
+    border: 1px solid #DBDBDB;
+    border-radius: 10px;
+    position: fixed;
+    top: 0px;
+    text-align: center;
+}
+
+#uploadBox h3 {
+  display: block;
+  font-size: 30px;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+fieldset {
+  border: medium none !important;
+  margin: 0 0 10px;
+  min-width: 100%;
+  padding: 0;
+  width: 100%;
+}
+
+input {
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #FFF;
+  margin: 0 0 5px;
+  padding: 10px;
+}
+
+input:hover {
+  transition: border-color 0.3s ease-in-out;
+  border: 1px solid #aaa;
+}
+
+input:focus {
+    outline: 0;
+    border: 1px solid #aaa;
+}
+
+form {
+    display: flex;
+}
+
+#submit {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    background: #4CAF50;
+    color: #FFF;
+    margin: 0 0 5px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+#submit:hover {
+    background: #43A047;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#submit:active {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+#bottom {
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+    background: #F9F9F9;
+    border-top: 1px solid #DBDBDB;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#showMoreButton {
+    border-top: 1px solid #DBDBDB;
+    height: 100px;
+    width: 100%;
+    padding: 30px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.cancel {
+    color: #DBDBDB;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.newBackground {
+    background-color: #000000;
+    position: fixed;
+    opacity: 0.8;
+    top: 0;
+    height: 100%;
+    width: 100%;
+}

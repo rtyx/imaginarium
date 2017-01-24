@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+        <title>imaginarium</title>
+    </head>
+
+    <body>
+        <div id="header">
+            <a href="/">IMAGINARIUM</a>
+            <div id="uploadButton">
+                <p id="uploadText">UPLOAD</p>
+                <!-- <a id="uploadText" href="/#upload">UPLOAD</a> -->
+            </div>
+        </div>
+
+        <div id="background">
+            <div id="content">
+
+            </div>
+        </div>
+
+        <script id="indexTemplate" type="text/x-handlebars-template">
+            <div id="index">
+                {{#each images}}
+                    <div class="card">
+                        <a href="#images/{{id}}">
+                            <div class="image" style="background-image: url({{url}});">
+                            </div>
+                        </a>
+                        <div class="cardtext">
+                            <div class="author">
+                                {{author}}
+                            </div>
+                            <div class="title">
+                                {{title}}
+                            </div>
+                            <div class="description">
+                                {{description}}
+                            </div>
+                            <!-- <div class="time">
+                                {{timestamp}}
+                            </div> -->
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+            <div id="showMoreButton">
+                <h3>MORE</h3>
+            </div>
+        </script>
+
+        <script id="imageTemplate" type="text/x-handlebars-template">
+            <div class="newBackground"></div>
+            <div class="cancel">
+                <a href="/"><b class="cancel">X</b></a>
+            </div>
+            <div class="selectedCard">
+                <div class="selectedImage">
+                    <img src="{{url}}" alt="" />
+                </div>
+                <div class="selectedCardText" id="selectedCardText">
+                    <div class="imageInfo">
+                        <div class="selectedAuthorBox">
+                            <div class="selectedAvatar">
+                            </div>
+                            <div class="selectedAuthor">
+                                {{author}}
+                            </div>
+
+                        </div>
+                        <div class="title">
+                            {{title}}
+                        </div>
+                        <div class="description">
+                            {{description}}
+                        </div>
+                        <div class="description">
+                            {{#each hashtags}}
+                                <a class="hashtag" href='#explore/{{this}}'>#{{this}}</a>
+                            {{/each}}
+                        </div>
+                        <div class="time">
+                            {{timestamp}}
+                        </div>
+                    </div>
+                    </br>
+                    <div id="commentsBox">
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script id="commentsTemplate" type="text/x-handlebars-template">
+            <div class="comments">
+                {{#each this}}
+                    <div class="comment">
+                        <h4>{{author}}</h4>
+                        {{comment}}
+                    </div>
+                {{/each}}
+            </div>
+            <div class="newCommentBox">
+                <form class="postComment">
+                    <fieldset>
+                        <input type="text" placeholder="Leave a comment..." id="commentInput">
+                        <input type="text" placeholder="Your name" id="commentAuthorInput">
+                        <input type="button" name="submit" value="Submit comment" id="submit">
+                    </fieldset>
+                </form>
+            </div>
+        </script>
+
+        <script id="uploadTemplate" type="text/x-handlebars-template">
+            <div class="newBackground"></div>
+            <div id="uploadBox">
+                <h3>Upload an image</h3>
+                <form class="upload">
+                    <fieldset>
+                        <input type="text" placeholder="Author" id="authorInput">
+                        <input type="text" placeholder="Title" id="titleInput">
+                        <input type="text" placeholder="Description and #hashtags" id="descriptionInput">
+                        <input type="file">
+                        <input type="button" name="submit" value="Submit" id="submit">
+                    </fieldset>
+                </form>
+                <p id="uploadCancel">Cancel</p>
+            </div>
+        </script>
+
+        <script src="js/libs/jquery-3.1.1.min.js"></script>
+        <script src="js/libs/handlebars.min.js"></script>
+        <script src="js/libs/underscore-min.js"></script>
+        <script src="js/libs/backbone-min.js"></script>
+        <script src="js/BB_comments.js"></script>
+        <script src="js/BB_image.js"></script>
+        <script src="js/BB_index.js"></script>
+        <script src="js/BB_upload.js"></script>
+        <script src="js/BB_router.js"></script>
+    </body>
+</html>
